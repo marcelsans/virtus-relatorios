@@ -1,0 +1,599 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Virtus Consultoria — Dashboard Pós-crédito FAMPE</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+  :root{
+    --v-navy:#0B1F3A;
+    --v-navy-2:#13325E;
+    --v-gold:#C9A24B;
+    --v-gold-2:#E2C275;
+    --v-ink:#0F172A;
+    --v-bg:#F7F5F0;
+    --v-card:#FFFFFF;
+    --v-muted:#64748B;
+    --v-ok:#0E9F6E;
+    --v-warn:#D97706;
+    --v-bad:#DC2626;
+  }
+  html,body{background:var(--v-bg); color:var(--v-ink); font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;}
+  .v-card{background:var(--v-card); border:1px solid #E8E3D5; border-radius:14px; box-shadow:0 1px 0 rgba(15,23,42,.03), 0 12px 28px -22px rgba(15,23,42,.18)}
+  .v-chip{display:inline-flex; align-items:center; gap:.4rem; padding:.2rem .55rem; border-radius:999px; font-size:.72rem; font-weight:600; letter-spacing:.02em}
+  .v-chip-ok{background:#E6F6EE; color:#0E7A54}
+  .v-chip-warn{background:#FEF3C7; color:#92400E}
+  .v-chip-bad{background:#FEE2E2; color:#991B1B}
+  .v-chip-neutral{background:#EEF2F7; color:#334155}
+  .v-chip-brand{background:rgba(201,162,75,.12); color:#8A6A1F}
+  .v-kpi-label{color:#64748B; font-size:.78rem; text-transform:uppercase; letter-spacing:.08em; font-weight:600}
+  .v-kpi-value{font-size:1.6rem; font-weight:700; color:var(--v-navy)}
+  .v-kpi-sub{font-size:.78rem; color:#64748B}
+  .tab-btn{padding:.55rem 1rem; border-radius:10px; font-weight:600; font-size:.9rem; transition:all .15s ease; border:1px solid transparent}
+  .tab-btn:hover{background:#F1EDE0}
+  .tab-btn.active{background:var(--v-navy); color:#fff; border-color:var(--v-navy)}
+  .v-divider{height:1px; background:linear-gradient(90deg, transparent, #E8E3D5, transparent)}
+  .v-bar{height:8px; border-radius:999px; background:#EEF2F7; overflow:hidden}
+  .v-bar > span{display:block; height:100%; border-radius:999px}
+  .print-only{display:none}
+  @media print{
+    .no-print{display:none !important}
+    .print-only{display:block}
+    body{background:#fff}
+    .v-card{box-shadow:none; border-color:#E2E8F0}
+    .tab-pane{display:block !important; break-inside:avoid}
+    .page-break{break-after:page}
+  }
+  /* Brand gradient */
+  .v-hero{
+    background: radial-gradient(1200px 300px at 0% 0%, rgba(201,162,75,.18), transparent 60%), linear-gradient(180deg, var(--v-navy) 0%, var(--v-navy-2) 100%);
+  }
+  .v-gold-line{height:3px; background:linear-gradient(90deg, var(--v-gold), var(--v-gold-2), var(--v-gold))}
+  .soft-scroll{scrollbar-width:thin}
+</style>
+</head>
+<body class="min-h-screen">
+
+<!-- HERO / HEADER -->
+<header class="v-hero text-white">
+  <div class="max-w-7xl mx-auto px-6 pt-6 pb-8">
+    <div class="flex items-start justify-between gap-6 flex-wrap">
+      <!-- Virtus mark -->
+      <div class="flex items-center gap-5">
+        <!-- Logo Virtus: palavra VIRTUS em branco + arco superior -->
+        <svg width="190" height="64" viewBox="0 0 380 128" aria-label="Virtus Consultoria" role="img">
+          <!-- Arco com pontinha à direita -->
+          <path d="M 22 58
+                   C 55 14, 165 6, 260 36"
+                fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"/>
+          <circle cx="262" cy="36.5" r="5.2" fill="#FFFFFF"/>
+          <!-- VIRTUS -->
+          <g fill="#FFFFFF" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-weight="900" font-size="72" letter-spacing="1">
+            <text x="14" y="112">VIRTUS</text>
+          </g>
+        </svg>
+        <div class="border-l border-white/15 pl-5">
+          <div class="text-xs uppercase tracking-[0.25em] text-[color:var(--v-gold-2)]">Consultoria &amp; Treinamento</div>
+          <h1 class="text-2xl md:text-3xl font-semibold leading-tight">Dashboard Pós-crédito FAMPE</h1>
+          <div class="text-sm text-white/70 mt-1">Relatório consolidado — FLUIG 66157 • Período 05/03/2026 a 30/04/2026</div>
+        </div>
+      </div>
+      <!-- Actions -->
+      <div class="flex items-center gap-2 no-print">
+        <button onclick="window.print()" class="px-3 py-2 text-sm rounded-lg bg-white/10 hover:bg-white/20 border border-white/15">Imprimir / Salvar PDF</button>
+        <a id="shareLink" href="#consolidado" class="px-3 py-2 text-sm rounded-lg bg-[color:var(--v-gold)] text-[color:var(--v-navy)] hover:brightness-95 font-semibold">Copiar link da visão</a>
+      </div>
+    </div>
+
+    <!-- Client bar -->
+    <div class="mt-6 grid grid-cols-1 md:grid-cols-4 gap-3">
+      <div class="rounded-xl bg-white/5 border border-white/10 p-3">
+        <div class="text-[11px] uppercase tracking-widest text-white/60">Cliente</div>
+        <div class="text-sm font-semibold">Danilo Allisson de Oliveira Braga</div>
+        <div class="text-xs text-white/60">Grupo empresarial (3 CNPJs)</div>
+      </div>
+      <div class="rounded-xl bg-white/5 border border-white/10 p-3">
+        <div class="text-[11px] uppercase tracking-widest text-white/60">Consultor</div>
+        <div class="text-sm font-semibold">Andreza de Araújo Oliveira</div>
+        <div class="text-xs text-white/60">Virtus Consultoria &amp; Treinamento</div>
+      </div>
+      <div class="rounded-xl bg-white/5 border border-white/10 p-3">
+        <div class="text-[11px] uppercase tracking-widest text-white/60">Unidade Sebrae</div>
+        <div class="text-sm font-semibold">Bairro dos Estados — João Pessoa/PB</div>
+        <div class="text-xs text-white/60">Horas realizadas: 4h por empresa</div>
+      </div>
+      <div class="rounded-xl bg-white/5 border border-white/10 p-3">
+        <div class="text-[11px] uppercase tracking-widest text-white/60">Vigência FAMPE</div>
+        <div class="text-sm font-semibold">Até 2029</div>
+        <div class="text-xs text-white/60">Parcela média R$ 5.000/mês por empresa</div>
+      </div>
+    </div>
+  </div>
+  <div class="v-gold-line"></div>
+</header>
+
+<!-- FILTER BAR -->
+<nav class="sticky top-0 z-40 bg-[color:var(--v-bg)]/90 backdrop-blur border-b border-[#E8E3D5] no-print">
+  <div class="max-w-7xl mx-auto px-6 py-3 flex items-center gap-2 flex-wrap">
+    <span class="text-xs uppercase tracking-widest text-slate-500 mr-2">Filtrar visão:</span>
+    <button class="tab-btn active" data-tab="consolidado">Consolidado</button>
+    <button class="tab-btn" data-tab="mais">Mais Serviços</button>
+    <button class="tab-btn" data-tab="edificar">Edificar Serviços</button>
+    <button class="tab-btn" data-tab="consult">Consult Serviços</button>
+    <div class="ml-auto text-xs text-slate-500">Dica: compartilhe com <code class="px-1.5 py-0.5 bg-slate-200 rounded">?view=mais</code>, <code class="px-1.5 py-0.5 bg-slate-200 rounded">?view=edificar</code>, <code class="px-1.5 py-0.5 bg-slate-200 rounded">?view=consult</code> ou <code class="px-1.5 py-0.5 bg-slate-200 rounded">?view=consolidado</code></div>
+  </div>
+</nav>
+
+<main class="max-w-7xl mx-auto px-6 py-8 space-y-10">
+
+  <!-- ================= CONSOLIDADO ================= -->
+  <section class="tab-pane" id="tab-consolidado">
+    <div class="flex items-end justify-between gap-3 flex-wrap mb-4">
+      <div>
+        <div class="text-xs uppercase tracking-widest text-slate-500">Visão Consolidada do Grupo</div>
+        <h2 class="text-2xl font-semibold text-[color:var(--v-navy)]">3 empresas • Mesmo controlador • Mesmo setor</h2>
+        <p class="text-sm text-slate-600 mt-1 max-w-3xl">Grupo atua em terceirização e locações na Paraíba. Todas as empresas apresentam NCG negativa (recebem antes de pagar custos) e usam o FAMPE como reforço de estrutura, com folga de caixa em todas as operações.</p>
+      </div>
+      <div class="flex gap-2">
+        <span class="v-chip v-chip-ok">Capacidade de pagamento saudável</span>
+        <span class="v-chip v-chip-brand">NCG negativa consolidada</span>
+      </div>
+    </div>
+
+    <!-- KPI row -->
+    <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3 mb-4">
+      <div class="v-card p-4">
+        <div class="v-kpi-label">Receita Total</div>
+        <div class="v-kpi-value">R$ 165.000</div>
+        <div class="v-kpi-sub">/ mês — soma dos 3 CNPJs</div>
+      </div>
+      <div class="v-card p-4">
+        <div class="v-kpi-label">Custos Totais</div>
+        <div class="v-kpi-value">R$ 117.000</div>
+        <div class="v-kpi-sub">70,9% da receita</div>
+      </div>
+      <div class="v-card p-4">
+        <div class="v-kpi-label">Lucro Consolidado</div>
+        <div class="v-kpi-value">R$ 48.000</div>
+        <div class="v-kpi-sub">29,1% margem média</div>
+      </div>
+      <div class="v-card p-4">
+        <div class="v-kpi-label">Parcela FAMPE</div>
+        <div class="v-kpi-value">R$ 15.000</div>
+        <div class="v-kpi-sub">31,3% do lucro mensal</div>
+      </div>
+      <div class="v-card p-4">
+        <div class="v-kpi-label">Capacidade Livre</div>
+        <div class="v-kpi-value text-[color:var(--v-ok)]">R$ 27.000</div>
+        <div class="v-kpi-sub">folga após parcela</div>
+      </div>
+      <div class="v-card p-4">
+        <div class="v-kpi-label">NCG Consolidada</div>
+        <div class="v-kpi-value text-[color:var(--v-ok)]">−R$ 48.078</div>
+        <div class="v-kpi-sub">caixa gerado pela operação</div>
+      </div>
+    </div>
+
+    <!-- Charts -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+      <div class="v-card p-4 lg:col-span-2">
+        <div class="flex items-center justify-between mb-2">
+          <h3 class="font-semibold text-[color:var(--v-navy)]">Receita × Custo × Lucro por empresa</h3>
+          <span class="text-xs text-slate-500">Valores mensais (R$)</span>
+        </div>
+        <div class="h-72"><canvas id="chartStacked"></canvas></div>
+      </div>
+      <div class="v-card p-4">
+        <div class="flex items-center justify-between mb-2">
+          <h3 class="font-semibold text-[color:var(--v-navy)]">Distribuição do Lucro</h3>
+          <span class="text-xs text-slate-500">% do grupo</span>
+        </div>
+        <div class="h-72"><canvas id="chartDonut"></canvas></div>
+      </div>
+      <div class="v-card p-4 lg:col-span-2">
+        <div class="flex items-center justify-between mb-2">
+          <h3 class="font-semibold text-[color:var(--v-navy)]">Margem (Lucratividade) × Rentabilidade mensal × Comprometimento FAMPE</h3>
+          <span class="text-xs text-slate-500">%</span>
+        </div>
+        <div class="h-72"><canvas id="chartRadarOrBars"></canvas></div>
+      </div>
+      <div class="v-card p-4">
+        <h3 class="font-semibold text-[color:var(--v-navy)] mb-2">Composição das Despesas (consolidado)</h3>
+        <div class="space-y-3">
+          <div>
+            <div class="flex justify-between text-sm"><span class="text-slate-600">Custo Total</span><strong>70,9%</strong></div>
+            <div class="v-bar"><span style="width:70.9%; background:var(--v-navy)"></span></div>
+          </div>
+          <div>
+            <div class="flex justify-between text-sm"><span class="text-slate-600">Parcela FAMPE</span><strong>9,1%</strong></div>
+            <div class="v-bar"><span style="width:9.1%; background:var(--v-gold)"></span></div>
+          </div>
+          <div>
+            <div class="flex justify-between text-sm"><span class="text-slate-600">Lucro Remanescente (livre)</span><strong>16,4%</strong></div>
+            <div class="v-bar"><span style="width:16.4%; background:var(--v-ok)"></span></div>
+          </div>
+          <div>
+            <div class="flex justify-between text-sm"><span class="text-slate-600">Margem bruta antes FAMPE</span><strong>29,1%</strong></div>
+            <div class="v-bar"><span style="width:29.1%; background:#93c5fd"></span></div>
+          </div>
+        </div>
+        <p class="text-xs text-slate-500 mt-3">Do total faturado pelo grupo, ~71% cobrem custos e ~9% vão para o serviço da dívida FAMPE, restando ~16% de caixa livre consolidado.</p>
+      </div>
+    </div>
+
+    <!-- Consolidated table -->
+    <div class="v-card p-4 mt-4">
+      <h3 class="font-semibold text-[color:var(--v-navy)] mb-3">Comparativo por Empresa</h3>
+      <div class="overflow-x-auto soft-scroll">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="text-left text-slate-500 text-xs uppercase tracking-wider border-b border-slate-200">
+              <th class="py-2 pr-4">Empresa</th>
+              <th class="py-2 pr-4 text-right">Receita</th>
+              <th class="py-2 pr-4 text-right">Custo</th>
+              <th class="py-2 pr-4 text-right">Lucro</th>
+              <th class="py-2 pr-4 text-right">% Custo/Rec.</th>
+              <th class="py-2 pr-4 text-right">Lucratividade</th>
+              <th class="py-2 pr-4 text-right">Rent. mensal</th>
+              <th class="py-2 pr-4 text-right">NCG</th>
+              <th class="py-2 pr-4 text-right">FAMPE/Lucro</th>
+              <th class="py-2 pr-4 text-right">Capac. livre</th>
+            </tr>
+          </thead>
+          <tbody class="[&_tr]:border-b [&_tr]:border-slate-100">
+            <tr>
+              <td class="py-2 pr-4 font-semibold">Mais Serviços</td>
+              <td class="py-2 pr-4 text-right">R$ 65.000</td>
+              <td class="py-2 pr-4 text-right">R$ 47.000</td>
+              <td class="py-2 pr-4 text-right">R$ 18.000</td>
+              <td class="py-2 pr-4 text-right">72,3%</td>
+              <td class="py-2 pr-4 text-right">27,69%</td>
+              <td class="py-2 pr-4 text-right text-[color:var(--v-ok)] font-semibold">6,55%</td>
+              <td class="py-2 pr-4 text-right">−R$ 16.661</td>
+              <td class="py-2 pr-4 text-right">27,7%</td>
+              <td class="py-2 pr-4 text-right text-[color:var(--v-ok)] font-semibold">R$ 13.000</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-4 font-semibold">Edificar Serviços</td>
+              <td class="py-2 pr-4 text-right">R$ 55.000</td>
+              <td class="py-2 pr-4 text-right">R$ 39.000</td>
+              <td class="py-2 pr-4 text-right">R$ 16.000</td>
+              <td class="py-2 pr-4 text-right">70,9%</td>
+              <td class="py-2 pr-4 text-right">29,09%</td>
+              <td class="py-2 pr-4 text-right">5,82%</td>
+              <td class="py-2 pr-4 text-right">−R$ 18.054</td>
+              <td class="py-2 pr-4 text-right">31,25%</td>
+              <td class="py-2 pr-4 text-right">R$ 5.000</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-4 font-semibold">Consult Serviços</td>
+              <td class="py-2 pr-4 text-right">R$ 45.000</td>
+              <td class="py-2 pr-4 text-right">R$ 31.000</td>
+              <td class="py-2 pr-4 text-right">R$ 14.000</td>
+              <td class="py-2 pr-4 text-right">68,9%</td>
+              <td class="py-2 pr-4 text-right text-[color:var(--v-ok)] font-semibold">31,11%</td>
+              <td class="py-2 pr-4 text-right">5,09%</td>
+              <td class="py-2 pr-4 text-right">−R$ 13.362</td>
+              <td class="py-2 pr-4 text-right">35,7%</td>
+              <td class="py-2 pr-4 text-right">R$ 9.000</td>
+            </tr>
+            <tr class="bg-[color:var(--v-navy)] text-white">
+              <td class="py-2 pr-4 font-semibold">Consolidado</td>
+              <td class="py-2 pr-4 text-right">R$ 165.000</td>
+              <td class="py-2 pr-4 text-right">R$ 117.000</td>
+              <td class="py-2 pr-4 text-right">R$ 48.000</td>
+              <td class="py-2 pr-4 text-right">70,9%</td>
+              <td class="py-2 pr-4 text-right">29,09% <span class="text-white/60 text-xs">(méd.)</span></td>
+              <td class="py-2 pr-4 text-right">5,82% <span class="text-white/60 text-xs">(méd.)</span></td>
+              <td class="py-2 pr-4 text-right">−R$ 48.078</td>
+              <td class="py-2 pr-4 text-right">31,3%</td>
+              <td class="py-2 pr-4 text-right">R$ 27.000</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="text-xs text-slate-500 mt-2">Investimento fixo por empresa: R$ 275.000 (total do grupo R$ 825.000). Prazo de retorno médio: 1,45 ano.</p>
+    </div>
+
+    <!-- Opportunities -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+      <div class="v-card p-5">
+        <div class="v-chip v-chip-brand mb-2">Oportunidade</div>
+        <h4 class="font-semibold text-[color:var(--v-navy)] mb-1">Reserva financeira do grupo</h4>
+        <p class="text-sm text-slate-600">Com R$ 27 mil/mês de caixa livre consolidado e Capital de Giro Próprio em R$ 0, alocar 30–40% em um fundo de reserva atinge <strong>~R$ 100 mil em 12 meses</strong>, trazendo independência bancária e colchão para sazonalidade.</p>
+      </div>
+      <div class="v-card p-5">
+        <div class="v-chip v-chip-brand mb-2">Oportunidade</div>
+        <h4 class="font-semibold text-[color:var(--v-navy)] mb-1">Diluir ativos ociosos</h4>
+        <p class="text-sm text-slate-600">R$ 825 mil em ativos fixos no grupo. Prospectar novos contratos ou ampliar locações (modelo Mais Serviços) para elevar a rentabilidade mensal acima de 6% em todas as operações.</p>
+      </div>
+      <div class="v-card p-5">
+        <div class="v-chip v-chip-brand mb-2">Oportunidade</div>
+        <h4 class="font-semibold text-[color:var(--v-navy)] mb-1">Gestão unificada de recebíveis</h4>
+        <p class="text-sm text-slate-600">Toda a saúde do caixa depende de receber antes de pagar. Uma central de cobrança/antecipação (<em>factoring interno</em>) reduz risco de inversão da NCG nas 3 empresas.</p>
+      </div>
+    </div>
+
+    <div class="v-card p-5 mt-4">
+      <h4 class="font-semibold text-[color:var(--v-navy)] mb-2">Pontos de atenção do grupo</h4>
+      <ul class="text-sm text-slate-700 list-disc pl-5 space-y-1.5">
+        <li><strong>Dependência do ciclo NCG negativa:</strong> qualquer atraso sistemático de clientes pressiona o caixa das 3 empresas simultaneamente.</li>
+        <li><strong>Provisão trabalhista:</strong> setor de terceirização; recomenda-se reserva dedicada a rescisões e contingências (especialmente em Consult e Edificar).</li>
+        <li><strong>Concentração de controle:</strong> mesmo sócio e mesmo perfil de ativos em 3 CNPJs — avaliar governança consolidada e política de distribuição de lucros.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ================= MAIS SERVIÇOS ================= -->
+  <section class="tab-pane hidden" id="tab-mais">
+    <div class="flex items-end justify-between gap-3 flex-wrap mb-4">
+      <div>
+        <div class="text-xs uppercase tracking-widest text-slate-500">Empresa</div>
+        <h2 class="text-2xl font-semibold text-[color:var(--v-navy)]">Mais Serviços Terceirização e Locações LTDA</h2>
+        <div class="text-sm text-slate-600 mt-1">CNPJ 27.964.925/0001-09 • Terceirização + locações • Maior faturamento do grupo</div>
+      </div>
+      <div class="flex gap-2">
+        <span class="v-chip v-chip-ok">Melhor capacidade livre (R$ 13 mil)</span>
+        <span class="v-chip v-chip-ok">Maior rentabilidade (6,55%)</span>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3 mb-4">
+      <div class="v-card p-4"><div class="v-kpi-label">Receita</div><div class="v-kpi-value">R$ 65.000</div><div class="v-kpi-sub">mês</div></div>
+      <div class="v-card p-4"><div class="v-kpi-label">Custo</div><div class="v-kpi-value">R$ 47.000</div><div class="v-kpi-sub">72,3% da receita</div></div>
+      <div class="v-card p-4"><div class="v-kpi-label">Lucro</div><div class="v-kpi-value">R$ 18.000</div><div class="v-kpi-sub">mês</div></div>
+      <div class="v-card p-4"><div class="v-kpi-label">Margem</div><div class="v-kpi-value">27,69%</div><div class="v-kpi-sub">lucratividade</div></div>
+      <div class="v-card p-4"><div class="v-kpi-label">Rent. mensal</div><div class="v-kpi-value text-[color:var(--v-ok)]">6,55%</div><div class="v-kpi-sub">sobre ativo fixo</div></div>
+      <div class="v-card p-4"><div class="v-kpi-label">Capac. livre</div><div class="v-kpi-value text-[color:var(--v-ok)]">R$ 13.000</div><div class="v-kpi-sub">após FAMPE</div></div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+      <div class="v-card p-4 lg:col-span-2">
+        <h3 class="font-semibold text-[color:var(--v-navy)] mb-2">Composição da Receita</h3>
+        <div class="h-64"><canvas id="chartMaisMix"></canvas></div>
+      </div>
+      <div class="v-card p-4">
+        <h3 class="font-semibold text-[color:var(--v-navy)] mb-3">Indicadores-chave</h3>
+        <div class="space-y-3">
+          <div><div class="flex justify-between text-sm"><span class="text-slate-600">% Custo sobre Receita</span><strong>72,3%</strong></div><div class="v-bar"><span style="width:72.3%; background:var(--v-navy)"></span></div></div>
+          <div><div class="flex justify-between text-sm"><span class="text-slate-600">FAMPE sobre Lucro</span><strong>27,7%</strong></div><div class="v-bar"><span style="width:27.7%; background:var(--v-gold)"></span></div></div>
+          <div><div class="flex justify-between text-sm"><span class="text-slate-600">Margem livre (lucro − FAMPE)</span><strong>20,0%</strong></div><div class="v-bar"><span style="width:20%; background:var(--v-ok)"></span></div></div>
+          <div><div class="flex justify-between text-sm"><span class="text-slate-600">Prazo retorno investimento</span><strong>1,27 ano</strong></div><div class="v-bar"><span style="width:63%; background:#93c5fd"></span></div></div>
+        </div>
+        <div class="mt-4 text-sm text-slate-600">NCG: <strong class="text-[color:var(--v-ok)]">−R$ 16.661,67</strong><br/>Ativo fixo: <strong>R$ 275.000</strong></div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+      <div class="v-card p-5"><div class="v-chip v-chip-ok mb-2">Desenvolver</div><h4 class="font-semibold text-[color:var(--v-navy)] mb-1">Escalar carteira de locações</h4><p class="text-sm text-slate-600">Com rentabilidade de 6,55% ao mês, reinvestir parte dos R$ 13.000 livres em novos ativos para locação acelera o faturamento mantendo a margem.</p></div>
+      <div class="v-card p-5"><div class="v-chip v-chip-ok mb-2">Desenvolver</div><h4 class="font-semibold text-[color:var(--v-navy)] mb-1">Reserva financeira</h4><p class="text-sm text-slate-600">Capital de Giro Próprio em R$ 0. Direcionar 30% da capacidade livre mensal cria autossuficiência em menos de 18 meses.</p></div>
+      <div class="v-card p-5"><div class="v-chip v-chip-warn mb-2">Atenção</div><h4 class="font-semibold text-[color:var(--v-navy)] mb-1">Gestão de inadimplência</h4><p class="text-sm text-slate-600">NCG de −R$ 17 mil depende de recebimento pontual. Política de cobrança e antecipação blindam o ciclo de caixa.</p></div>
+    </div>
+  </section>
+
+  <!-- ================= EDIFICAR ================= -->
+  <section class="tab-pane hidden" id="tab-edificar">
+    <div class="flex items-end justify-between gap-3 flex-wrap mb-4">
+      <div>
+        <div class="text-xs uppercase tracking-widest text-slate-500">Empresa</div>
+        <h2 class="text-2xl font-semibold text-[color:var(--v-navy)]">Edificar Serviços e Terceirização LTDA</h2>
+        <div class="text-sm text-slate-600 mt-1">CNPJ 29.574.236/0001-13 • Terceirização e serviços especializados</div>
+      </div>
+      <div class="flex gap-2">
+        <span class="v-chip v-chip-ok">NCG mais negativa (R$ −18 mil)</span>
+        <span class="v-chip v-chip-warn">Menor capacidade livre (R$ 5 mil)</span>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3 mb-4">
+      <div class="v-card p-4"><div class="v-kpi-label">Receita</div><div class="v-kpi-value">R$ 55.000</div><div class="v-kpi-sub">mês</div></div>
+      <div class="v-card p-4"><div class="v-kpi-label">Custo</div><div class="v-kpi-value">R$ 39.000</div><div class="v-kpi-sub">70,9% da receita</div></div>
+      <div class="v-card p-4"><div class="v-kpi-label">Lucro</div><div class="v-kpi-value">R$ 16.000</div><div class="v-kpi-sub">mês</div></div>
+      <div class="v-card p-4"><div class="v-kpi-label">Margem</div><div class="v-kpi-value">29,09%</div><div class="v-kpi-sub">lucratividade</div></div>
+      <div class="v-card p-4"><div class="v-kpi-label">Rent. mensal</div><div class="v-kpi-value">5,82%</div><div class="v-kpi-sub">sobre ativo fixo</div></div>
+      <div class="v-card p-4"><div class="v-kpi-label">Capac. livre</div><div class="v-kpi-value text-[color:var(--v-warn)]">R$ 5.000</div><div class="v-kpi-sub">após FAMPE</div></div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+      <div class="v-card p-4 lg:col-span-2">
+        <h3 class="font-semibold text-[color:var(--v-navy)] mb-2">Waterfall de Receita → Lucro Livre</h3>
+        <div class="h-64"><canvas id="chartEdificarWaterfall"></canvas></div>
+      </div>
+      <div class="v-card p-4">
+        <h3 class="font-semibold text-[color:var(--v-navy)] mb-3">Indicadores-chave</h3>
+        <div class="space-y-3">
+          <div><div class="flex justify-between text-sm"><span class="text-slate-600">% Custo sobre Receita</span><strong>70,9%</strong></div><div class="v-bar"><span style="width:70.9%; background:var(--v-navy)"></span></div></div>
+          <div><div class="flex justify-between text-sm"><span class="text-slate-600">FAMPE sobre Lucro</span><strong>31,25%</strong></div><div class="v-bar"><span style="width:31.25%; background:var(--v-gold)"></span></div></div>
+          <div><div class="flex justify-between text-sm"><span class="text-slate-600">Margem livre</span><strong>9,1%</strong></div><div class="v-bar"><span style="width:9.1%; background:var(--v-ok)"></span></div></div>
+          <div><div class="flex justify-between text-sm"><span class="text-slate-600">Prazo retorno investimento</span><strong>1,43 ano</strong></div><div class="v-bar"><span style="width:71%; background:#93c5fd"></span></div></div>
+        </div>
+        <div class="mt-4 text-sm text-slate-600">NCG: <strong class="text-[color:var(--v-ok)]">−R$ 18.054,17</strong><br/>Ativo fixo: <strong>R$ 275.000</strong></div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+      <div class="v-card p-5"><div class="v-chip v-chip-warn mb-2">Desenvolver</div><h4 class="font-semibold text-[color:var(--v-navy)] mb-1">Elevar capacidade livre</h4><p class="text-sm text-slate-600">R$ 5 mil é a folga mais apertada do grupo. Revisar retiradas pró-labore e outros compromissos considerados nas saídas para aumentar o cushion.</p></div>
+      <div class="v-card p-5"><div class="v-chip v-chip-ok mb-2">Desenvolver</div><h4 class="font-semibold text-[color:var(--v-navy)] mb-1">Formação de reserva própria</h4><p class="text-sm text-slate-600">Capital de Giro Próprio em R$ 0 e NCG muito negativa: criar reserva traz independência bancária e prepara a empresa para renegociar taxas em 2027.</p></div>
+      <div class="v-card p-5"><div class="v-chip v-chip-warn mb-2">Atenção</div><h4 class="font-semibold text-[color:var(--v-navy)] mb-1">Manutenção do ativo fixo</h4><p class="text-sm text-slate-600">Com R$ 275 mil imobilizados, paradas operacionais derrubam a receita rapidamente. Plano preventivo de manutenção mensal.</p></div>
+    </div>
+  </section>
+
+  <!-- ================= CONSULT ================= -->
+  <section class="tab-pane hidden" id="tab-consult">
+    <div class="flex items-end justify-between gap-3 flex-wrap mb-4">
+      <div>
+        <div class="text-xs uppercase tracking-widest text-slate-500">Empresa</div>
+        <h2 class="text-2xl font-semibold text-[color:var(--v-navy)]">Consult Serviços e Terceirização LTDA</h2>
+        <div class="text-sm text-slate-600 mt-1">CNPJ 44.270.174/0001-40 • Terceirização de mão de obra</div>
+      </div>
+      <div class="flex gap-2">
+        <span class="v-chip v-chip-ok">Maior lucratividade (31,11%)</span>
+        <span class="v-chip v-chip-warn">Maior comprometimento FAMPE (35,7%)</span>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3 mb-4">
+      <div class="v-card p-4"><div class="v-kpi-label">Receita</div><div class="v-kpi-value">R$ 45.000</div><div class="v-kpi-sub">mês</div></div>
+      <div class="v-card p-4"><div class="v-kpi-label">Custo</div><div class="v-kpi-value">R$ 31.000</div><div class="v-kpi-sub">68,9% da receita</div></div>
+      <div class="v-card p-4"><div class="v-kpi-label">Lucro</div><div class="v-kpi-value">R$ 14.000</div><div class="v-kpi-sub">mês</div></div>
+      <div class="v-card p-4"><div class="v-kpi-label">Margem</div><div class="v-kpi-value text-[color:var(--v-ok)]">31,11%</div><div class="v-kpi-sub">lucratividade</div></div>
+      <div class="v-card p-4"><div class="v-kpi-label">Rent. mensal</div><div class="v-kpi-value">5,09%</div><div class="v-kpi-sub">sobre ativo fixo</div></div>
+      <div class="v-card p-4"><div class="v-kpi-label">Capac. livre</div><div class="v-kpi-value text-[color:var(--v-ok)]">R$ 9.000</div><div class="v-kpi-sub">após FAMPE</div></div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+      <div class="v-card p-4 lg:col-span-2">
+        <h3 class="font-semibold text-[color:var(--v-navy)] mb-2">Estrutura Receita × Custo × FAMPE × Lucro livre</h3>
+        <div class="h-64"><canvas id="chartConsultBreak"></canvas></div>
+      </div>
+      <div class="v-card p-4">
+        <h3 class="font-semibold text-[color:var(--v-navy)] mb-3">Indicadores-chave</h3>
+        <div class="space-y-3">
+          <div><div class="flex justify-between text-sm"><span class="text-slate-600">% Custo sobre Receita</span><strong>68,9%</strong></div><div class="v-bar"><span style="width:68.9%; background:var(--v-navy)"></span></div></div>
+          <div><div class="flex justify-between text-sm"><span class="text-slate-600">FAMPE sobre Lucro</span><strong>35,7%</strong></div><div class="v-bar"><span style="width:35.7%; background:var(--v-gold)"></span></div></div>
+          <div><div class="flex justify-between text-sm"><span class="text-slate-600">Margem livre</span><strong>20,0%</strong></div><div class="v-bar"><span style="width:20%; background:var(--v-ok)"></span></div></div>
+          <div><div class="flex justify-between text-sm"><span class="text-slate-600">Prazo retorno investimento</span><strong>1,64 ano</strong></div><div class="v-bar"><span style="width:82%; background:#93c5fd"></span></div></div>
+        </div>
+        <div class="mt-4 text-sm text-slate-600">NCG: <strong class="text-[color:var(--v-ok)]">−R$ 13.362,50</strong><br/>Ativo fixo: <strong>R$ 275.000</strong></div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+      <div class="v-card p-5"><div class="v-chip v-chip-ok mb-2">Desenvolver</div><h4 class="font-semibold text-[color:var(--v-navy)] mb-1">Diluir ociosidade</h4><p class="text-sm text-slate-600">Com R$ 275 mil imobilizados e rent. de 5,09%, prospectar novos contratos para elevar acima de 6% — já atingido pelas irmãs do grupo.</p></div>
+      <div class="v-card p-5"><div class="v-chip v-chip-warn mb-2">Desenvolver</div><h4 class="font-semibold text-[color:var(--v-navy)] mb-1">Fundo de contingência trabalhista</h4><p class="text-sm text-slate-600">Setor de terceirização tem alto risco de rescisões. Dos R$ 9 mil livres, alocar parte em fundo específico para passivo trabalhista.</p></div>
+      <div class="v-card p-5"><div class="v-chip v-chip-warn mb-2">Atenção</div><h4 class="font-semibold text-[color:var(--v-navy)] mb-1">Comprometimento de 35,7% do lucro</h4><p class="text-sm text-slate-600">É o maior do grupo. Monitorar margem bruta — se custos subirem 5 pontos, a capacidade livre evapora.</p></div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="pt-8">
+    <div class="v-divider mb-4"></div>
+    <div class="flex items-center justify-between flex-wrap gap-2 text-xs text-slate-500">
+      <div>© Virtus Consultoria &amp; Treinamento LTDA • www.virtusconsultoria.com.br</div>
+      <div>Dados com base nos Relatórios Pós-crédito FAMPE — FLUIG 66157 • Emitido em João Pessoa/PB, 31/03/2026</div>
+    </div>
+  </footer>
+</main>
+
+<script>
+  // ---------- Filter / tabs ----------
+  const tabs = document.querySelectorAll('[data-tab]');
+  const panes = document.querySelectorAll('.tab-pane');
+  function activate(view){
+    tabs.forEach(b => b.classList.toggle('active', b.dataset.tab === view));
+    panes.forEach(p => p.classList.toggle('hidden', p.id !== 'tab-' + view));
+    const u = new URL(window.location.href);
+    u.searchParams.set('view', view);
+    history.replaceState(null, '', u.toString());
+    document.getElementById('shareLink').onclick = (ev)=>{
+      ev.preventDefault();
+      navigator.clipboard.writeText(u.toString());
+      ev.currentTarget.textContent = 'Link copiado ✓';
+      setTimeout(()=>{ev.currentTarget.textContent='Copiar link da visão';}, 1600);
+    };
+  }
+  tabs.forEach(b => b.addEventListener('click', ()=>activate(b.dataset.tab)));
+  const initial = new URL(window.location.href).searchParams.get('view') || 'consolidado';
+  activate(initial);
+
+  // ---------- Charts ----------
+  const NAVY = '#0B1F3A', NAVY2 = '#13325E', GOLD = '#C9A24B', GOLD2 = '#E2C275', OK = '#0E9F6E', WARN='#D97706', BAD='#DC2626', SLATE='#64748B';
+  Chart.defaults.font.family = 'Inter, ui-sans-serif, system-ui';
+  Chart.defaults.color = '#334155';
+
+  const brl = v => 'R$ ' + v.toLocaleString('pt-BR');
+
+  // Stacked / grouped
+  new Chart(document.getElementById('chartStacked'), {
+    type: 'bar',
+    data: {
+      labels: ['Mais Serviços','Edificar Serviços','Consult Serviços'],
+      datasets: [
+        { label:'Receita', data:[65000,55000,45000], backgroundColor:NAVY },
+        { label:'Custo',   data:[47000,39000,31000], backgroundColor:GOLD },
+        { label:'Lucro',   data:[18000,16000,14000], backgroundColor:OK },
+      ]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      scales:{ y:{ ticks:{ callback:v=>brl(v) }, grid:{ color:'#EEF2F7' } }, x:{ grid:{display:false} } },
+      plugins:{ legend:{ position:'bottom' }, tooltip:{ callbacks:{ label:(c)=>`${c.dataset.label}: ${brl(c.parsed.y)}` } } }
+    }
+  });
+
+  // Donut lucro
+  new Chart(document.getElementById('chartDonut'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Mais (R$ 18k)','Edificar (R$ 16k)','Consult (R$ 14k)'],
+      datasets: [{ data:[18000,16000,14000], backgroundColor:[NAVY, GOLD, OK], borderWidth:0 }]
+    },
+    options: { responsive:true, maintainAspectRatio:false, cutout:'62%', plugins:{ legend:{ position:'bottom' } } }
+  });
+
+  // Bars de % — margem, rentabilidade, comprometimento
+  new Chart(document.getElementById('chartRadarOrBars'), {
+    type:'bar',
+    data:{
+      labels:['Mais Serviços','Edificar Serviços','Consult Serviços'],
+      datasets:[
+        { label:'Lucratividade (%)', data:[27.69,29.09,31.11], backgroundColor:NAVY },
+        { label:'Rent. mensal (%)',  data:[6.55,5.82,5.09],  backgroundColor:GOLD },
+        { label:'FAMPE / Lucro (%)', data:[27.7,31.25,35.7], backgroundColor:WARN },
+      ]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      scales:{ y:{ beginAtZero:true, ticks:{ callback:v=>v+'%' }, grid:{color:'#EEF2F7'} }, x:{ grid:{display:false} } },
+      plugins:{ legend:{ position:'bottom' }, tooltip:{ callbacks:{ label:c=>`${c.dataset.label}: ${c.parsed.y.toFixed(2)}%` } } }
+    }
+  });
+
+  // Mais — mix
+  new Chart(document.getElementById('chartMaisMix'), {
+    type:'bar',
+    data:{
+      labels:['Receita','Custo','Parcela FAMPE','Capacidade livre'],
+      datasets:[{ data:[65000,47000,5000,13000], backgroundColor:[NAVY, GOLD, WARN, OK] }]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false, indexAxis:'y',
+      scales:{ x:{ ticks:{ callback:v=>brl(v) }, grid:{color:'#EEF2F7'} }, y:{ grid:{display:false} } },
+      plugins:{ legend:{ display:false }, tooltip:{ callbacks:{ label:c=>brl(c.parsed.x) } } }
+    }
+  });
+
+  // Edificar — waterfall simulado (receita → -custo → -fampe → livre)
+  new Chart(document.getElementById('chartEdificarWaterfall'), {
+    type:'bar',
+    data:{
+      labels:['Receita','−Custo','Lucro','−FAMPE','Capacidade livre'],
+      datasets:[{ data:[55000,-39000,16000,-5000,5000], backgroundColor:(ctx)=>{
+        const v = ctx.parsed.y;
+        if (ctx.dataIndex===0) return NAVY;
+        if (ctx.dataIndex===2) return GOLD;
+        if (ctx.dataIndex===4) return OK;
+        return BAD;
+      }}]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      scales:{ y:{ ticks:{ callback:v=>brl(v) }, grid:{color:'#EEF2F7'} }, x:{ grid:{display:false} } },
+      plugins:{ legend:{ display:false }, tooltip:{ callbacks:{ label:c=>brl(c.parsed.y) } } }
+    }
+  });
+
+  // Consult — donut-like horizontal
+  new Chart(document.getElementById('chartConsultBreak'), {
+    type:'doughnut',
+    data:{
+      labels:['Custo (R$ 31k)','Parcela FAMPE (R$ 5k)','Lucro livre (R$ 9k)'],
+      datasets:[{ data:[31000,5000,9000], backgroundColor:[NAVY, GOLD, OK], borderWidth:0 }]
+    },
+    options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ position:'bottom' }, tooltip:{ callbacks:{ label:c=>`${c.label}: ${brl(c.parsed)}` } } } }
+  });
+</script>
+</body>
+</html>
