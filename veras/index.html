@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Veras Odontologia — Envio de Boletos [DRAFT]</title>
+  <style>
+    :root {
+      --blue:    #1a6fc4;
+      --blue-dk: #145aa0;
+      --green:   #16a34a;
+      --red:     #dc2626;
+      --yellow:  #ca8a04;
+      --bg:      #f0f4f9;
+      --card:    #ffffff;
+      --border:  #d1dbe8;
+      --text:    #1e293b;
+      --muted:   #64748b;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+    /* draft banner */
+    .draft-banner {
+      background: #fef9c3; border-bottom: 2px dashed #ca8a04;
+      text-align: center; padding: 8px; font-size: .82rem; font-weight: 600; color: #92400e;
+      letter-spacing: .03em;
+    }
+
+    header {
+      background: var(--blue); color: #fff; padding: 16px 32px;
+      display: flex; align-items: center; gap: 14px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.2);
+    }
+    .logo {
+      width: 42px; height: 42px; background: rgba(255,255,255,.2);
+      border-radius: 10px; display: grid; place-items: center; font-size: 1.4rem;
+    }
+    header h1 { font-size: 1.2rem; font-weight: 700; }
+    header p  { font-size: .78rem; opacity: .8; }
+
+    main { max-width: 1060px; margin: 0 auto; padding: 28px 16px 64px; }
+
+    /* ── fluxo ── */
+    .flow {
+      display: flex; align-items: center; gap: 0;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 20px 28px; margin-bottom: 28px;
+      flex-wrap: wrap; gap: 4px;
+    }
+    .flow-step {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 6px; flex: 1 1 100px; min-width: 90px;
+    }
+    .flow-icon {
+      width: 48px; height: 48px; border-radius: 50%;
+      display: grid; place-items: center; font-size: 1.3rem;
+    }
+    .flow-icon.blue   { background: #dbeafe; }
+    .flow-icon.yellow { background: #fef3c7; }
+    .flow-icon.green  { background: #dcfce7; }
+    .flow-label { font-size: .75rem; font-weight: 600; color: var(--muted); text-align: center; }
+    .flow-arrow { font-size: 1.2rem; color: var(--border); flex-shrink: 0; margin: 0 4px; padding-bottom: 18px; }
+
+    /* ── config ── */
+    .config-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 24px 28px; margin-bottom: 24px;
+    }
+    .config-card h2 { font-size: .92rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 16px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+    label { font-size: .78rem; font-weight: 600; color: var(--muted); display: block; margin-bottom: 4px; }
+    input, select {
+      width: 100%; padding: 8px 11px; border: 1px solid var(--border);
+      border-radius: 7px; font-size: .88rem; background: #f8fafc; color: var(--text);
+    }
+
+    /* ── stats ── */
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 24px; }
+    .stat {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 10px; padding: 16px 20px;
+    }
+    .stat-label { font-size: .73rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+    .stat-value { font-size: 1.8rem; font-weight: 800; margin-top: 4px; }
+    .c-red    { color: var(--red); }
+    .c-yellow { color: var(--yellow); }
+    .c-blue   { color: var(--blue); }
+    .c-green  { color: var(--green); }
+
+    /* ── action bar ── */
+    .action-bar { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; align-items: center; }
+    .btn {
+      padding: 9px 18px; border: none; border-radius: 8px;
+      font-size: .86rem; font-weight: 600; cursor: pointer;
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .btn-primary { background: var(--blue); color: #fff; }
+    .btn-success { background: var(--green); color: #fff; }
+    .btn-wpp     { background: #25d366; color: #fff; }
+    .btn-outline { background: #fff; color: var(--blue); border: 1.5px solid var(--border); }
+    .btn:hover { filter: brightness(.92); }
+    .badge-new { background: #fee2e2; color: var(--red); font-size: .7rem; padding: 2px 7px; border-radius: 20px; font-weight: 700; }
+
+    /* ── table ── */
+    .table-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; overflow: hidden; margin-bottom: 24px;
+    }
+    .table-head {
+      padding: 16px 22px; border-bottom: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
+    }
+    .table-head h2 { font-size: .95rem; font-weight: 700; }
+    .search { padding: 7px 12px; border: 1px solid var(--border); border-radius: 7px; font-size: .84rem; width: 200px; }
+
+    table { width: 100%; border-collapse: collapse; font-size: .85rem; }
+    th {
+      background: #f8fafc; color: var(--muted); font-size: .73rem;
+      font-weight: 700; text-transform: uppercase; letter-spacing: .04em;
+      padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border);
+    }
+    td { padding: 12px 14px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #f8fafc; }
+
+    .badge {
+      display: inline-block; padding: 2px 8px; border-radius: 20px;
+      font-size: .72rem; font-weight: 700;
+    }
+    .b-red    { background: #fee2e2; color: #991b1b; }
+    .b-yellow { background: #fef9c3; color: #854d0e; }
+    .b-blue   { background: #dbeafe; color: #1e40af; }
+    .b-green  { background: #dcfce7; color: #166534; }
+    .b-gray   { background: #f1f5f9; color: #475569; }
+
+    .actions { display: flex; gap: 6px; }
+    .icon-btn {
+      width: 30px; height: 30px; border: 1px solid var(--border); border-radius: 6px;
+      background: #fff; cursor: pointer; display: grid; place-items: center; font-size: .9rem;
+    }
+    .icon-btn:hover { background: #f8fafc; }
+
+    /* sub-items collapse */
+    .sub-row td { background: #f8fafc; font-size: .8rem; color: var(--muted); }
+    .sub-row td:first-child { padding-left: 36px; }
+    .hidden { display: none; }
+
+    /* ── log ── */
+    .log-card {
+      background: #0f172a; border-radius: 12px; padding: 18px 22px;
+      font-family: "SF Mono","Fira Code", monospace; font-size: .78rem;
+      color: #94a3b8; max-height: 200px; overflow-y: auto;
+    }
+    .l-ok   { color: #4ade80; }
+    .l-err  { color: #f87171; }
+    .l-warn { color: #fbbf24; }
+    .l-info { color: #60a5fa; }
+    .log-line { padding: 1px 0; }
+
+    /* ── arch note ── */
+    .arch {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 24px 28px; margin-bottom: 24px;
+    }
+    .arch h2 { font-size: .92rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 14px; }
+    .arch-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .arch-box {
+      border: 1px solid var(--border); border-radius: 9px; padding: 14px 16px;
+    }
+    .arch-box h3 { font-size: .82rem; font-weight: 700; margin-bottom: 8px; }
+    .arch-box ul { padding-left: 16px; font-size: .8rem; color: var(--muted); line-height: 1.8; }
+    .arch-box .chip {
+      display: inline-block; padding: 2px 8px; border-radius: 5px;
+      font-size: .7rem; font-weight: 700; margin-right: 4px; margin-bottom: 4px;
+    }
+    .chip-ts  { background: #dbeafe; color: #1e40af; }
+    .chip-pup { background: #fce7f3; color: #9d174d; }
+    .chip-exp { background: #dcfce7; color: #166534; }
+    .chip-html{ background: #fef3c7; color: #92400e; }
+    .chip-wpp { background: #d1fae5; color: #065f46; }
+
+    @media(max-width:700px){
+      .grid-4,.stats,.arch-grid{ grid-template-columns:1fr 1fr; }
+      .flow-arrow{ display:none; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="draft-banner">⚠ RASCUNHO / MOCK — dados fictícios para alinhamento com o cliente</div>
+
+<header>
+  <div class="logo">🦷</div>
+  <div>
+    <h1>Veras Odontologia — Cobrança de Boletos</h1>
+    <p>Integração Kiwid (scraping) → Envio via WhatsApp / E-mail</p>
+  </div>
+</header>
+
+<main>
+
+  <!-- FLUXO -->
+  <div class="flow">
+    <div class="flow-step">
+      <div class="flow-icon blue">🔑</div>
+      <div class="flow-label">1. Login<br/>Kiwid</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">
+      <div class="flow-icon blue">📋</div>
+      <div class="flow-label">2. Buscar<br/>Inadimplentes</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">
+      <div class="flow-icon yellow">🔗</div>
+      <div class="flow-label">3. Capturar<br/>Links Boleto</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">
+      <div class="flow-icon yellow">👁</div>
+      <div class="flow-label">4. Revisar<br/>Lista</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">
+      <div class="flow-icon green">📲</div>
+      <div class="flow-label">5. Enviar<br/>WhatsApp</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">
+      <div class="flow-icon green">✅</div>
+      <div class="flow-label">6. Confirmar<br/>Envio</div>
+    </div>
+  </div>
+
+  <!-- CONFIG -->
+  <div class="config-card">
+    <h2>Filtros de busca</h2>
+    <div class="grid-4">
+      <div><label>Mês</label><select><option>Abril</option><option>Março</option><option>Fevereiro</option></select></div>
+      <div><label>Ano</label><input type="number" value="2026" /></div>
+      <div><label>Dias de atraso mín.</label><input type="number" value="1" /></div>
+      <div style="display:flex;align-items:flex-end">
+        <button class="btn btn-primary" style="width:100%" onclick="mockBuscar()">🔍 Buscar no Kiwid</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stat"><div class="stat-label">Inadimplentes</div><div class="stat-value c-red" id="s1">7</div></div>
+    <div class="stat"><div class="stat-label">Valor Total</div><div class="stat-value c-yellow" id="s2">R$&nbsp;34.990</div></div>
+    <div class="stat"><div class="stat-label">Enviados Hoje</div><div class="stat-value c-blue" id="s3">0</div></div>
+    <div class="stat"><div class="stat-label">Links Abertos</div><div class="stat-value c-blue" id="s5">0</div></div>
+    <div class="stat"><div class="stat-label">Boletos Pagos</div><div class="stat-value c-green" id="s6">0</div></div>
+    <div class="stat"><div class="stat-label">Aguardando</div><div class="stat-value c-yellow" id="s4">7</div></div>
+  </div>
+
+  <!-- ACTION BAR -->
+  <div class="action-bar">
+    <button class="btn btn-wpp" onclick="enviarTodos()">📲 Enviar WhatsApp p/ Selecionados</button>
+    <button class="btn btn-outline" onclick="exportCSV()">⬇ Exportar CSV</button>
+    <span style="font-size:.8rem;color:var(--muted);margin-left:auto" id="selCount">0 selecionados</span>
+  </div>
+
+  <!-- TABLE -->
+  <div class="table-card">
+    <div class="table-head">
+      <h2>Clientes com parcelas vencidas <span class="badge-new">MOCK</span></h2>
+      <input class="search" placeholder="Buscar cliente…" />
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th><input type="checkbox" id="all" onchange="toggleAll(this)" /></th>
+          <th>Paciente</th>
+          <th>Boletos</th>
+          <th>Descrição / Parcelas</th>
+          <th>Venc. mais antigo</th>
+          <th>Atraso</th>
+          <th>Total</th>
+          <th>Envio</th>
+          <th>Link Aberto</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+
+  <!-- MONITORAMENTO -->
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-top:24px;margin-bottom:10px">
+    <span style="font-size:.82rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em">Monitoramento — consulta ao Kiwid</span>
+    <button class="btn btn-outline" style="padding:6px 14px;font-size:.8rem" onclick="consultarKiwid()">Consultar agora</button>
+  </div>
+  <div class="log-card" id="log">
+    <div class="log-line l-info">[sistema] Aguardando. Clique em "Consultar agora" para verificar status dos boletos no Kiwid.</div>
+  </div>
+
+</main>
+
+<script>
+/* ── Dados agrupados por cliente ── */
+const MOCK = [
+  {
+    id: 1, nome: 'Ana Paula Ferreira', tel: '5583988615554', email: 'ana@email.com',
+    linkAberto: 'sim', pagamento: 'pago',
+    boletos: [
+      { desc: 'Tratamento de canal – parcela 2/3', venc: '2026-03-15', valor: 4500.00, url: 'https://boleto.kiwid.app/mock/001' },
+    ]
+  },
+  {
+    id: 2, nome: 'Carlos Eduardo Lima', tel: '5583988615554', email: 'carlos@email.com',
+    linkAberto: 'sim', pagamento: 'pendente',
+    boletos: [
+      { desc: 'Aparelho ortodôntico – mens. 4', venc: '2026-02-22', valor: 1200.00, url: 'https://boleto.kiwid.app/mock/002a' },
+      { desc: 'Aparelho ortodôntico – mens. 5', venc: '2026-03-22', valor: 1200.00, url: 'https://boleto.kiwid.app/mock/002b' },
+      { desc: 'Aparelho ortodôntico – mens. 6', venc: '2026-04-22', valor: 1400.00, url: 'https://boleto.kiwid.app/mock/002c' },
+    ]
+  },
+  {
+    id: 3, nome: 'Fernanda Costa Silva', tel: '5583988615554', email: 'fernanda@email.com',
+    linkAberto: 'nao', pagamento: 'pendente',
+    boletos: [
+      { desc: 'Implante dentário – parcela 1/6', venc: '2026-02-10', valor: 7200.00, url: 'https://boleto.kiwid.app/mock/003' },
+    ]
+  },
+  {
+    id: 4, nome: 'Roberto Alves Neto', tel: '5583988615554', email: 'roberto@email.com',
+    linkAberto: 'sim', pagamento: 'pendente',
+    boletos: [
+      { desc: 'Clareamento dental – saldo restante', venc: '2026-04-01', valor: 2990.00, url: 'https://boleto.kiwid.app/mock/004' },
+    ]
+  },
+  {
+    id: 5, nome: 'Juliana Mendes', tel: '5583988615554', email: 'juliana@email.com',
+    linkAberto: 'nao', pagamento: 'pendente',
+    boletos: [
+      { desc: 'Prótese total – parcela 3/4', venc: '2026-03-05', valor: 6500.00, url: 'https://boleto.kiwid.app/mock/005' },
+    ]
+  },
+  {
+    id: 6, nome: 'Marcos Oliveira', tel: '5583988615554', email: 'marcos@email.com',
+    linkAberto: 'sim', pagamento: 'pago',
+    boletos: [
+      { desc: 'Extracao + manutencao periodontal', venc: '2026-01-28', valor: 5000.00, url: 'https://boleto.kiwid.app/mock/006' },
+    ]
+  },
+  {
+    id: 7, nome: 'Patricia Santos', tel: '5583988615554', email: 'patricia@email.com',
+    linkAberto: 'nao', pagamento: 'pendente',
+    boletos: [
+      { desc: 'Consulta + radiografia – saldo', venc: '2026-04-10', valor: 5000.00, url: 'https://boleto.kiwid.app/mock/007' },
+    ]
+  },
+];
+
+const dias  = v => Math.max(0, Math.floor((Date.now() - new Date(v+'T00:00:00').getTime()) / 86_400_000));
+const fmtR  = v => 'R$ '+v.toFixed(2).replace('.',',').replace(/\B(?=(\d{3})+(?!\d))/g,'.');
+const fmtD  = s => { const [y,m,d]=s.split('-'); return `${d}/${m}/${y}`; };
+const total = c => c.boletos.reduce((s,b) => s+b.valor, 0);
+const vencMaisAntigo = c => c.boletos.reduce((a,b) => a.venc < b.venc ? a : b).venc;
+const maxDias = c => Math.max(...c.boletos.map(b => dias(b.venc)));
+
+let status = {};
+MOCK.forEach(c => status[c.id] = 'pendente');
+
+const linkBadge = v => v === 'sim'
+  ? '<span class="badge b-green">Sim</span>'
+  : '<span class="badge b-gray">Nao</span>';
+
+function atualizarStatsExtras() {
+  document.getElementById('s5').textContent = MOCK.filter(c => c.linkAberto === 'sim').length;
+  document.getElementById('s6').textContent = MOCK.filter(c => c.pagamento === 'pago').length;
+  const totalBoletos = MOCK.reduce((s,c) => s+c.boletos.length, 0);
+  document.getElementById('s1').textContent = MOCK.length;
+}
+
+function render() {
+  const tbody = document.getElementById('tbody');
+  const rows = [];
+
+  MOCK.forEach(c => {
+    const st   = status[c.id];
+    const d    = maxDias(c);
+    const urg  = d > 60 ? 'b-red' : d > 30 ? 'b-yellow' : 'b-blue';
+    const stBadge = st === 'enviado'
+      ? '<span class="badge b-green">Enviado</span>'
+      : '<span class="badge b-gray">Pendente</span>';
+    const nBol = c.boletos.length;
+    const descResumo = nBol === 1
+      ? c.boletos[0].desc
+      : c.boletos.map((b,i) => `${i+1}. ${b.desc}`).join(' / ');
+
+    /* linha principal do cliente */
+    rows.push(`<tr>
+      <td><input type="checkbox" class="chk" data-id="${c.id}" onchange="contarSel()" ${st==='enviado'?'disabled checked':''} /></td>
+      <td>
+        <strong>${c.nome}</strong>
+        ${nBol > 1 ? `<button onclick="toggleSub(${c.id})" style="margin-left:6px;background:none;border:none;cursor:pointer;font-size:.75rem;color:var(--blue)">ver parcelas</button>` : ''}
+      </td>
+      <td><span class="badge b-blue" style="font-size:.72rem">${nBol} boleto${nBol>1?'s':''}</span></td>
+      <td style="color:var(--muted);font-size:.78rem;max-width:200px">${descResumo}</td>
+      <td style="font-size:.82rem">${fmtD(vencMaisAntigo(c))}</td>
+      <td><span class="badge ${urg}">${d}d</span></td>
+      <td><strong>${fmtR(total(c))}</strong></td>
+      <td id="st-${c.id}">${stBadge}</td>
+      <td id="la-${c.id}">${linkBadge(c.linkAberto)}</td>
+      <td>
+        <div class="actions">
+          <button class="icon-btn" title="WhatsApp" onclick="enviarWpp(${c.id})">📲</button>
+          <button class="icon-btn" title="E-mail"   onclick="enviarEmail(${c.id})">✉️</button>
+        </div>
+      </td>
+    </tr>`);
+
+    /* sub-linhas de boletos (visíveis apenas quando cliente tem >1) */
+    if (nBol > 1) {
+      c.boletos.forEach((b, i) => {
+        rows.push(`<tr class="sub-row hidden" id="sub-${c.id}-${i}">
+          <td></td>
+          <td></td>
+          <td></td>
+          <td style="padding-left:24px;font-size:.8rem;color:var(--muted)">${i+1}. ${b.desc}</td>
+          <td style="font-size:.8rem">${fmtD(b.venc)}</td>
+          <td style="font-size:.8rem"><span class="badge ${dias(b.venc)>60?'b-red':dias(b.venc)>30?'b-yellow':'b-blue'}">${dias(b.venc)}d</span></td>
+          <td style="font-size:.8rem">${fmtR(b.valor)}</td>
+          <td></td>
+          <td><a href="${b.url}" target="_blank" style="font-size:.76rem;color:var(--blue)">ver boleto</a></td>
+          <td></td>
+        </tr>`);
+      });
+    }
+  });
+
+  tbody.innerHTML = rows.join('');
+}
+
+function toggleSub(id) {
+  const c = MOCK.find(x => x.id === id);
+  c.boletos.forEach((_, i) => {
+    const el = document.getElementById(`sub-${id}-${i}`);
+    if (el) el.classList.toggle('hidden');
+  });
+}
+
+/* ── Mensagem WhatsApp — uma msg com todos os boletos ── */
+function enviarWpp(id) {
+  const c = MOCK.find(x => x.id === id);
+  const primeiro = c.nome.split(' ')[0];
+  const nBol = c.boletos.length;
+
+  let corpo;
+  if (nBol === 1) {
+    const b = c.boletos[0];
+    corpo =
+      `Ola ${primeiro}!\n\n` +
+      `A Veras Odontologia identificou uma parcela em aberto:\n\n` +
+      `${b.desc}\n` +
+      `Vencimento: ${fmtD(b.venc)} | ${fmtR(b.valor)}\n` +
+      `Boleto: ${b.url}\n\n` +
+      `Qualquer duvida estamos a disposicao.`;
+  } else {
+    const lista = c.boletos.map((b, i) =>
+      `${i+1}. ${b.desc}\n   Venc.: ${fmtD(b.venc)} | ${fmtR(b.valor)}\n   Boleto: ${b.url}`
+    ).join('\n\n');
+
+    corpo =
+      `Ola ${primeiro}!\n\n` +
+      `A Veras Odontologia identificou *${nBol} parcelas em aberto* totalizando *${fmtR(total(c))}*:\n\n` +
+      `${lista}\n\n` +
+      `Qualquer duvida estamos a disposicao.`;
+  }
+
+  window.open(`https://wa.me/${c.tel}?text=${encodeURIComponent(corpo)}`, '_blank');
+  marcarEnviado(id);
+  addLog('ok', `WhatsApp aberto para ${c.nome} (${nBol} boleto${nBol>1?'s':''})`);
+}
+
+function enviarEmail(id) {
+  const c = MOCK.find(x => x.id === id);
+  const sub  = encodeURIComponent('Parcelas em aberto – Veras Odontologia');
+  const lista = c.boletos.map((b,i) =>
+    `${i+1}. ${b.desc} | Venc.: ${fmtD(b.venc)} | ${fmtR(b.valor)}\n   ${b.url}`
+  ).join('\n\n');
+  const body = encodeURIComponent(
+    `Ola ${c.nome.split(' ')[0]},\n\n` +
+    `Identificamos ${c.boletos.length === 1 ? 'uma parcela em aberto' : c.boletos.length+' parcelas em aberto'} ` +
+    `no total de ${fmtR(total(c))}:\n\n${lista}\n\nAtenciosamente,\nEquipe Veras Odontologia`
+  );
+  window.location.href = `mailto:${c.email}?subject=${sub}&body=${body}`;
+  marcarEnviado(id);
+  addLog('ok', `E-mail aberto para ${c.nome}`);
+}
+
+function marcarEnviado(id) {
+  status[id] = 'enviado';
+  document.getElementById(`st-${id}`).innerHTML = '<span class="badge b-green">Enviado</span>';
+  const env = Object.values(status).filter(s => s==='enviado').length;
+  document.getElementById('s3').textContent = env;
+  document.getElementById('s4').textContent = MOCK.length - env;
+}
+
+function consultarKiwid() {
+  addLog('info', 'Iniciando consulta ao Kiwid via scraping (GET /kiwid/overdue)…');
+  setTimeout(() => addLog('info', 'Login efetuado. Navegando para financeiro/recebimentos…'), 600);
+  setTimeout(() => addLog('info', 'Extraindo status dos boletos por cliente…'), 1400);
+  setTimeout(() => {
+    MOCK.forEach(c => {
+      const linkStatus = c.linkAberto === 'sim' ? 'link visualizado' : 'link nao acessado';
+      const pagStatus  = c.pagamento  === 'pago' ? 'PAGO' : 'em aberto';
+      const tipo = c.pagamento === 'pago' ? 'ok' : c.linkAberto === 'sim' ? 'warn' : 'info';
+      const nBol = c.boletos.length;
+      addLog(tipo, `${c.nome} (${nBol} boleto${nBol>1?'s':''}) — ${linkStatus} | status: ${pagStatus}`);
+      const laEl = document.getElementById(`la-${c.id}`);
+      if (laEl) laEl.innerHTML = linkBadge(c.linkAberto);
+    });
+    atualizarStatsExtras();
+    const pagos = MOCK.filter(c => c.pagamento === 'pago').length;
+    addLog('ok', `Consulta concluida. ${pagos} cliente(s) com boleto pago no Kiwid.`);
+  }, 2400);
+}
+
+function enviarTodos() {
+  [...document.querySelectorAll('.chk:checked:not(:disabled)')].forEach(cb => {
+    enviarWpp(parseInt(cb.dataset.id));
+  });
+}
+
+function toggleAll(el) {
+  document.querySelectorAll('.chk:not(:disabled)').forEach(cb => cb.checked = el.checked);
+  contarSel();
+}
+
+function contarSel() {
+  const n = document.querySelectorAll('.chk:checked').length;
+  document.getElementById('selCount').textContent = `${n} selecionado${n!==1?'s':''}`;
+}
+
+function mockBuscar() {
+  addLog('info', 'Chamando GET http://localhost:3001/kiwid/overdue?month=4&year=2026 …');
+  setTimeout(() => {
+    addLog('warn', '[mock] Backend nao disponivel. Exibindo dados de demonstracao.');
+    render();
+    atualizarStatsExtras();
+    addLog('ok', `${MOCK.length} clientes carregados.`);
+  }, 900);
+}
+
+function exportCSV() {
+  const rows = ['Cliente,Descricao,Vencimento,Dias Atraso,Valor,Envio,Link Aberto'];
+  MOCK.forEach(c => c.boletos.forEach(b =>
+    rows.push(`"${c.nome}","${b.desc}","${fmtD(b.venc)}",${dias(b.venc)},"${fmtR(b.valor)}","${status[c.id]}","${c.linkAberto}"`)
+  ));
+  const a = Object.assign(document.createElement('a'), {
+    href: 'data:text/csv;charset=utf-8,﻿' + rows.join('\n'),
+    download: 'cobranca_veras.csv'
+  });
+  a.click();
+  addLog('ok', 'CSV exportado.');
+}
+
+function addLog(type, msg) {
+  const el  = document.getElementById('log');
+  const cls = {ok:'l-ok',err:'l-err',warn:'l-warn',info:'l-info'}[type]||'';
+  const pfx = {ok:'✓',err:'✗',warn:'⚠',info:'ℹ'}[type]||'·';
+  const line = document.createElement('div');
+  line.className = `log-line ${cls}`;
+  line.textContent = `[${new Date().toLocaleTimeString('pt-BR')}] ${pfx} ${msg}`;
+  el.appendChild(line);
+  el.scrollTop = el.scrollHeight;
+}
+
+render();
+atualizarStatsExtras();
+</script>
+</body>
+</html>
