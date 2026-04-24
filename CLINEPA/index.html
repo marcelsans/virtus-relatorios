@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clinepa · Diagnóstico Executivo — Virtus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#1E2A3F;
+  --navy-2:#273349;
+  --navy-3:#141C2C;
+  --ink:#0F1623;
+  --white:#FFFFFF;
+  --bg:#F4F5F7;
+  --card:#FFFFFF;
+  --text:#1E2A3F;
+  --muted:#6B7585;
+  --line:#E3E5EA;
+  --green:#2FB47C;
+  --green-bg:#E6F6EE;
+  --red:#E35D6A;
+  --red-bg:#FDECEE;
+  --amber:#E8A93C;
+  --amber-bg:#FDF4E2;
+  --blue:#4A7BB8;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--text);font-family:'Inter',-apple-system,sans-serif;font-size:14.5px;line-height:1.5}
+h1,h2,h3,h4,h5,h6{font-family:'Barlow',sans-serif;letter-spacing:-.01em}
+
+/* URL BAR */
+.url-bar{background:#1d1d1f;color:#b8b8bd;font-size:12px;padding:8px 20px;display:flex;align-items:center;gap:10px;font-family:'SF Mono',ui-monospace,monospace}
+.url-bar .dots{display:flex;gap:6px}
+.url-bar .dot{width:10px;height:10px;border-radius:50%}
+.url-bar .dot.r{background:#ff5f56}.url-bar .dot.y{background:#ffbd2e}.url-bar .dot.g{background:#27c93f}
+.url-bar .addr{background:#2a2a2e;padding:4px 14px;border-radius:6px;margin:0 auto;color:#d8d8de}
+.url-bar .lock{color:#27c93f;margin-right:6px}
+
+/* HERO */
+.hero{background:var(--navy);color:#fff;padding:30px 48px 46px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;right:-120px;bottom:-120px;width:380px;height:380px;border:60px solid rgba(255,255,255,.03);border-radius:50%}
+.hero::before{content:"";position:absolute;right:60px;top:40px;width:180px;height:180px;border:1px solid rgba(255,255,255,.06);border-radius:50%}
+.hero-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:44px;position:relative;z-index:2}
+
+/* LOGO VIRTUS */
+.logo-virtus{display:flex;align-items:flex-end;gap:0}
+.logo-virtus svg{display:block}
+
+.hero-meta{display:flex;gap:26px;font-size:12px;color:rgba(255,255,255,.65);font-weight:500;letter-spacing:.5px;text-transform:uppercase}
+.hero-meta span{cursor:pointer}
+.hero-meta span.on{color:#fff;border-bottom:2px solid #fff;padding-bottom:4px}
+
+.hero-body{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:end}
+.hero-left .eyebrow{font-family:'Barlow',sans-serif;font-size:12px;letter-spacing:3px;color:rgba(255,255,255,.55);font-weight:600;margin-bottom:14px;text-transform:uppercase}
+.hero-left h1{font-size:52px;line-height:1;font-weight:800;margin-bottom:20px;text-transform:uppercase}
+.hero-left h1 span{color:#7FB3E8}
+.hero-left p.sub{font-size:16px;color:rgba(255,255,255,.72);font-weight:400;max-width:460px;line-height:1.55}
+
+.hero-right{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.hero-kpi{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);padding:18px 20px;border-radius:6px;backdrop-filter:blur(10px)}
+.hero-kpi .l{font-size:10.5px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:1.4px;font-weight:600;margin-bottom:6px}
+.hero-kpi .v{font-family:'Barlow',sans-serif;font-size:36px;font-weight:800;line-height:1}
+.hero-kpi .v small{font-size:16px;color:rgba(255,255,255,.6);font-weight:600;margin-left:3px}
+.hero-kpi .d{font-size:11px;color:#7FB3E8;margin-top:4px;font-weight:600}
+
+/* WRAP */
+.wrap{max-width:1280px;margin:0 auto;padding:48px 48px 60px}
+
+/* SECTION HEAD */
+.sh{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:22px;gap:20px;flex-wrap:wrap}
+.sh .tag-num{display:inline-block;font-family:'Barlow',sans-serif;font-weight:800;font-size:11px;letter-spacing:3px;color:var(--muted);padding:4px 0;border-top:2px solid var(--navy);margin-bottom:10px}
+.sh h2{font-size:30px;font-weight:800;color:var(--navy);text-transform:uppercase;line-height:1}
+.sh .right{color:var(--muted);font-size:13px;max-width:380px;text-align:right}
+
+/* HEADLINE IMPACT */
+.headline{background:var(--navy);color:#fff;padding:40px 44px;border-radius:8px;margin-bottom:44px;display:grid;grid-template-columns:1.3fr 1fr;align-items:center;gap:40px;position:relative;overflow:hidden}
+.headline::before{content:"";position:absolute;right:-80px;top:-80px;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(127,179,232,.15),transparent 70%)}
+.headline h2{font-size:40px;line-height:1.05;font-weight:800;text-transform:uppercase;margin-bottom:12px;position:relative;z-index:2}
+.headline h2 em{color:#7FB3E8;font-style:normal}
+.headline p{color:rgba(255,255,255,.72);font-size:14.5px;line-height:1.6;max-width:540px;position:relative;z-index:2}
+.headline-num{position:relative;z-index:2}
+.headline-num .from{font-family:'Barlow',sans-serif;color:rgba(255,255,255,.5);font-size:14px;font-weight:600;text-transform:uppercase;letter-spacing:2px;margin-bottom:6px}
+.headline-num .arrow{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.headline-num .v1{font-family:'Barlow',sans-serif;font-size:32px;color:rgba(255,255,255,.5);font-weight:700;text-decoration:line-through}
+.headline-num .ar{color:#7FB3E8;font-size:22px;font-weight:700}
+.headline-num .v2{font-family:'Barlow',sans-serif;font-size:52px;color:#fff;font-weight:900;line-height:1}
+.headline-num .note{font-size:12px;color:rgba(255,255,255,.6);font-weight:500;margin-top:4px}
+
+/* PAINEL KPIs */
+.panel{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:48px}
+.mini{background:#fff;border-radius:6px;padding:18px 20px;border:1px solid var(--line);position:relative}
+.mini .lbl{font-size:10.5px;text-transform:uppercase;letter-spacing:1.3px;color:var(--muted);font-weight:700;margin-bottom:8px}
+.mini .val{font-family:'Barlow',sans-serif;font-size:28px;font-weight:800;color:var(--navy);line-height:1}
+.mini .val small{font-size:14px;color:var(--muted);font-weight:600}
+.mini .bar{margin-top:10px;height:4px;background:var(--line);border-radius:2px;overflow:hidden}
+.mini .bar i{display:block;height:100%;border-radius:2px}
+.mini .hint{font-size:11px;color:var(--muted);margin-top:6px;font-weight:500}
+.mini.green .bar i{background:var(--green)} .mini.green .val{color:var(--green)}
+.mini.red .bar i{background:var(--red)} .mini.red .val{color:var(--red)}
+.mini.amber .bar i{background:var(--amber)} .mini.amber .val{color:var(--amber)}
+.mini.navy .bar i{background:var(--navy)}
+
+/* AREAS GRID */
+.areas{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-bottom:50px}
+.area{background:#fff;border-radius:8px;overflow:hidden;border:1px solid var(--line);display:flex;flex-direction:column}
+.area.featured{grid-column:1/-1;border:2px solid var(--navy)}
+.area-top{padding:22px 26px;display:flex;justify-content:space-between;align-items:flex-start;border-bottom:1px solid var(--line)}
+.area.featured .area-top{background:var(--navy);color:#fff;border-bottom:none}
+.area-top .num{font-family:'Barlow',sans-serif;font-size:12px;font-weight:700;letter-spacing:3px;color:var(--muted);margin-bottom:4px;text-transform:uppercase}
+.area.featured .area-top .num{color:#7FB3E8}
+.area-top h3{font-size:22px;font-weight:800;text-transform:uppercase;line-height:1.1;color:var(--navy)}
+.area.featured .area-top h3{color:#fff;font-size:26px}
+.area-top .ganho{text-align:right}
+.area-top .ganho .g-l{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1.3px;font-weight:700}
+.area.featured .area-top .ganho .g-l{color:rgba(255,255,255,.6)}
+.area-top .ganho .g-v{font-family:'Barlow',sans-serif;font-size:22px;font-weight:800;color:var(--green)}
+.area.featured .area-top .ganho .g-v{color:#7FB3E8;font-size:28px}
+.area-body{padding:22px 26px;flex:1;display:flex;flex-direction:column;gap:18px}
+
+.area.featured .area-body{display:grid;grid-template-columns:1.1fr .9fr .9fr;gap:26px}
+
+/* Objetivo compacto */
+.obj{font-size:13px;color:var(--muted);line-height:1.5;padding-bottom:14px;border-bottom:1px dashed var(--line)}
+.obj b{color:var(--navy);text-transform:uppercase;font-size:11px;letter-spacing:1.2px;display:block;margin-bottom:4px;font-weight:700;font-family:'Barlow',sans-serif}
+
+/* KPIs barras */
+.kpis-bars{display:flex;flex-direction:column;gap:10px}
+.kpi-bar{display:grid;grid-template-columns:1fr auto;gap:4px;align-items:center;font-size:12.5px}
+.kpi-bar .top{display:flex;justify-content:space-between;align-items:center;grid-column:1/-1;margin-bottom:3px}
+.kpi-bar .name{color:var(--navy);font-weight:600}
+.kpi-bar .name::before{content:attr(data-n) ". ";color:var(--muted);font-weight:700;font-family:'Barlow',sans-serif}
+.kpi-bar .val{font-family:'Barlow',sans-serif;font-weight:800;color:var(--navy)}
+.kpi-bar .val.red{color:var(--red)}
+.kpi-bar .val.amber{color:var(--amber)}
+.kpi-bar .val.green{color:var(--green)}
+.kpi-bar .track{height:6px;background:var(--line);border-radius:3px;overflow:hidden;grid-column:1/-1}
+.kpi-bar .fill{height:100%;border-radius:3px}
+.fill.red{background:var(--red)}.fill.amber{background:var(--amber)}.fill.green{background:var(--green)}.fill.navy{background:var(--navy)}
+
+/* KPIs chips (lista curta) */
+.kpi-chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{background:#F6F7F9;border:1px solid var(--line);padding:5px 10px;border-radius:20px;font-size:11.5px;color:var(--text);font-weight:500}
+.chip b{color:var(--navy);margin-right:4px;font-weight:700}
+
+/* Problema/Ação compacto */
+.pa{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.pa .col h6{font-family:'Barlow',sans-serif;font-size:10.5px;letter-spacing:1.5px;color:var(--navy);text-transform:uppercase;font-weight:800;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.pa .col h6::before{content:"";width:14px;height:2px;background:var(--navy)}
+.pa .col.prob h6::before{background:var(--red)}
+.pa .col.prob h6{color:var(--red)}
+.pa .col.ac h6::before{background:var(--green)}
+.pa .col.ac h6{color:var(--green)}
+.pa ul{list-style:none;font-size:12px;color:var(--text);line-height:1.45}
+.pa ul li{padding:3px 0 3px 12px;position:relative}
+.pa ul li::before{content:"";position:absolute;left:0;top:10px;width:5px;height:5px;border-radius:50%;background:var(--muted)}
+.pa .prob ul li::before{background:var(--red)}
+.pa .ac ul li::before{background:var(--green)}
+
+/* Impact row nas áreas */
+.impact-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding-top:14px;border-top:1px solid var(--line)}
+.imp-mini{text-align:center;padding:6px}
+.imp-mini .il{font-size:9.5px;color:var(--muted);text-transform:uppercase;letter-spacing:1.3px;font-weight:700}
+.imp-mini .iv{font-family:'Barlow',sans-serif;font-size:17px;color:var(--navy);font-weight:800;margin-top:2px}
+.imp-mini .iv.green{color:var(--green)}
+.imp-mini .iv.red{color:var(--red)}
+
+/* Dashboard sala cirúrgica featured */
+.donut-wrap{display:flex;align-items:center;gap:18px}
+.donut{position:relative;width:120px;height:120px;flex-shrink:0}
+.donut svg{transform:rotate(-90deg)}
+.donut .pct{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff}
+.donut .pct .n{font-family:'Barlow',sans-serif;font-size:30px;font-weight:900;line-height:1}
+.donut .pct .t{font-size:10px;color:#7FB3E8;text-transform:uppercase;letter-spacing:1.5px;margin-top:2px;font-weight:700}
+
+.dm-side{font-size:13px}
+.dm-side h5{font-family:'Barlow',sans-serif;font-size:11px;color:#7FB3E8;text-transform:uppercase;letter-spacing:1.8px;margin-bottom:6px;font-weight:700}
+.dm-side p{color:rgba(255,255,255,.78);line-height:1.55;font-size:12.5px}
+
+/* CADEIA VISUAL */
+.chain{background:#fff;border-radius:8px;padding:30px 34px;margin-bottom:48px;border:1px solid var(--line)}
+.chain-flow{display:flex;align-items:center;gap:4px;margin-top:20px;overflow-x:auto;padding-bottom:4px}
+.cn{flex:1;min-width:125px;background:#F6F7F9;padding:14px 12px;border-top:3px solid var(--navy);text-align:center;position:relative}
+.cn .n{font-family:'Barlow',sans-serif;font-size:10px;letter-spacing:2px;color:var(--muted);font-weight:700;text-transform:uppercase}
+.cn .t{font-family:'Barlow',sans-serif;font-size:15px;font-weight:800;color:var(--navy);text-transform:uppercase;margin:2px 0 4px;line-height:1}
+.cn .k{font-size:10.5px;color:var(--muted);line-height:1.3}
+.ca{color:var(--muted);font-weight:800;font-size:14px;flex-shrink:0}
+
+.chain-effects{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:24px}
+.eff{background:#F6F7F9;border-left:3px solid var(--navy);padding:16px 18px;border-radius:0 6px 6px 0}
+.eff h6{font-family:'Barlow',sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:1.3px;color:var(--navy);font-weight:800;margin-bottom:8px}
+.eff p{font-size:12px;color:var(--muted);line-height:1.5;margin-bottom:8px}
+.eff .g{font-family:'Barlow',sans-serif;font-size:14px;font-weight:800;color:var(--green)}
+
+/* GANHOS CONSOLIDADOS */
+.gains{background:var(--navy);color:#fff;border-radius:8px;padding:34px 38px;margin-bottom:48px;position:relative;overflow:hidden}
+.gains::after{content:"";position:absolute;right:-80px;bottom:-80px;width:260px;height:260px;border:40px solid rgba(255,255,255,.03);border-radius:50%}
+.gains-head{display:flex;justify-content:space-between;align-items:end;margin-bottom:22px;position:relative;z-index:2}
+.gains-head h2{font-size:28px;text-transform:uppercase;font-weight:800;line-height:1}
+.gains-head p{font-size:13px;color:rgba(255,255,255,.65);margin-top:6px}
+.gains-head .total{text-align:right}
+.gains-head .total .tl{font-size:10.5px;text-transform:uppercase;letter-spacing:1.5px;color:rgba(255,255,255,.6);font-weight:700}
+.gains-head .total .tv{font-family:'Barlow',sans-serif;font-size:36px;font-weight:900;color:#7FB3E8;line-height:1}
+.gains-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;position:relative;z-index:2}
+.gi{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);padding:16px 18px;border-radius:6px}
+.gi .gl{font-size:10.5px;text-transform:uppercase;letter-spacing:1.5px;color:rgba(255,255,255,.6);font-weight:700;margin-bottom:6px}
+.gi .gv{font-family:'Barlow',sans-serif;font-size:22px;font-weight:800;line-height:1}
+.gi .gn{font-size:11px;color:rgba(255,255,255,.55);margin-top:4px}
+
+/* ROADMAP */
+.roadmap{background:#fff;border-radius:8px;padding:30px 34px;border:1px solid var(--line);margin-bottom:30px}
+.tl{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:20px}
+.ph{position:relative;background:#F6F7F9;padding:18px 18px 16px;border-top:3px solid var(--navy)}
+.ph:nth-child(2){border-top-color:#4A7BB8}
+.ph:nth-child(3){border-top-color:var(--amber)}
+.ph:nth-child(4){border-top-color:var(--green)}
+.ph .pz{font-family:'Barlow',sans-serif;font-size:10px;letter-spacing:1.8px;color:var(--muted);font-weight:700;text-transform:uppercase}
+.ph h5{font-family:'Barlow',sans-serif;font-size:15px;color:var(--navy);font-weight:800;text-transform:uppercase;margin:2px 0 10px;line-height:1.1}
+.ph ul{list-style:none;font-size:12px;color:var(--text)}
+.ph ul li{padding:3px 0 3px 12px;position:relative;line-height:1.4}
+.ph ul li::before{content:"›";position:absolute;left:0;color:var(--navy);font-weight:800}
+
+/* FOOTER */
+footer{background:var(--navy-3);color:rgba(255,255,255,.55);padding:28px 48px 22px;font-size:12px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
+footer .ft-brand{display:flex;align-items:center;gap:14px}
+footer .ft-brand div{color:#fff;font-weight:700;font-family:'Barlow',sans-serif;letter-spacing:.5px}
+
+@media (max-width:1080px){
+  .hero-body{grid-template-columns:1fr}
+  .panel,.areas,.gains-grid,.tl{grid-template-columns:repeat(2,1fr)}
+  .chain-effects,.impact-row{grid-template-columns:1fr}
+  .area.featured .area-body{grid-template-columns:1fr}
+  .hero-left h1{font-size:36px}
+  .wrap,.hero,footer{padding-left:24px;padding-right:24px}
+  .chain-flow{flex-direction:column;align-items:stretch}
+  .ca{transform:rotate(90deg);margin:0 auto}
+}
+</style>
+</head>
+<body>
+
+<div class="url-bar">
+  <div class="dots"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
+  <span class="addr"><span class="lock">🔒</span>relatorios.virtus.com.br/clinepa</span>
+  <span>v2.2 · Abr/2026</span>
+</div>
+
+<section class="hero">
+  <div class="hero-top">
+    <div class="logo-virtus">
+      <svg width="170" height="64" viewBox="0 0 170 64" xmlns="http://www.w3.org/2000/svg">
+        <!-- Arco decorativo Virtus -->
+        <path d="M 6 28 Q 10 6, 42 6 Q 62 6, 68 22" stroke="#FFFFFF" stroke-width="3.2" fill="none" stroke-linecap="round"/>
+        <!-- Ponto/serifa do arco -->
+        <circle cx="68" cy="22" r="1.8" fill="#FFFFFF"/>
+        <!-- Texto VIRTUS -->
+        <text x="0" y="56" font-family="Barlow, Arial Black, sans-serif" font-size="30" font-weight="900" fill="#FFFFFF" letter-spacing="1.5">VIRTUS</text>
+      </svg>
+    </div>
+    <nav class="hero-meta">
+      <span class="on">Diagnóstico</span>
+      <span>Indicadores</span>
+      <span>Plano</span>
+      <span>Governança</span>
+    </nav>
+  </div>
+  <div class="hero-body">
+    <div class="hero-left">
+      <div class="eyebrow">Diagnóstico Executivo · Clinepa</div>
+      <h1>Gestão orientada a <span>resultado</span>.</h1>
+      <p class="sub">Visão integrada de 7 áreas · 84 KPIs críticos · plano de 90 dias para destravar de R$ 1,5M para R$ 2,1M/mês sem expansão estrutural.</p>
+    </div>
+    <div class="hero-right">
+      <div class="hero-kpi"><div class="l">Faturamento atual</div><div class="v">R$ 1,5<small>M</small></div><div class="d">▲ 4% tri</div></div>
+      <div class="hero-kpi"><div class="l">EBITDA</div><div class="v">14<small>%</small></div><div class="d">Meta 22%</div></div>
+      <div class="hero-kpi"><div class="l">Upside anual</div><div class="v">R$ 3,6–7,2<small>M</small></div><div class="d">12 meses</div></div>
+      <div class="hero-kpi"><div class="l">KPIs mapeados</div><div class="v">84</div><div class="d">7 áreas</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+
+<!-- HEADLINE DE IMPACTO -->
+<div class="headline">
+  <div>
+    <h2>De R$ 1,5M a <em>R$ 2,1M</em>/mês sem expandir estrutura.</h2>
+    <p>O ganho não está em novos leitos ou salas, está em <b>utilização</b>, <b>giro</b> e <b>conversão</b> da produção em caixa. Ajustes coordenados em 7 frentes elevam o EBITDA de 14% para 22–24% em 9 meses.</p>
+  </div>
+  <div class="headline-num">
+    <div class="from">Potencial anual</div>
+    <div class="arrow">
+      <div class="v1">R$ 18M</div>
+      <div class="ar">→</div>
+    </div>
+    <div class="v2">R$ 25M</div>
+    <div class="note">+ R$ 7M em receita + eficiência / ano</div>
+  </div>
+</div>
+
+<!-- PAINEL DE KPIS -->
+<div class="sh">
+  <div>
+    <span class="tag-num">01 · Fotografia</span>
+    <h2>Status atual em 8 números</h2>
+  </div>
+  <div class="right">Apurado no último fechamento vs. benchmark setorial (ANAHP/Planisa).</div>
+</div>
+
+<div class="panel">
+  <div class="mini amber"><div class="lbl">Ocupação</div><div class="val">71<small>%</small></div><div class="bar"><i style="width:71%"></i></div><div class="hint">Benchmark 80% · gap R$ 135k/mês</div></div>
+  <div class="mini red"><div class="lbl">Util. centro cirúrgico</div><div class="val">58<small>%</small></div><div class="bar"><i style="width:58%"></i></div><div class="hint">Benchmark 78% · +42 cirurgias/mês</div></div>
+  <div class="mini red"><div class="lbl">Glosa s/ faturamento</div><div class="val">7,1<small>%</small></div><div class="bar"><i style="width:71%"></i></div><div class="hint">Aceitável &lt;3% · perda R$ 106k/mês</div></div>
+  <div class="mini amber"><div class="lbl">TMP internação</div><div class="val">4,8<small>d</small></div><div class="bar"><i style="width:80%"></i></div><div class="hint">Meta 4,0d · giro −18%</div></div>
+  <div class="mini red"><div class="lbl">Custo pessoal / receita</div><div class="val">41<small>%</small></div><div class="bar"><i style="width:82%"></i></div><div class="hint">Benchmark 35% · escala a rever</div></div>
+  <div class="mini green"><div class="lbl">PMR</div><div class="val">62<small>d</small></div><div class="bar"><i style="width:65%"></i></div><div class="hint">▼ 8d vs. ano anterior</div></div>
+  <div class="mini amber"><div class="lbl">EBITDA</div><div class="val">14<small>%</small></div><div class="bar"><i style="width:64%"></i></div><div class="hint">Meta 22% · upside R$ 1,3M/ano</div></div>
+  <div class="mini red"><div class="lbl">No-show ambul.</div><div class="val">17<small>%</small></div><div class="bar"><i style="width:85%"></i></div><div class="hint">Aceitável &lt;10%</div></div>
+</div>
+
+<!-- ÁREA FEATURED: DIRETORIA MÉDICA -->
+<div class="sh">
+  <div>
+    <span class="tag-num">02 · Áreas</span>
+    <h2>Diagnóstico por área</h2>
+  </div>
+  <div class="right">Cada área com objetivo, KPIs críticos, problemas, ações e ganho estimado.</div>
+</div>
+
+<div class="areas">
+
+<div class="area featured">
+  <div class="area-top">
+    <div>
+      <div class="num">Área I · Prioritária</div>
+      <h3>Diretoria Médica</h3>
+    </div>
+    <div class="ganho"><div class="g-l">Impacto estimado</div><div class="g-v">+ R$ 380k/mês</div></div>
+  </div>
+  <div class="area-body">
+    <!-- coluna 1: donut e objetivo -->
+    <div>
+      <div class="donut-wrap">
+        <div class="donut">
+          <svg width="120" height="120">
+            <circle cx="60" cy="60" r="48" stroke="rgba(255,255,255,0.1)" stroke-width="14" fill="none"/>
+            <circle cx="60" cy="60" r="48" stroke="#7FB3E8" stroke-width="14" fill="none" stroke-dasharray="174 302" stroke-linecap="round"/>
+          </svg>
+          <div class="pct"><div class="n">58%</div><div class="t">Capac. inst.</div></div>
+        </div>
+        <div class="dm-side">
+          <h5>Motor clínico-financeiro</h5>
+          <p>A Diretoria Médica traduz capacidade instalada em receita e protocolo clínico em custo. Na Clinepa, o gap atual representa R$ 300–520k/mês de receita não realizada.</p>
+        </div>
+      </div>
+    </div>
+    <!-- coluna 2: KPIs principais -->
+    <div>
+      <div class="kpis-bars">
+        <div class="kpi-bar"><div class="top"><span class="name" data-n="1">Orçado vs Realizado (cirurgias)</span><span class="val amber">72%</span></div><div class="track"><div class="fill amber" style="width:72%"></div></div></div>
+        <div class="kpi-bar"><div class="top"><span class="name" data-n="2">Utilização sala cirúrgica</span><span class="val red">58%</span></div><div class="track"><div class="fill red" style="width:58%"></div></div></div>
+        <div class="kpi-bar"><div class="top"><span class="name" data-n="3">Ocupação UTI</span><span class="val green">82%</span></div><div class="track"><div class="fill green" style="width:82%"></div></div></div>
+        <div class="kpi-bar"><div class="top"><span class="name" data-n="4">TMP UTI</span><span class="val red">6,2d</span></div><div class="track"><div class="fill red" style="width:88%"></div></div></div>
+        <div class="kpi-bar"><div class="top"><span class="name" data-n="5">Cancelamento cirurgias</span><span class="val red">9%</span></div><div class="track"><div class="fill red" style="width:72%"></div></div></div>
+        <div class="kpi-bar"><div class="top"><span class="name" data-n="6">Altas até 12h</span><span class="val red">31%</span></div><div class="track"><div class="fill red" style="width:31%"></div></div></div>
+        <div class="kpi-bar"><div class="top"><span class="name" data-n="7">Pontualidade 1ª cirurgia</span><span class="val amber">68%</span></div><div class="track"><div class="fill amber" style="width:68%"></div></div></div>
+      </div>
+      <div class="kpi-chips" style="margin-top:12px">
+        <span class="chip"><b>8.</b>Aderência protocolo 74%</span>
+        <span class="chip"><b>9.</b>Reinternação 30d 8%</span>
+        <span class="chip"><b>10.</b>IH 4,2%</span>
+        <span class="chip"><b>11.</b>Receita/proced.</span>
+        <span class="chip"><b>12.</b>Porta-cirurgia</span>
+      </div>
+    </div>
+    <!-- coluna 3: problema + ação -->
+    <div class="pa">
+      <div class="col prob">
+        <h6>Problemas</h6>
+        <ul>
+          <li>Sala 3 com 42% de ociosidade (Unimed concentra em 3 dias)</li>
+          <li>38% das cirurgias de alto porte começam após 15h</li>
+          <li>21% das altas saem após 17h</li>
+          <li>Sem orçamento médico por especialidade</li>
+        </ul>
+      </div>
+      <div class="col ac">
+        <h6>Ações</h6>
+        <ul>
+          <li>Comitê semanal de agenda cirúrgica</li>
+          <li>Visita multi diária 9h · meta 60% altas até 12h</li>
+          <li>Padronizar 10 protocolos de maior volume</li>
+          <li>Bônus clínico atrelado a produção + qualidade</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ÁREA 2: Centro Cirúrgico -->
+<div class="area">
+  <div class="area-top">
+    <div><div class="num">Área II</div><h3>Centro Cirúrgico</h3></div>
+    <div class="ganho"><div class="g-l">Impacto</div><div class="g-v">+ R$ 210k/mês</div></div>
+  </div>
+  <div class="area-body">
+    <div class="obj"><b>Objetivo</b>Maximizar receita por sala/bloco, reduzindo tempo morto, cancelamento e desvio de OPME.</div>
+    <div class="kpis-bars">
+      <div class="kpi-bar"><div class="top"><span class="name" data-n="1">Utilização de sala</span><span class="val red">58%</span></div><div class="track"><div class="fill red" style="width:58%"></div></div></div>
+      <div class="kpi-bar"><div class="top"><span class="name" data-n="2">Set-up entre cirurgias</span><span class="val red">42min</span></div><div class="track"><div class="fill red" style="width:85%"></div></div></div>
+      <div class="kpi-bar"><div class="top"><span class="name" data-n="3">Cancelamento no dia</span><span class="val red">9%</span></div><div class="track"><div class="fill red" style="width:72%"></div></div></div>
+      <div class="kpi-bar"><div class="top"><span class="name" data-n="4">Desvio OPME</span><span class="val amber">14%</span></div><div class="track"><div class="fill amber" style="width:70%"></div></div></div>
+    </div>
+    <div class="kpi-chips">
+      <span class="chip"><b>5.</b>Cirurgias/sala·dia</span>
+      <span class="chip"><b>6.</b>Pontualidade 1ª</span>
+      <span class="chip"><b>7.</b>Receita/sala</span>
+      <span class="chip"><b>8.</b>Margem proced.</span>
+      <span class="chip"><b>9.</b>Tempo RPA</span>
+      <span class="chip"><b>10.</b>ISC</span>
+      <span class="chip"><b>11.</b>HE equipe</span>
+      <span class="chip"><b>12.</b>Conv. consulta→cir.</span>
+    </div>
+    <div class="pa">
+      <div class="col prob"><h6>Problemas</h6><ul>
+        <li>Set-up 42min (meta &lt;25)</li>
+        <li>OPME sem rastreabilidade</li>
+        <li>Margem/proced. não medida</li>
+      </ul></div>
+      <div class="col ac"><h6>Ações</h6><ul>
+        <li>Kits cirúrgicos padronizados</li>
+        <li>Rastreio OPME código de barras</li>
+        <li>DRE dos 20 procedimentos top</li>
+      </ul></div>
+    </div>
+    <div class="impact-row">
+      <div class="imp-mini"><div class="il">Receita</div><div class="iv green">+R$ 210k</div></div>
+      <div class="imp-mini"><div class="il">Custo</div><div class="iv green">−R$ 48k</div></div>
+      <div class="imp-mini"><div class="il">ISC</div><div class="iv">&lt;1,8%</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ÁREA 3: Internação -->
+<div class="area">
+  <div class="area-top">
+    <div><div class="num">Área III</div><h3>Internação &amp; UTI</h3></div>
+    <div class="ganho"><div class="g-l">Impacto</div><div class="g-v">+ R$ 157k/mês</div></div>
+  </div>
+  <div class="area-body">
+    <div class="obj"><b>Objetivo</b>Maximizar ocupação com giro e qualidade, transformando leito em ativo rentável.</div>
+    <div class="kpis-bars">
+      <div class="kpi-bar"><div class="top"><span class="name" data-n="1">Ocupação</span><span class="val amber">71%</span></div><div class="track"><div class="fill amber" style="width:71%"></div></div></div>
+      <div class="kpi-bar"><div class="top"><span class="name" data-n="2">TMP enfermaria</span><span class="val amber">4,8d</span></div><div class="track"><div class="fill amber" style="width:80%"></div></div></div>
+      <div class="kpi-bar"><div class="top"><span class="name" data-n="3">Altas até 12h</span><span class="val red">31%</span></div><div class="track"><div class="fill red" style="width:31%"></div></div></div>
+      <div class="kpi-bar"><div class="top"><span class="name" data-n="4">Liberação leito</span><span class="val red">2h10</span></div><div class="track"><div class="fill red" style="width:85%"></div></div></div>
+    </div>
+    <div class="kpi-chips">
+      <span class="chip"><b>5.</b>Giro leito</span>
+      <span class="chip"><b>6.</b>Interv. substituição</span>
+      <span class="chip"><b>7.</b>TMP UTI</span>
+      <span class="chip"><b>8.</b>Reintern. 30d</span>
+      <span class="chip"><b>9.</b>Mort. UTI ajust.</span>
+      <span class="chip"><b>10.</b>IRAS (PAV/ITU)</span>
+      <span class="chip"><b>11.</b>Densidade enferm.</span>
+      <span class="chip"><b>12.</b>Custo/pac-dia</span>
+    </div>
+    <div class="pa">
+      <div class="col prob"><h6>Problemas</h6><ul>
+        <li>Alta média às 15h42</li>
+        <li>PAV 11/1000 dias-VM</li>
+        <li>Hotelaria sem SLA</li>
+      </ul></div>
+      <div class="col ac"><h6>Ações</h6><ul>
+        <li>Projeto "Alta 12h"</li>
+        <li>SLA hotelaria 45min + trigger HIS</li>
+        <li>Bundle anti-PAV</li>
+      </ul></div>
+    </div>
+    <div class="impact-row">
+      <div class="imp-mini"><div class="il">Receita</div><div class="iv green">+R$ 95k</div></div>
+      <div class="imp-mini"><div class="il">Custo</div><div class="iv green">−R$ 62k</div></div>
+      <div class="imp-mini"><div class="il">Leitos eq.</div><div class="iv">+3</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ÁREA 4: Farmácia OPME -->
+<div class="area">
+  <div class="area-top">
+    <div><div class="num">Área IV</div><h3>Farmácia &amp; OPME</h3></div>
+    <div class="ganho"><div class="g-l">Impacto</div><div class="g-v">+ R$ 123k/mês</div></div>
+  </div>
+  <div class="area-body">
+    <div class="obj"><b>Objetivo</b>Controlar custo assistencial com rastreabilidade por paciente, eliminando desperdício e desvio.</div>
+    <div class="kpis-bars">
+      <div class="kpi-bar"><div class="top"><span class="name" data-n="1">Acuracidade estoque</span><span class="val red">89%</span></div><div class="track"><div class="fill red" style="width:89%"></div></div></div>
+      <div class="kpi-bar"><div class="top"><span class="name" data-n="2">Compras emergenciais</span><span class="val red">12%</span></div><div class="track"><div class="fill red" style="width:60%"></div></div></div>
+      <div class="kpi-bar"><div class="top"><span class="name" data-n="3">Perdas (vencimento)</span><span class="val amber">2,1%</span></div><div class="track"><div class="fill amber" style="width:70%"></div></div></div>
+      <div class="kpi-bar"><div class="top"><span class="name" data-n="4">Aderência padroniz. OPME</span><span class="val red">65%</span></div><div class="track"><div class="fill red" style="width:65%"></div></div></div>
+    </div>
+    <div class="kpi-chips">
+      <span class="chip"><b>5.</b>Custo/pac-dia</span>
+      <span class="chip"><b>6.</b>Ruptura crítica</span>
+      <span class="chip"><b>7.</b>Giro estoque</span>
+      <span class="chip"><b>8.</b>Cobertura (dias)</span>
+      <span class="chip"><b>9.</b>Saving compras</span>
+      <span class="chip"><b>10.</b>Custo OPME/cir.</span>
+      <span class="chip"><b>11.</b>Desvio OPME</span>
+      <span class="chip"><b>12.</b>Dispens. eletrônica</span>
+    </div>
+    <div class="pa">
+      <div class="col prob"><h6>Problemas</h6><ul>
+        <li>Inventário apenas anual</li>
+        <li>7 modelos de prótese de quadril ativos</li>
+        <li>34% dispensação manual</li>
+      </ul></div>
+      <div class="col ac"><h6>Ações</h6><ul>
+        <li>Inventário cíclico ABC</li>
+        <li>Comissão padronização OPME</li>
+        <li>Dispensação eletrônica unidose</li>
+      </ul></div>
+    </div>
+    <div class="impact-row">
+      <div class="imp-mini"><div class="il">Custo</div><div class="iv green">−R$ 95k</div></div>
+      <div class="imp-mini"><div class="il">Caixa liberado</div><div class="iv green">R$ 340k</div></div>
+      <div class="imp-mini"><div class="il">Glosa OPME</div><div class="iv green">−R$ 28k</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ÁREA 5: Faturamento Financeiro -->
+<div class="area">
+  <div class="area-top">
+    <div><div class="num">Área V</div><h3>Faturamento &amp; Financeiro</h3></div>
+    <div class="ganho"><div class="g-l">Impacto</div><div class="g-v">+ R$ 82k/mês</div></div>
+  </div>
+  <div class="area-body">
+    <div class="obj"><b>Objetivo</b>Converter 100% da produção em caixa no menor prazo, com baixa glosa e ciclo financeiro saudável.</div>
+    <div class="kpis-bars">
+      <div class="kpi-bar"><div class="top"><span class="name" data-n="1">Glosa inicial</span><span class="val red">11%</span></div><div class="track"><div class="fill red" style="width:78%"></div></div></div>
+      <div class="kpi-bar"><div class="top"><span class="name" data-n="2">Glosa final (líquida)</span><span class="val red">4,1%</span></div><div class="track"><div class="fill red" style="width:68%"></div></div></div>
+      <div class="kpi-bar"><div class="top"><span class="name" data-n="3">PMR</span><span class="val amber">62d</span></div><div class="track"><div class="fill amber" style="width:72%"></div></div></div>
+      <div class="kpi-bar"><div class="top"><span class="name" data-n="4">EBITDA</span><span class="val amber">14%</span></div><div class="track"><div class="fill amber" style="width:64%"></div></div></div>
+    </div>
+    <div class="kpi-chips">
+      <span class="chip"><b>5.</b>Recup. glosa</span>
+      <span class="chip"><b>6.</b>Prazo faturar</span>
+      <span class="chip"><b>7.</b>PMP</span>
+      <span class="chip"><b>8.</b>Marg. convênio</span>
+      <span class="chip"><b>9.</b>Inadimpl. particular</span>
+      <span class="chip"><b>10.</b>Cobertura caixa</span>
+      <span class="chip"><b>11.</b>Receita/especial.</span>
+      <span class="chip"><b>12.</b>Custo fixo/rec.</span>
+    </div>
+    <div class="pa">
+      <div class="col prob"><h6>Problemas</h6><ul>
+        <li>Auditoria médica só pós-envio</li>
+        <li>2 convênios com margem &lt;5%</li>
+        <li>Ciclo financeiro 24d</li>
+      </ul></div>
+      <div class="col ac"><h6>Ações</h6><ul>
+        <li>Auditoria prospectiva pré-envio</li>
+        <li>DRE por convênio · renegociar/desc.</li>
+        <li>Alongar PMP com top-20 fornec.</li>
+      </ul></div>
+    </div>
+    <div class="impact-row">
+      <div class="imp-mini"><div class="il">Receita</div><div class="iv green">+R$ 82k</div></div>
+      <div class="imp-mini"><div class="il">Caixa</div><div class="iv green">+R$ 620k</div></div>
+      <div class="imp-mini"><div class="il">EBITDA</div><div class="iv green">+6pp</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ÁREA 6: Recepção Comercial -->
+<div class="area">
+  <div class="area-top">
+    <div><div class="num">Área VI</div><h3>Recepção &amp; Comercial</h3></div>
+    <div class="ganho"><div class="g-l">Impacto</div><div class="g-v">+ R$ 96k/mês</div></div>
+  </div>
+  <div class="area-body">
+    <div class="obj"><b>Objetivo</b>Converter demanda em procedimento e procedimento em fidelização, maximizando a receita por paciente.</div>
+    <div class="kpis-bars">
+      <div class="kpi-bar"><div class="top"><span class="name" data-n="1">No-show</span><span class="val red">17%</span></div><div class="track"><div class="fill red" style="width:85%"></div></div></div>
+      <div class="kpi-bar"><div class="top"><span class="name" data-n="2">Conversão cons.→cir.</span><span class="val red">42%</span></div><div class="track"><div class="fill red" style="width:42%"></div></div></div>
+      <div class="kpi-bar"><div class="top"><span class="name" data-n="3">Cadastro correto 1ª</span><span class="val amber">86%</span></div><div class="track"><div class="fill amber" style="width:86%"></div></div></div>
+      <div class="kpi-bar"><div class="top"><span class="name" data-n="4">Concentração top-2 convên.</span><span class="val red">48%</span></div><div class="track"><div class="fill red" style="width:48%"></div></div></div>
+    </div>
+    <div class="kpi-chips">
+      <span class="chip"><b>5.</b>Tempo espera</span>
+      <span class="chip"><b>6.</b>Ticket amb.</span>
+      <span class="chip"><b>7.</b>NPS</span>
+      <span class="chip"><b>8.</b>Reclamações</span>
+      <span class="chip"><b>9.</b>CAC</span>
+      <span class="chip"><b>10.</b>ROI marketing</span>
+      <span class="chip"><b>11.</b>Retenção 12m</span>
+      <span class="chip"><b>12.</b>Ocup. agenda med.</span>
+    </div>
+    <div class="pa">
+      <div class="col prob"><h6>Problemas</h6><ul>
+        <li>Agenda sem confirmação auto</li>
+        <li>Sem navegador de paciente</li>
+        <li>Cadastro = causa n.1 de glosa</li>
+      </ul></div>
+      <div class="col ac"><h6>Ações</h6><ul>
+        <li>WhatsApp 24h/2h antes</li>
+        <li>Navegador dedicado (cir. eletiva)</li>
+        <li>Validação obrig. + elegibilidade online</li>
+      </ul></div>
+    </div>
+    <div class="impact-row">
+      <div class="imp-mini"><div class="il">Receita</div><div class="iv green">+R$ 74k</div></div>
+      <div class="imp-mini"><div class="il">Glosa</div><div class="iv green">−R$ 22k</div></div>
+      <div class="imp-mini"><div class="il">NPS</div><div class="iv">+18</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ÁREA 7: Pessoas Operações -->
+<div class="area">
+  <div class="area-top">
+    <div><div class="num">Área VII</div><h3>Pessoas &amp; Operações</h3></div>
+    <div class="ganho"><div class="g-l">Impacto</div><div class="g-v">+ R$ 125k/mês</div></div>
+  </div>
+  <div class="area-body">
+    <div class="obj"><b>Objetivo</b>Equipe dimensionada e engajada, com custo alinhado à receita e operação fluida.</div>
+    <div class="kpis-bars">
+      <div class="kpi-bar"><div class="top"><span class="name" data-n="1">Custo pessoal/receita</span><span class="val red">41%</span></div><div class="track"><div class="fill red" style="width:82%"></div></div></div>
+      <div class="kpi-bar"><div class="top"><span class="name" data-n="2">Turnover enferm. (ano)</span><span class="val red">38%</span></div><div class="track"><div class="fill red" style="width:76%"></div></div></div>
+      <div class="kpi-bar"><div class="top"><span class="name" data-n="3">HE / folha</span><span class="val red">9%</span></div><div class="track"><div class="fill red" style="width:75%"></div></div></div>
+      <div class="kpi-bar"><div class="top"><span class="name" data-n="4">Absenteísmo</span><span class="val amber">5,8%</span></div><div class="track"><div class="fill amber" style="width:72%"></div></div></div>
+    </div>
+    <div class="kpi-chips">
+      <span class="chip"><b>5.</b>Receita/colab.</span>
+      <span class="chip"><b>6.</b>Treinamento</span>
+      <span class="chip"><b>7.</b>Acid. trab.</span>
+      <span class="chip"><b>8.</b>eNPS</span>
+      <span class="chip"><b>9.</b>Limpeza leito</span>
+      <span class="chip"><b>10.</b>Produt. hotelaria</span>
+      <span class="chip"><b>11.</b>Cumprim. escala</span>
+      <span class="chip"><b>12.</b>Lavand./pac-dia</span>
+    </div>
+    <div class="pa">
+      <div class="col prob"><h6>Problemas</h6><ul>
+        <li>Escala 12×36 em postos ociosos</li>
+        <li>Sem previsão de absenteísmo</li>
+        <li>Limpeza leito 2h10</li>
+      </ul></div>
+      <div class="col ac"><h6>Ações</h6><ul>
+        <li>Redim. COFEN + pico demanda</li>
+        <li>Retenção enf.-líder + intensivista</li>
+        <li>HE com aprovação prévia obrigatória</li>
+      </ul></div>
+    </div>
+    <div class="impact-row">
+      <div class="imp-mini"><div class="il">Custo</div><div class="iv green">−R$ 125k</div></div>
+      <div class="imp-mini"><div class="il">Turnover</div><div class="iv green">−40%</div></div>
+      <div class="imp-mini"><div class="il">Giro leito</div><div class="iv">+3/dia</div></div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<!-- CADEIA INTEGRADA -->
+<div class="sh">
+  <div>
+    <span class="tag-num">03 · Integração</span>
+    <h2>Cadeia de impacto</h2>
+  </div>
+  <div class="right">Como uma falha a montante vira custo, glosa e insatisfação a jusante.</div>
+</div>
+
+<div class="chain">
+  <div class="chain-flow">
+    <div class="cn"><div class="n">01</div><div class="t">Recepção</div><div class="k">Cadastro · agenda</div></div>
+    <div class="ca">›</div>
+    <div class="cn"><div class="n">02</div><div class="t">Atend.</div><div class="k">Conversão · NPS</div></div>
+    <div class="ca">›</div>
+    <div class="cn"><div class="n">03</div><div class="t">C. Cirúrgico</div><div class="k">Utilização · OPME</div></div>
+    <div class="ca">›</div>
+    <div class="cn"><div class="n">04</div><div class="t">Internação</div><div class="k">TMP · giro</div></div>
+    <div class="ca">›</div>
+    <div class="cn"><div class="n">05</div><div class="t">Alta</div><div class="k">Hora · limpeza</div></div>
+    <div class="ca">›</div>
+    <div class="cn"><div class="n">06</div><div class="t">Faturam.</div><div class="k">Glosa · prazo</div></div>
+    <div class="ca">›</div>
+    <div class="cn"><div class="n">07</div><div class="t">Caixa</div><div class="k">PMR · EBITDA</div></div>
+  </div>
+  <div class="chain-effects">
+    <div class="eff"><h6>Cadastro → Glosa</h6><p>14% erro na recepção gera 11% glosa inicial. Corrigir na origem recupera R$ 22k/mês.</p><div class="g">+R$ 22k/mês</div></div>
+    <div class="eff"><h6>Alta tardia → CC ocioso</h6><p>Alta após 15h mantém leito ocupado e cancela cirurgia. Projeto Alta 12h libera 3 leitos + 14 cirurgias/mês.</p><div class="g">+R$ 95k/mês</div></div>
+    <div class="eff"><h6>OPME → Margem cirúrgica</h6><p>Desvio de 14% consome margem das cirurgias lucrativas. Padronização recupera margem e reduz glosa.</p><div class="g">+R$ 76k/mês</div></div>
+  </div>
+</div>
+
+<!-- GANHOS CONSOLIDADOS -->
+<div class="gains">
+  <div class="gains-head">
+    <div>
+      <h2>Ganhos consolidados · 12 meses</h2>
+      <p>Projeção combinando as 7 áreas, metodologia Virtus sobre base Clinepa.</p>
+    </div>
+    <div class="total">
+      <div class="tl">Upside anual</div>
+      <div class="tv">R$ 3,6–7,2M</div>
+    </div>
+  </div>
+  <div class="gains-grid">
+    <div class="gi"><div class="gl">Receita +</div><div class="gv">+R$ 470k/mês</div><div class="gn">Cirurgia · ocupação · conv.</div></div>
+    <div class="gi"><div class="gl">Custo −</div><div class="gv">−R$ 320k/mês</div><div class="gn">Pessoal · farmácia · OPME</div></div>
+    <div class="gi"><div class="gl">Glosa recuperada</div><div class="gv">+R$ 104k/mês</div><div class="gn">Auditoria prosp. + recursos</div></div>
+    <div class="gi"><div class="gl">Caixa liberado</div><div class="gv">+R$ 960k</div><div class="gn">Ciclo fin. + estoque</div></div>
+    <div class="gi"><div class="gl">EBITDA alvo</div><div class="gv">22–24%</div><div class="gn">Hoje 14%</div></div>
+    <div class="gi"><div class="gl">Giro de leito</div><div class="gv">+22%</div><div class="gn">3 leitos equiv. sem CAPEX</div></div>
+    <div class="gi"><div class="gl">Glosa final</div><div class="gv">&lt;1,5%</div><div class="gn">Hoje 4,1%</div></div>
+    <div class="gi"><div class="gl">Util. centro cirúrgico</div><div class="gv">78%</div><div class="gn">Hoje 58%</div></div>
+  </div>
+</div>
+
+<!-- ROADMAP -->
+<div class="sh">
+  <div>
+    <span class="tag-num">04 · Plano</span>
+    <h2>Do diagnóstico ao resultado em 90 dias</h2>
+  </div>
+  <div class="right">Sequência Virtus para gerar tração sem paralisar a operação.</div>
+</div>
+
+<div class="roadmap">
+  <div class="tl">
+    <div class="ph"><div class="pz">0–30 dias</div><h5>Baseline</h5><ul>
+      <li>Integração ERP + HIS</li>
+      <li>Baseline 84 KPIs</li>
+      <li>DRE por linha</li>
+      <li>Mapa glosa/convênio</li>
+    </ul></div>
+    <div class="ph"><div class="pz">30–60 dias</div><h5>Ondas rápidas</h5><ul>
+      <li>Projeto Alta 12h</li>
+      <li>Auditoria prospectiva</li>
+      <li>Redesenho escala</li>
+      <li>Padronização OPME</li>
+    </ul></div>
+    <div class="ph"><div class="pz">60–90 dias</div><h5>Governança</h5><ul>
+      <li>Dashboard Power BI</li>
+      <li>Rotina semanal/mensal</li>
+      <li>Comitês clínicos</li>
+      <li>Metas individuais</li>
+    </ul></div>
+    <div class="ph"><div class="pz">90+ dias</div><h5>Próximo nível</h5><ul>
+      <li>Margem/procedimento</li>
+      <li>Custeio por paciente</li>
+      <li>Bundled payment</li>
+      <li>Valuation · M&amp;A</li>
+    </ul></div>
+  </div>
+</div>
+
+</div>
+
+<footer>
+  <div class="ft-brand">
+    <svg width="100" height="36" viewBox="0 0 170 64">
+      <path d="M 6 28 Q 10 6, 42 6 Q 62 6, 68 22" stroke="#FFFFFF" stroke-width="3.2" fill="none" stroke-linecap="round"/>
+      <circle cx="68" cy="22" r="1.8" fill="#FFFFFF"/>
+      <text x="0" y="56" font-family="Barlow, Arial Black, sans-serif" font-size="30" font-weight="900" fill="#FFFFFF" letter-spacing="1.5">VIRTUS</text>
+    </svg>
+    <div>BPO Financeiro · Valuation · Factoring · Gestão Hospitalar</div>
+  </div>
+  <div style="text-align:right">
+    <div style="color:#fff;font-weight:700;font-family:'Barlow',sans-serif">Clinepa · Gestão Orientada a Resultado</div>
+    <div>v2.2 · abr/2026 · relatorios.virtus.com.br/clinepa</div>
+  </div>
+</footer>
+
+</body>
+</html>
+clin
