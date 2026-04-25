@@ -25,11 +25,13 @@
   --red-bg:#FDECEE;
   --amber:#E8A93C;
   --amber-bg:#FDF4E2;
-  --blue:#4A7BB8;
+  --blue:#7FB3E8;
 }
 *{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:88px}
 html,body{background:var(--bg);color:var(--text);font-family:'Inter',-apple-system,sans-serif;font-size:14.5px;line-height:1.5}
 h1,h2,h3,h4,h5,h6{font-family:'Barlow',sans-serif;letter-spacing:-.01em}
+a{color:inherit;text-decoration:none}
 
 /* URL BAR */
 .url-bar{background:#1d1d1f;color:#b8b8bd;font-size:12px;padding:8px 20px;display:flex;align-items:center;gap:10px;font-family:'SF Mono',ui-monospace,monospace}
@@ -39,38 +41,51 @@ h1,h2,h3,h4,h5,h6{font-family:'Barlow',sans-serif;letter-spacing:-.01em}
 .url-bar .addr{background:#2a2a2e;padding:4px 14px;border-radius:6px;margin:0 auto;color:#d8d8de}
 .url-bar .lock{color:#27c93f;margin-right:6px}
 
+/* STICKY NAV */
+.sticky-nav{position:sticky;top:0;z-index:100;background:rgba(30,42,63,.96);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,.08);padding:0 48px;display:flex;align-items:center;justify-content:space-between;height:62px}
+.sticky-nav .sn-logo{display:flex;align-items:center;gap:10px}
+.sticky-nav .sn-logo svg{display:block}
+.sticky-nav .sn-tag{font-family:'Barlow',sans-serif;font-size:11px;color:rgba(255,255,255,.55);letter-spacing:1.5px;text-transform:uppercase;font-weight:600;padding-left:14px;border-left:1px solid rgba(255,255,255,.15)}
+.sticky-nav .sn-menu{display:flex;gap:6px}
+.sticky-nav .sn-menu a{display:inline-flex;align-items:center;gap:8px;padding:9px 16px;font-family:'Barlow',sans-serif;font-size:12px;font-weight:700;letter-spacing:1.5px;color:rgba(255,255,255,.75);text-transform:uppercase;border-radius:6px;border:1px solid transparent;transition:all .2s ease;cursor:pointer}
+.sticky-nav .sn-menu a:hover{background:rgba(127,179,232,.1);color:var(--blue);border-color:rgba(127,179,232,.25)}
+.sticky-nav .sn-menu a .num{font-size:10px;color:var(--blue);font-weight:800;opacity:.7}
+
 /* HERO */
-.hero{background:var(--navy);color:#fff;padding:30px 48px 46px;position:relative;overflow:hidden}
+.hero{background:var(--navy);color:#fff;padding:46px 48px;position:relative;overflow:hidden}
 .hero::after{content:"";position:absolute;right:-120px;bottom:-120px;width:380px;height:380px;border:60px solid rgba(255,255,255,.03);border-radius:50%}
 .hero::before{content:"";position:absolute;right:60px;top:40px;width:180px;height:180px;border:1px solid rgba(255,255,255,.06);border-radius:50%}
-.hero-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:44px;position:relative;z-index:2}
 
-/* LOGO VIRTUS */
-.logo-virtus{display:flex;align-items:flex-end;gap:0}
+.logo-virtus{margin-bottom:46px;position:relative;z-index:2}
 .logo-virtus svg{display:block}
-
-.hero-meta{display:flex;gap:26px;font-size:12px;color:rgba(255,255,255,.65);font-weight:500;letter-spacing:.5px;text-transform:uppercase}
-.hero-meta span{cursor:pointer}
-.hero-meta span.on{color:#fff;border-bottom:2px solid #fff;padding-bottom:4px}
 
 .hero-body{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:end}
 .hero-left .eyebrow{font-family:'Barlow',sans-serif;font-size:12px;letter-spacing:3px;color:rgba(255,255,255,.55);font-weight:600;margin-bottom:14px;text-transform:uppercase}
 .hero-left h1{font-size:52px;line-height:1;font-weight:800;margin-bottom:20px;text-transform:uppercase}
-.hero-left h1 span{color:#7FB3E8}
-.hero-left p.sub{font-size:16px;color:rgba(255,255,255,.72);font-weight:400;max-width:460px;line-height:1.55}
+.hero-left h1 span{color:var(--blue)}
+.hero-left p.sub{font-size:16px;color:rgba(255,255,255,.72);font-weight:400;max-width:460px;line-height:1.55;margin-bottom:24px}
+
+/* CTA BUTTONS hero */
+.hero-cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.hero-cta a{display:inline-flex;align-items:center;gap:10px;padding:11px 18px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:6px;color:#fff;font-family:'Barlow',sans-serif;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;transition:all .2s ease;cursor:pointer}
+.hero-cta a:hover{background:var(--blue);border-color:var(--blue);color:var(--navy);transform:translateY(-1px)}
+.hero-cta a .arrow{font-size:14px;transition:transform .2s ease}
+.hero-cta a:hover .arrow{transform:translateX(3px)}
+.hero-cta a.primary{background:var(--blue);border-color:var(--blue);color:var(--navy)}
+.hero-cta a.primary:hover{background:#fff;border-color:#fff}
 
 .hero-right{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .hero-kpi{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);padding:18px 20px;border-radius:6px;backdrop-filter:blur(10px)}
 .hero-kpi .l{font-size:10.5px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:1.4px;font-weight:600;margin-bottom:6px}
 .hero-kpi .v{font-family:'Barlow',sans-serif;font-size:36px;font-weight:800;line-height:1}
 .hero-kpi .v small{font-size:16px;color:rgba(255,255,255,.6);font-weight:600;margin-left:3px}
-.hero-kpi .d{font-size:11px;color:#7FB3E8;margin-top:4px;font-weight:600}
+.hero-kpi .d{font-size:11px;color:var(--blue);margin-top:4px;font-weight:600}
 
 /* WRAP */
 .wrap{max-width:1280px;margin:0 auto;padding:48px 48px 60px}
 
 /* SECTION HEAD */
-.sh{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:22px;gap:20px;flex-wrap:wrap}
+.sh{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:22px;gap:20px;flex-wrap:wrap;scroll-margin-top:80px}
 .sh .tag-num{display:inline-block;font-family:'Barlow',sans-serif;font-weight:800;font-size:11px;letter-spacing:3px;color:var(--muted);padding:4px 0;border-top:2px solid var(--navy);margin-bottom:10px}
 .sh h2{font-size:30px;font-weight:800;color:var(--navy);text-transform:uppercase;line-height:1}
 .sh .right{color:var(--muted);font-size:13px;max-width:380px;text-align:right}
@@ -79,13 +94,13 @@ h1,h2,h3,h4,h5,h6{font-family:'Barlow',sans-serif;letter-spacing:-.01em}
 .headline{background:var(--navy);color:#fff;padding:40px 44px;border-radius:8px;margin-bottom:44px;display:grid;grid-template-columns:1.3fr 1fr;align-items:center;gap:40px;position:relative;overflow:hidden}
 .headline::before{content:"";position:absolute;right:-80px;top:-80px;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(127,179,232,.15),transparent 70%)}
 .headline h2{font-size:40px;line-height:1.05;font-weight:800;text-transform:uppercase;margin-bottom:12px;position:relative;z-index:2}
-.headline h2 em{color:#7FB3E8;font-style:normal}
+.headline h2 em{color:var(--blue);font-style:normal}
 .headline p{color:rgba(255,255,255,.72);font-size:14.5px;line-height:1.6;max-width:540px;position:relative;z-index:2}
 .headline-num{position:relative;z-index:2}
 .headline-num .from{font-family:'Barlow',sans-serif;color:rgba(255,255,255,.5);font-size:14px;font-weight:600;text-transform:uppercase;letter-spacing:2px;margin-bottom:6px}
 .headline-num .arrow{display:flex;align-items:center;gap:14px;margin-bottom:14px}
 .headline-num .v1{font-family:'Barlow',sans-serif;font-size:32px;color:rgba(255,255,255,.5);font-weight:700;text-decoration:line-through}
-.headline-num .ar{color:#7FB3E8;font-size:22px;font-weight:700}
+.headline-num .ar{color:var(--blue);font-size:22px;font-weight:700}
 .headline-num .v2{font-family:'Barlow',sans-serif;font-size:52px;color:#fff;font-weight:900;line-height:1}
 .headline-num .note{font-size:12px;color:rgba(255,255,255,.6);font-weight:500;margin-top:4px}
 
@@ -110,23 +125,21 @@ h1,h2,h3,h4,h5,h6{font-family:'Barlow',sans-serif;letter-spacing:-.01em}
 .area-top{padding:22px 26px;display:flex;justify-content:space-between;align-items:flex-start;border-bottom:1px solid var(--line)}
 .area.featured .area-top{background:var(--navy);color:#fff;border-bottom:none}
 .area-top .num{font-family:'Barlow',sans-serif;font-size:12px;font-weight:700;letter-spacing:3px;color:var(--muted);margin-bottom:4px;text-transform:uppercase}
-.area.featured .area-top .num{color:#7FB3E8}
+.area.featured .area-top .num{color:var(--blue)}
 .area-top h3{font-size:22px;font-weight:800;text-transform:uppercase;line-height:1.1;color:var(--navy)}
 .area.featured .area-top h3{color:#fff;font-size:26px}
 .area-top .ganho{text-align:right}
 .area-top .ganho .g-l{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1.3px;font-weight:700}
 .area.featured .area-top .ganho .g-l{color:rgba(255,255,255,.6)}
 .area-top .ganho .g-v{font-family:'Barlow',sans-serif;font-size:22px;font-weight:800;color:var(--green)}
-.area.featured .area-top .ganho .g-v{color:#7FB3E8;font-size:28px}
+.area.featured .area-top .ganho .g-v{color:var(--blue);font-size:28px}
 .area-body{padding:22px 26px;flex:1;display:flex;flex-direction:column;gap:18px}
 
 .area.featured .area-body{display:grid;grid-template-columns:1.1fr .9fr .9fr;gap:26px}
 
-/* Objetivo compacto */
 .obj{font-size:13px;color:var(--muted);line-height:1.5;padding-bottom:14px;border-bottom:1px dashed var(--line)}
 .obj b{color:var(--navy);text-transform:uppercase;font-size:11px;letter-spacing:1.2px;display:block;margin-bottom:4px;font-weight:700;font-family:'Barlow',sans-serif}
 
-/* KPIs barras */
 .kpis-bars{display:flex;flex-direction:column;gap:10px}
 .kpi-bar{display:grid;grid-template-columns:1fr auto;gap:4px;align-items:center;font-size:12.5px}
 .kpi-bar .top{display:flex;justify-content:space-between;align-items:center;grid-column:1/-1;margin-bottom:3px}
@@ -140,12 +153,10 @@ h1,h2,h3,h4,h5,h6{font-family:'Barlow',sans-serif;letter-spacing:-.01em}
 .kpi-bar .fill{height:100%;border-radius:3px}
 .fill.red{background:var(--red)}.fill.amber{background:var(--amber)}.fill.green{background:var(--green)}.fill.navy{background:var(--navy)}
 
-/* KPIs chips (lista curta) */
 .kpi-chips{display:flex;flex-wrap:wrap;gap:6px}
 .chip{background:#F6F7F9;border:1px solid var(--line);padding:5px 10px;border-radius:20px;font-size:11.5px;color:var(--text);font-weight:500}
 .chip b{color:var(--navy);margin-right:4px;font-weight:700}
 
-/* Problema/Ação compacto */
 .pa{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .pa .col h6{font-family:'Barlow',sans-serif;font-size:10.5px;letter-spacing:1.5px;color:var(--navy);text-transform:uppercase;font-weight:800;margin-bottom:8px;display:flex;align-items:center;gap:6px}
 .pa .col h6::before{content:"";width:14px;height:2px;background:var(--navy)}
@@ -159,7 +170,6 @@ h1,h2,h3,h4,h5,h6{font-family:'Barlow',sans-serif;letter-spacing:-.01em}
 .pa .prob ul li::before{background:var(--red)}
 .pa .ac ul li::before{background:var(--green)}
 
-/* Impact row nas áreas */
 .impact-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding-top:14px;border-top:1px solid var(--line)}
 .imp-mini{text-align:center;padding:6px}
 .imp-mini .il{font-size:9.5px;color:var(--muted);text-transform:uppercase;letter-spacing:1.3px;font-weight:700}
@@ -167,16 +177,15 @@ h1,h2,h3,h4,h5,h6{font-family:'Barlow',sans-serif;letter-spacing:-.01em}
 .imp-mini .iv.green{color:var(--green)}
 .imp-mini .iv.red{color:var(--red)}
 
-/* Dashboard sala cirúrgica featured */
 .donut-wrap{display:flex;align-items:center;gap:18px}
 .donut{position:relative;width:120px;height:120px;flex-shrink:0}
 .donut svg{transform:rotate(-90deg)}
 .donut .pct{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff}
 .donut .pct .n{font-family:'Barlow',sans-serif;font-size:30px;font-weight:900;line-height:1}
-.donut .pct .t{font-size:10px;color:#7FB3E8;text-transform:uppercase;letter-spacing:1.5px;margin-top:2px;font-weight:700}
+.donut .pct .t{font-size:10px;color:var(--blue);text-transform:uppercase;letter-spacing:1.5px;margin-top:2px;font-weight:700}
 
 .dm-side{font-size:13px}
-.dm-side h5{font-family:'Barlow',sans-serif;font-size:11px;color:#7FB3E8;text-transform:uppercase;letter-spacing:1.8px;margin-bottom:6px;font-weight:700}
+.dm-side h5{font-family:'Barlow',sans-serif;font-size:11px;color:var(--blue);text-transform:uppercase;letter-spacing:1.8px;margin-bottom:6px;font-weight:700}
 .dm-side p{color:rgba(255,255,255,.78);line-height:1.55;font-size:12.5px}
 
 /* CADEIA VISUAL */
@@ -202,7 +211,7 @@ h1,h2,h3,h4,h5,h6{font-family:'Barlow',sans-serif;letter-spacing:-.01em}
 .gains-head p{font-size:13px;color:rgba(255,255,255,.65);margin-top:6px}
 .gains-head .total{text-align:right}
 .gains-head .total .tl{font-size:10.5px;text-transform:uppercase;letter-spacing:1.5px;color:rgba(255,255,255,.6);font-weight:700}
-.gains-head .total .tv{font-family:'Barlow',sans-serif;font-size:36px;font-weight:900;color:#7FB3E8;line-height:1}
+.gains-head .total .tv{font-family:'Barlow',sans-serif;font-size:36px;font-weight:900;color:var(--blue);line-height:1}
 .gains-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;position:relative;z-index:2}
 .gi{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);padding:16px 18px;border-radius:6px}
 .gi .gl{font-size:10.5px;text-transform:uppercase;letter-spacing:1.5px;color:rgba(255,255,255,.6);font-weight:700;margin-bottom:6px}
@@ -228,6 +237,9 @@ footer .ft-brand{display:flex;align-items:center;gap:14px}
 footer .ft-brand div{color:#fff;font-weight:700;font-family:'Barlow',sans-serif;letter-spacing:.5px}
 
 @media (max-width:1080px){
+  .sticky-nav{padding:0 20px;height:auto;flex-direction:column;align-items:stretch;padding:10px 16px}
+  .sticky-nav .sn-logo{display:none}
+  .sticky-nav .sn-menu{justify-content:center;flex-wrap:wrap}
   .hero-body{grid-template-columns:1fr}
   .panel,.areas,.gains-grid,.tl{grid-template-columns:repeat(2,1fr)}
   .chain-effects,.impact-row{grid-template-columns:1fr}
@@ -236,6 +248,8 @@ footer .ft-brand div{color:#fff;font-weight:700;font-family:'Barlow',sans-serif;
   .wrap,.hero,footer{padding-left:24px;padding-right:24px}
   .chain-flow{flex-direction:column;align-items:stretch}
   .ca{transform:rotate(90deg);margin:0 auto}
+  .headline{grid-template-columns:1fr}
+  .gains-head{flex-direction:column;align-items:flex-start;gap:12px}
 }
 </style>
 </head>
@@ -244,33 +258,42 @@ footer .ft-brand div{color:#fff;font-weight:700;font-family:'Barlow',sans-serif;
 <div class="url-bar">
   <div class="dots"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
   <span class="addr"><span class="lock">🔒</span>relatorios.virtus.com.br/clinepa</span>
-  <span>v2.2 · Abr/2026</span>
+  <span>v2.3 · Abr/2026</span>
 </div>
 
+<!-- STICKY NAV -->
+<nav class="sticky-nav">
+  <div class="sn-logo">
+    <svg width="105" height="30" viewBox="0 0 130 36" xmlns="http://www.w3.org/2000/svg">
+      <text x="0" y="28" font-family="Barlow, Arial Black, sans-serif" font-size="30" font-weight="900" fill="#FFFFFF" letter-spacing="1.5">VIRTUS</text>
+    </svg>
+    <span class="sn-tag">Clinepa · Diagnóstico</span>
+  </div>
+  <div class="sn-menu">
+    <a href="#diagnostico"><span class="num">01</span>Diagnóstico</a>
+    <a href="#indicadores"><span class="num">02</span>Indicadores</a>
+    <a href="#integracao"><span class="num">03</span>Integração</a>
+    <a href="#plano"><span class="num">04</span>Plano</a>
+    <a href="#governanca"><span class="num">05</span>Governança</a>
+  </div>
+</nav>
+
 <section class="hero">
-  <div class="hero-top">
-    <div class="logo-virtus">
-      <svg width="170" height="64" viewBox="0 0 170 64" xmlns="http://www.w3.org/2000/svg">
-        <!-- Arco decorativo Virtus -->
-        <path d="M 6 28 Q 10 6, 42 6 Q 62 6, 68 22" stroke="#FFFFFF" stroke-width="3.2" fill="none" stroke-linecap="round"/>
-        <!-- Ponto/serifa do arco -->
-        <circle cx="68" cy="22" r="1.8" fill="#FFFFFF"/>
-        <!-- Texto VIRTUS -->
-        <text x="0" y="56" font-family="Barlow, Arial Black, sans-serif" font-size="30" font-weight="900" fill="#FFFFFF" letter-spacing="1.5">VIRTUS</text>
-      </svg>
-    </div>
-    <nav class="hero-meta">
-      <span class="on">Diagnóstico</span>
-      <span>Indicadores</span>
-      <span>Plano</span>
-      <span>Governança</span>
-    </nav>
+  <div class="logo-virtus">
+    <svg width="200" height="48" viewBox="0 0 130 36" xmlns="http://www.w3.org/2000/svg">
+      <text x="0" y="28" font-family="Barlow, Arial Black, sans-serif" font-size="30" font-weight="900" fill="#FFFFFF" letter-spacing="1.5">VIRTUS</text>
+    </svg>
   </div>
   <div class="hero-body">
     <div class="hero-left">
       <div class="eyebrow">Diagnóstico Executivo · Clinepa</div>
       <h1>Gestão orientada a <span>resultado</span>.</h1>
       <p class="sub">Visão integrada de 7 áreas · 84 KPIs críticos · plano de 90 dias para destravar de R$ 1,5M para R$ 2,1M/mês sem expansão estrutural.</p>
+      <div class="hero-cta">
+        <a href="#diagnostico" class="primary">Ver diagnóstico <span class="arrow">→</span></a>
+        <a href="#indicadores">Indicadores por área <span class="arrow">→</span></a>
+        <a href="#plano">Plano 90 dias <span class="arrow">→</span></a>
+      </div>
     </div>
     <div class="hero-right">
       <div class="hero-kpi"><div class="l">Faturamento atual</div><div class="v">R$ 1,5<small>M</small></div><div class="d">▲ 4% tri</div></div>
@@ -300,8 +323,8 @@ footer .ft-brand div{color:#fff;font-weight:700;font-family:'Barlow',sans-serif;
   </div>
 </div>
 
-<!-- PAINEL DE KPIS -->
-<div class="sh">
+<!-- 01 DIAGNÓSTICO -->
+<div class="sh" id="diagnostico">
   <div>
     <span class="tag-num">01 · Fotografia</span>
     <h2>Status atual em 8 números</h2>
@@ -320,8 +343,8 @@ footer .ft-brand div{color:#fff;font-weight:700;font-family:'Barlow',sans-serif;
   <div class="mini red"><div class="lbl">No-show ambul.</div><div class="val">17<small>%</small></div><div class="bar"><i style="width:85%"></i></div><div class="hint">Aceitável &lt;10%</div></div>
 </div>
 
-<!-- ÁREA FEATURED: DIRETORIA MÉDICA -->
-<div class="sh">
+<!-- 02 INDICADORES -->
+<div class="sh" id="indicadores">
   <div>
     <span class="tag-num">02 · Áreas</span>
     <h2>Diagnóstico por área</h2>
@@ -340,7 +363,6 @@ footer .ft-brand div{color:#fff;font-weight:700;font-family:'Barlow',sans-serif;
     <div class="ganho"><div class="g-l">Impacto estimado</div><div class="g-v">+ R$ 380k/mês</div></div>
   </div>
   <div class="area-body">
-    <!-- coluna 1: donut e objetivo -->
     <div>
       <div class="donut-wrap">
         <div class="donut">
@@ -356,7 +378,6 @@ footer .ft-brand div{color:#fff;font-weight:700;font-family:'Barlow',sans-serif;
         </div>
       </div>
     </div>
-    <!-- coluna 2: KPIs principais -->
     <div>
       <div class="kpis-bars">
         <div class="kpi-bar"><div class="top"><span class="name" data-n="1">Orçado vs Realizado (cirurgias)</span><span class="val amber">72%</span></div><div class="track"><div class="fill amber" style="width:72%"></div></div></div>
@@ -375,7 +396,6 @@ footer .ft-brand div{color:#fff;font-weight:700;font-family:'Barlow',sans-serif;
         <span class="chip"><b>12.</b>Porta-cirurgia</span>
       </div>
     </div>
-    <!-- coluna 3: problema + ação -->
     <div class="pa">
       <div class="col prob">
         <h6>Problemas</h6>
@@ -399,7 +419,6 @@ footer .ft-brand div{color:#fff;font-weight:700;font-family:'Barlow',sans-serif;
   </div>
 </div>
 
-<!-- ÁREA 2: Centro Cirúrgico -->
 <div class="area">
   <div class="area-top">
     <div><div class="num">Área II</div><h3>Centro Cirúrgico</h3></div>
@@ -443,7 +462,6 @@ footer .ft-brand div{color:#fff;font-weight:700;font-family:'Barlow',sans-serif;
   </div>
 </div>
 
-<!-- ÁREA 3: Internação -->
 <div class="area">
   <div class="area-top">
     <div><div class="num">Área III</div><h3>Internação &amp; UTI</h3></div>
@@ -487,7 +505,6 @@ footer .ft-brand div{color:#fff;font-weight:700;font-family:'Barlow',sans-serif;
   </div>
 </div>
 
-<!-- ÁREA 4: Farmácia OPME -->
 <div class="area">
   <div class="area-top">
     <div><div class="num">Área IV</div><h3>Farmácia &amp; OPME</h3></div>
@@ -531,7 +548,6 @@ footer .ft-brand div{color:#fff;font-weight:700;font-family:'Barlow',sans-serif;
   </div>
 </div>
 
-<!-- ÁREA 5: Faturamento Financeiro -->
 <div class="area">
   <div class="area-top">
     <div><div class="num">Área V</div><h3>Faturamento &amp; Financeiro</h3></div>
@@ -575,7 +591,6 @@ footer .ft-brand div{color:#fff;font-weight:700;font-family:'Barlow',sans-serif;
   </div>
 </div>
 
-<!-- ÁREA 6: Recepção Comercial -->
 <div class="area">
   <div class="area-top">
     <div><div class="num">Área VI</div><h3>Recepção &amp; Comercial</h3></div>
@@ -619,7 +634,6 @@ footer .ft-brand div{color:#fff;font-weight:700;font-family:'Barlow',sans-serif;
   </div>
 </div>
 
-<!-- ÁREA 7: Pessoas Operações -->
 <div class="area">
   <div class="area-top">
     <div><div class="num">Área VII</div><h3>Pessoas &amp; Operações</h3></div>
@@ -665,8 +679,8 @@ footer .ft-brand div{color:#fff;font-weight:700;font-family:'Barlow',sans-serif;
 
 </div>
 
-<!-- CADEIA INTEGRADA -->
-<div class="sh">
+<!-- 03 INTEGRAÇÃO -->
+<div class="sh" id="integracao">
   <div>
     <span class="tag-num">03 · Integração</span>
     <h2>Cadeia de impacto</h2>
@@ -697,32 +711,8 @@ footer .ft-brand div{color:#fff;font-weight:700;font-family:'Barlow',sans-serif;
   </div>
 </div>
 
-<!-- GANHOS CONSOLIDADOS -->
-<div class="gains">
-  <div class="gains-head">
-    <div>
-      <h2>Ganhos consolidados · 12 meses</h2>
-      <p>Projeção combinando as 7 áreas, metodologia Virtus sobre base Clinepa.</p>
-    </div>
-    <div class="total">
-      <div class="tl">Upside anual</div>
-      <div class="tv">R$ 3,6–7,2M</div>
-    </div>
-  </div>
-  <div class="gains-grid">
-    <div class="gi"><div class="gl">Receita +</div><div class="gv">+R$ 470k/mês</div><div class="gn">Cirurgia · ocupação · conv.</div></div>
-    <div class="gi"><div class="gl">Custo −</div><div class="gv">−R$ 320k/mês</div><div class="gn">Pessoal · farmácia · OPME</div></div>
-    <div class="gi"><div class="gl">Glosa recuperada</div><div class="gv">+R$ 104k/mês</div><div class="gn">Auditoria prosp. + recursos</div></div>
-    <div class="gi"><div class="gl">Caixa liberado</div><div class="gv">+R$ 960k</div><div class="gn">Ciclo fin. + estoque</div></div>
-    <div class="gi"><div class="gl">EBITDA alvo</div><div class="gv">22–24%</div><div class="gn">Hoje 14%</div></div>
-    <div class="gi"><div class="gl">Giro de leito</div><div class="gv">+22%</div><div class="gn">3 leitos equiv. sem CAPEX</div></div>
-    <div class="gi"><div class="gl">Glosa final</div><div class="gv">&lt;1,5%</div><div class="gn">Hoje 4,1%</div></div>
-    <div class="gi"><div class="gl">Util. centro cirúrgico</div><div class="gv">78%</div><div class="gn">Hoje 58%</div></div>
-  </div>
-</div>
-
-<!-- ROADMAP -->
-<div class="sh">
+<!-- 04 PLANO -->
+<div class="sh" id="plano">
   <div>
     <span class="tag-num">04 · Plano</span>
     <h2>Do diagnóstico ao resultado em 90 dias</h2>
@@ -759,22 +749,69 @@ footer .ft-brand div{color:#fff;font-weight:700;font-family:'Barlow',sans-serif;
   </div>
 </div>
 
+<!-- 05 GOVERNANÇA -->
+<div class="sh" id="governanca">
+  <div>
+    <span class="tag-num">05 · Governança</span>
+    <h2>Ganhos consolidados · 12 meses</h2>
+  </div>
+  <div class="right">Projeção combinando as 7 áreas, metodologia Virtus sobre base Clinepa.</div>
+</div>
+
+<div class="gains">
+  <div class="gains-head">
+    <div>
+      <h2>Resultado projetado</h2>
+      <p>Onde a Clinepa estará após o ciclo completo de implementação.</p>
+    </div>
+    <div class="total">
+      <div class="tl">Upside anual</div>
+      <div class="tv">R$ 3,6–7,2M</div>
+    </div>
+  </div>
+  <div class="gains-grid">
+    <div class="gi"><div class="gl">Receita +</div><div class="gv">+R$ 470k/mês</div><div class="gn">Cirurgia · ocupação · conv.</div></div>
+    <div class="gi"><div class="gl">Custo −</div><div class="gv">−R$ 320k/mês</div><div class="gn">Pessoal · farmácia · OPME</div></div>
+    <div class="gi"><div class="gl">Glosa recuperada</div><div class="gv">+R$ 104k/mês</div><div class="gn">Auditoria prosp. + recursos</div></div>
+    <div class="gi"><div class="gl">Caixa liberado</div><div class="gv">+R$ 960k</div><div class="gn">Ciclo fin. + estoque</div></div>
+    <div class="gi"><div class="gl">EBITDA alvo</div><div class="gv">22–24%</div><div class="gn">Hoje 14%</div></div>
+    <div class="gi"><div class="gl">Giro de leito</div><div class="gv">+22%</div><div class="gn">3 leitos equiv. sem CAPEX</div></div>
+    <div class="gi"><div class="gl">Glosa final</div><div class="gv">&lt;1,5%</div><div class="gn">Hoje 4,1%</div></div>
+    <div class="gi"><div class="gl">Util. centro cirúrgico</div><div class="gv">78%</div><div class="gn">Hoje 58%</div></div>
+  </div>
+</div>
+
 </div>
 
 <footer>
   <div class="ft-brand">
-    <svg width="100" height="36" viewBox="0 0 170 64">
-      <path d="M 6 28 Q 10 6, 42 6 Q 62 6, 68 22" stroke="#FFFFFF" stroke-width="3.2" fill="none" stroke-linecap="round"/>
-      <circle cx="68" cy="22" r="1.8" fill="#FFFFFF"/>
-      <text x="0" y="56" font-family="Barlow, Arial Black, sans-serif" font-size="30" font-weight="900" fill="#FFFFFF" letter-spacing="1.5">VIRTUS</text>
+    <svg width="100" height="28" viewBox="0 0 130 36">
+      <text x="0" y="28" font-family="Barlow, Arial Black, sans-serif" font-size="30" font-weight="900" fill="#FFFFFF" letter-spacing="1.5">VIRTUS</text>
     </svg>
-    <div>BPO Financeiro · Valuation · Factoring · Gestão Hospitalar</div>
+    <div>A sua assessoria financeira</div>
   </div>
   <div style="text-align:right">
     <div style="color:#fff;font-weight:700;font-family:'Barlow',sans-serif">Clinepa · Gestão Orientada a Resultado</div>
-    <div>v2.2 · abr/2026 · relatorios.virtus.com.br/clinepa</div>
+    <div>v2.3 · abr/2026 · relatorios.virtus.com.br/clinepa</div>
   </div>
 </footer>
+
+<script>
+// Realça botão ativo na nav conforme rolagem
+const navLinks = document.querySelectorAll('.sticky-nav .sn-menu a');
+const sections = ['diagnostico','indicadores','integracao','plano','governanca'].map(id=>document.getElementById(id));
+function onScroll(){
+  let activeIdx = -1;
+  const y = window.scrollY + 120;
+  sections.forEach((s,i)=>{ if(s && s.offsetTop <= y) activeIdx = i; });
+  navLinks.forEach((a,i)=>{
+    if(i===activeIdx){ a.style.background='rgba(127,179,232,.15)'; a.style.color='#7FB3E8'; a.style.borderColor='rgba(127,179,232,.3)'; }
+    else { a.style.background=''; a.style.color=''; a.style.borderColor=''; }
+  });
+}
+window.addEventListener('scroll', onScroll, {passive:true});
+onScroll();
+</script>
 
 </body>
 </html>
