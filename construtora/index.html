@@ -14,89 +14,77 @@
   *{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',system-ui,-apple-system,sans-serif}
   body{background:var(--bg);color:var(--txt);padding-bottom:60px}
   .draft{background:#fff3cd;color:#7a5b00;text-align:center;font-size:13px;padding:6px;border-bottom:1px solid #ecdfa8}
-  header{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;padding:26px 32px;display:flex;align-items:center;gap:28px;flex-wrap:wrap}
-  header .logo svg{display:block;width:210px;height:auto}
+  header{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;padding:24px 32px;display:flex;align-items:center;gap:28px;flex-wrap:wrap}
+  header .logo svg{display:block;width:190px;height:auto}
   header .sep{width:1px;align-self:stretch;background:rgba(255,255,255,.18)}
-  header h1{font-size:25px;font-weight:700}
-  header p{color:#bcd0e2;font-size:14px;margin-top:6px;max-width:680px;line-height:1.5}
+  header h1{font-size:24px;font-weight:700}
+  header p{color:#bcd0e2;font-size:13.5px;margin-top:5px;max-width:640px;line-height:1.5}
   @media(max-width:760px){header{gap:16px}header .sep{display:none}}
   .wrap{max-width:1240px;margin:0 auto;padding:24px 24px 0}
-  h2{font-size:16px;color:var(--navy);margin:28px 0 14px;display:flex;align-items:center;gap:8px}
+  h2{font-size:16px;color:var(--navy);margin:26px 0 12px;display:flex;align-items:center;gap:8px}
   h2 .tag{font-size:11px;background:var(--amber-bg);color:var(--amber);padding:2px 8px;border-radius:10px;font-weight:600}
 
-  /* fluxo */
-  .flow{display:flex;gap:6px;flex-wrap:wrap;align-items:stretch}
-  .step{flex:1;min-width:130px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 10px;text-align:center}
-  .step .num{width:28px;height:28px;line-height:28px;border-radius:50%;background:var(--navy);color:#fff;font-weight:700;font-size:13px;margin:0 auto}
-  .step b{display:block;font-size:13px;margin-top:8px;color:var(--navy)}
-  .step span{font-size:11.5px;color:var(--muted)}
-  .arrow{align-self:center;color:#9fb0c2;font-size:16px}
+  /* semáforo do dia */
+  .semaforo{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+  .sem{border-radius:12px;padding:18px;cursor:pointer;border:2px solid transparent;transition:.15s;background:var(--card);box-shadow:0 1px 3px rgba(15,42,67,.06)}
+  .sem:hover{transform:translateY(-2px)}
+  .sem.on{border-color:currentColor}
+  .sem .t{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700}
+  .sem .t i{width:11px;height:11px;border-radius:50%;display:inline-block}
+  .sem b{display:block;font-size:32px;margin:6px 0 2px}
+  .sem span{font-size:12.5px;color:var(--muted)}
+  .sem.red{color:var(--red)} .sem.red .t i{background:var(--red)}
+  .sem.amber{color:var(--amber)} .sem.amber .t i{background:#e0a824}
+  .sem.green{color:var(--green)} .sem.green .t i{background:var(--green)}
+  .sem.money{color:var(--navy);cursor:default} .sem.money:hover{transform:none}
 
   /* obras */
-  .obras{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:16px}
+  .obras{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
   .obra{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px;box-shadow:0 1px 3px rgba(15,42,67,.06)}
-  .obra .top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
-  .obra h3{font-size:15.5px;color:var(--navy)}
-  .obra .fase{font-size:11px;font-weight:700;padding:3px 10px;border-radius:12px;white-space:nowrap}
+  .obra .top{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:14px}
+  .obra h3{font-size:15px;color:var(--navy)}
+  .fase{font-size:10.5px;font-weight:700;padding:3px 10px;border-radius:12px;white-space:nowrap}
   .f-lanc{background:var(--blue-bg);color:var(--blue)} .f-fund{background:var(--amber-bg);color:var(--amber)} .f-fin{background:var(--green-bg);color:var(--green)}
-  .obra .meta{font-size:12.5px;color:var(--muted);margin:6px 0 12px}
-  .kvs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px}
-  .kv{background:var(--bg);border-radius:8px;padding:8px}
-  .kv small{display:block;font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
-  .kv b{font-size:13.5px;color:var(--navy)}
-  .curva{font-size:12px;margin-top:4px}
-  .curva .row{display:flex;justify-content:space-between;margin:8px 0 3px;color:var(--muted)}
-  .curva .row b{color:var(--txt)}
-  .bar{height:8px;background:#e9edf3;border-radius:5px;overflow:hidden;display:flex}
-  .bar i{display:block;height:100%}
-  .bar .pago{background:var(--green)} .bar .venc{background:var(--red)}
-  .legenda{display:flex;gap:14px;font-size:11px;color:var(--muted);margin-top:10px}
-  .dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px}
-  .inad{margin-top:12px;padding:9px 12px;border-radius:8px;background:var(--red-bg);color:var(--red);font-size:12.5px;font-weight:600;display:flex;justify-content:space-between}
+  .mets{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .met small{font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.4px}
+  .met b{display:block;font-size:26px;color:var(--navy);margin:2px 0 6px}
+  .met .bar{height:7px;background:#e9edf3;border-radius:5px;overflow:hidden}
+  .met .bar i{display:block;height:100%;border-radius:5px}
+  .met .bar .v{background:var(--blue)} .met .bar .r{background:var(--green)}
+  .met span{font-size:11.5px;color:var(--muted)}
+  .obra .alerta{margin-top:14px;font-size:12.5px;font-weight:600;color:var(--red);background:var(--red-bg);padding:8px 12px;border-radius:8px;display:flex;justify-content:space-between}
 
   /* filtros */
-  .filtros{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;display:flex;gap:14px;flex-wrap:wrap;align-items:flex-end}
+  .filtros{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 16px;display:flex;gap:14px;flex-wrap:wrap;align-items:flex-end}
   .filtros label{font-size:11.5px;color:var(--muted);display:block;margin-bottom:4px;font-weight:600}
-  .filtros select,.filtros input{padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;background:#fff;min-width:150px}
-  .btn{border:none;border-radius:8px;padding:10px 18px;font-size:13.5px;font-weight:600;cursor:pointer;transition:.15s}
-  .btn-navy{background:var(--navy);color:#fff} .btn-navy:hover{background:var(--navy2)}
+  .filtros select{padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;background:#fff;min-width:170px}
+  .btn{border:none;border-radius:8px;padding:9px 16px;font-size:13px;font-weight:600;cursor:pointer;transition:.15s}
   .btn-green{background:#1da851;color:#fff} .btn-green:hover{background:#178a43}
   .btn-line{background:#fff;color:var(--navy);border:1px solid var(--border)} .btn-line:hover{background:var(--bg)}
   .btn:disabled{opacity:.45;cursor:not-allowed}
 
-  /* kpis */
-  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
-  .kpi{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 16px}
-  .kpi small{font-size:11.5px;color:var(--muted);font-weight:600}
-  .kpi b{display:block;font-size:24px;margin-top:4px;color:var(--navy)}
-  .kpi.alert b{color:var(--red)}
-
   /* tabela */
   .tbl-card{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden}
-  .tbl-head{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:10px}
+  .tbl-head{display:flex;justify-content:space-between;align-items:center;padding:13px 16px;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:10px}
   .tbl-head .sel{font-size:12.5px;color:var(--muted)}
   table{width:100%;border-collapse:collapse;font-size:13px}
-  th{background:#f8fafc;text-align:left;padding:10px 12px;font-size:11.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;border-bottom:1px solid var(--border)}
-  td{padding:11px 12px;border-bottom:1px solid #eef2f6;vertical-align:top}
+  th{background:#f8fafc;text-align:left;padding:9px 12px;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;border-bottom:1px solid var(--border)}
+  td{padding:11px 12px;border-bottom:1px solid #eef2f6;vertical-align:middle}
   tr:hover td{background:#fafcff}
+  tr.red td:first-child{box-shadow:inset 3px 0 0 var(--red)}
+  tr.amber td:first-child{box-shadow:inset 3px 0 0 #e0a824}
+  tr.green td:first-child{box-shadow:inset 3px 0 0 var(--green)}
   .cli b{display:block;color:var(--navy)} .cli span{font-size:11.5px;color:var(--muted)}
-  .pill{display:inline-block;font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:10px;margin:1px 2px 1px 0}
-  .p-sinal{background:var(--blue-bg);color:var(--blue)} .p-inter{background:var(--amber-bg);color:var(--amber)} .p-chave{background:#efe7f7;color:#7d3fa8}
-  .atraso{font-weight:700;color:var(--red)} .atraso.leve{color:var(--amber)}
-  .st{font-size:11.5px;font-weight:600;padding:3px 9px;border-radius:10px}
-  .st-ag{background:#eef2f6;color:var(--muted)} .st-env{background:var(--blue-bg);color:var(--blue)} .st-ab{background:var(--amber-bg);color:var(--amber)} .st-pg{background:var(--green-bg);color:var(--green)}
-  .acao{font-size:12px;color:var(--blue);cursor:pointer;text-decoration:none;display:block;margin:2px 0}
+  .st{font-size:11px;font-weight:700;padding:3px 10px;border-radius:10px;white-space:nowrap}
+  .st-red{background:var(--red-bg);color:var(--red)} .st-amber{background:var(--amber-bg);color:var(--amber)} .st-green{background:var(--green-bg);color:var(--green)}
+  .fone{white-space:nowrap;color:var(--navy);font-weight:600}
+  .acao{font-size:12px;color:var(--blue);cursor:pointer;display:block;margin:2px 0;text-decoration:none}
   .total{font-weight:700;color:var(--navy);white-space:nowrap}
+  .obracell{font-size:12px;color:var(--muted)}
 
-  /* monitor */
-  .monitor{background:var(--navy);color:#cfe0ef;border-radius:12px;padding:16px;font-family:ui-monospace,Consolas,monospace;font-size:12.5px;margin-top:28px}
-  .monitor .mh{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-family:'Segoe UI',sans-serif}
-  .monitor .mh b{color:#fff;font-size:14px}
-  .monitor .log div{padding:2px 0}
+  footer{text-align:center;font-size:11.5px;color:var(--muted);margin-top:34px;line-height:1.6}
   .toast{position:fixed;bottom:20px;right:20px;background:var(--navy);color:#fff;padding:13px 20px;border-radius:10px;font-size:13.5px;box-shadow:0 6px 20px rgba(0,0,0,.25);opacity:0;transform:translateY(10px);transition:.25s;pointer-events:none}
   .toast.on{opacity:1;transform:none}
-  footer{text-align:center;font-size:11.5px;color:var(--muted);margin-top:34px;line-height:1.6}
-  @media(max-width:760px){.arrow{display:none}.step{min-width:44%}}
 </style>
 </head>
 <body>
@@ -115,208 +103,206 @@
   <div class="sep"></div>
   <div>
     <h1>Painel de Cobrança da Construtora</h1>
-    <p>Visão consolidada da carteira de recebíveis por obra, da venda à entrega das chaves. Identificação de inadimplência e régua de cobrança integrada ao WhatsApp e e-mail.</p>
+    <p>Visão consolidada da carteira de recebíveis por incorporação, da venda à entrega das chaves. Identificação de inadimplência e régua de cobrança integrada ao WhatsApp e e-mail.</p>
   </div>
 </header>
 
 <div class="wrap">
 
-  <h2>Como a cobrança funciona</h2>
-  <div class="flow">
-    <div class="step"><div class="num">1</div><b>Login</b><span>no sistema da construtora</span></div><div class="arrow">&rsaquo;</div>
-    <div class="step"><div class="num">2</div><b>Busca</b><span>dos inadimplentes</span></div><div class="arrow">&rsaquo;</div>
-    <div class="step"><div class="num">3</div><b>Captura</b><span>dos links de boleto e Pix</span></div><div class="arrow">&rsaquo;</div>
-    <div class="step"><div class="num">4</div><b>Revisão</b><span>da lista antes do envio</span></div><div class="arrow">&rsaquo;</div>
-    <div class="step"><div class="num">5</div><b>Envio</b><span>por WhatsApp</span></div><div class="arrow">&rsaquo;</div>
-    <div class="step"><div class="num">6</div><b>Baixa</b><span>quando o boleto é pago</span></div>
+  <h2>Para hoje, 12 de junho</h2>
+  <div class="semaforo">
+    <div class="sem red" onclick="filtraStatus('red',this)">
+      <div class="t"><i></i>LIGAR HOJE</div>
+      <b id="cRed">0</b>
+      <span>clientes com parcela vencida</span>
+    </div>
+    <div class="sem amber" onclick="filtraStatus('amber',this)">
+      <div class="t"><i></i>PERTO DO VENCIMENTO</div>
+      <b id="cAmber">0</b>
+      <span>vencem nos próximos 7 dias</span>
+    </div>
+    <div class="sem green" onclick="filtraStatus('green',this)">
+      <div class="t"><i></i>EM DIA</div>
+      <b id="cGreen">0</b>
+      <span>pagaram ou sem parcela próxima</span>
+    </div>
+    <div class="sem money">
+      <div class="t">VALOR EM ATRASO</div>
+      <b id="cTotal">R$ 0</b>
+      <span>somando todas as obras</span>
+    </div>
   </div>
 
-  <h2>As três obras <span class="tag">dados fictícios</span></h2>
+  <h2>As três incorporações <span class="tag">dados fictícios</span></h2>
   <div class="obras">
 
     <div class="obra">
       <div class="top"><h3>Residencial Vista do Vale</h3><span class="fase f-lanc">LANÇAMENTO</span></div>
-      <div class="meta">48 unidades, 21 vendidas (44%). Obra executada: 5%</div>
-      <div class="kvs">
-        <div class="kv"><small>VGV</small><b>R$ 28,8 mi</b></div>
-        <div class="kv"><small>Contratado</small><b>R$ 12,6 mi</b></div>
-        <div class="kv"><small>Recebido</small><b>R$ 1,41 mi</b></div>
+      <div class="mets">
+        <div class="met">
+          <small>Vendido</small><b>44%</b>
+          <div class="bar"><i class="v" style="width:44%"></i></div>
+          <span>21 de 48 unidades</span>
+        </div>
+        <div class="met">
+          <small>Recebido da carteira</small><b>11%</b>
+          <div class="bar"><i class="r" style="width:11%"></i></div>
+          <span>R$ 1,4 mi de R$ 12,6 mi</span>
+        </div>
       </div>
-      <div class="curva">
-        <div class="row"><span>Sinal (10%): R$ 1,26 mi</span><b>92% recebido</b></div>
-        <div class="bar"><i class="pago" style="width:92%"></i><i class="venc" style="width:6%"></i></div>
-        <div class="row"><span>Parcelas da obra (60%): R$ 7,56 mi</span><b>3% recebido</b></div>
-        <div class="bar"><i class="pago" style="width:3%"></i><i class="venc" style="width:1%"></i></div>
-        <div class="row"><span>Chaves (30%): R$ 3,78 mi</span><b>ainda não iniciou</b></div>
-        <div class="bar"></div>
-      </div>
-      <div class="legenda"><span><i class="dot" style="background:var(--green)"></i>Recebido</span><span><i class="dot" style="background:var(--red)"></i>Vencido</span><span><i class="dot" style="background:#e9edf3"></i>A vencer</span></div>
-      <div class="inad"><span>Em atraso</span><span>R$ 98.400 (3 clientes)</span></div>
+      <div class="alerta"><span>3 clientes em atraso</span><span>R$ 98.400</span></div>
     </div>
 
     <div class="obra">
       <div class="top"><h3>Edifício Aurora</h3><span class="fase f-fund">FUNDAÇÃO</span></div>
-      <div class="meta">32 unidades, 27 vendidas (84%). Obra executada: 24%</div>
-      <div class="kvs">
-        <div class="kv"><small>VGV</small><b>R$ 19,2 mi</b></div>
-        <div class="kv"><small>Contratado</small><b>R$ 16,2 mi</b></div>
-        <div class="kv"><small>Recebido</small><b>R$ 4,05 mi</b></div>
+      <div class="mets">
+        <div class="met">
+          <small>Vendido</small><b>84%</b>
+          <div class="bar"><i class="v" style="width:84%"></i></div>
+          <span>27 de 32 unidades</span>
+        </div>
+        <div class="met">
+          <small>Recebido da carteira</small><b>25%</b>
+          <div class="bar"><i class="r" style="width:25%"></i></div>
+          <span>R$ 4,1 mi de R$ 16,2 mi</span>
+        </div>
       </div>
-      <div class="curva">
-        <div class="row"><span>Sinal (10%): R$ 1,62 mi</span><b>100% recebido</b></div>
-        <div class="bar"><i class="pago" style="width:100%"></i></div>
-        <div class="row"><span>Parcelas da obra (60%): R$ 9,72 mi</span><b>25% recebido</b></div>
-        <div class="bar"><i class="pago" style="width:25%"></i><i class="venc" style="width:4%"></i></div>
-        <div class="row"><span>Chaves (30%): R$ 4,86 mi</span><b>ainda não iniciou</b></div>
-        <div class="bar"></div>
-      </div>
-      <div class="legenda"><span><i class="dot" style="background:var(--green)"></i>Recebido</span><span><i class="dot" style="background:var(--red)"></i>Vencido</span><span><i class="dot" style="background:#e9edf3"></i>A vencer</span></div>
-      <div class="inad"><span>Em atraso</span><span>R$ 64.730 (4 clientes)</span></div>
+      <div class="alerta"><span>4 clientes em atraso</span><span>R$ 64.730</span></div>
     </div>
 
     <div class="obra">
-      <div class="top"><h3>Cond. Solar das Palmeiras</h3><span class="fase f-fin">FINALIZAÇÃO E CHECKLIST</span></div>
-      <div class="meta">24 unidades, todas vendidas. Obra executada: 96%. Entrega prevista: ago/2026</div>
-      <div class="kvs">
-        <div class="kv"><small>VGV</small><b>R$ 14,4 mi</b></div>
-        <div class="kv"><small>Contratado</small><b>R$ 14,4 mi</b></div>
-        <div class="kv"><small>Recebido</small><b>R$ 9,65 mi</b></div>
+      <div class="top"><h3>Edifício Solar das Palmeiras</h3><span class="fase f-fin">FINALIZAÇÃO</span></div>
+      <div class="mets">
+        <div class="met">
+          <small>Vendido</small><b>100%</b>
+          <div class="bar"><i class="v" style="width:100%"></i></div>
+          <span>24 de 24 unidades</span>
+        </div>
+        <div class="met">
+          <small>Recebido da carteira</small><b>67%</b>
+          <div class="bar"><i class="r" style="width:67%"></i></div>
+          <span>R$ 9,7 mi de R$ 14,4 mi</span>
+        </div>
       </div>
-      <div class="curva">
-        <div class="row"><span>Sinal (10%): R$ 1,44 mi</span><b>100% recebido</b></div>
-        <div class="bar"><i class="pago" style="width:100%"></i></div>
-        <div class="row"><span>Parcelas da obra (60%): R$ 8,64 mi</span><b>95% recebido</b></div>
-        <div class="bar"><i class="pago" style="width:95%"></i><i class="venc" style="width:3%"></i></div>
-        <div class="row"><span>Chaves (30%): R$ 4,32 mi</span><b>vence na entrega</b></div>
-        <div class="bar"></div>
-      </div>
-      <div class="legenda"><span><i class="dot" style="background:var(--green)"></i>Recebido</span><span><i class="dot" style="background:var(--red)"></i>Vencido</span><span><i class="dot" style="background:#e9edf3"></i>A vencer</span></div>
-      <div class="inad"><span>Em atraso (trava a entrega das chaves)</span><span>R$ 71.910 (3 clientes)</span></div>
+      <div class="alerta"><span>3 clientes em atraso</span><span>R$ 71.910</span></div>
     </div>
   </div>
 
-  <h2>Filtros</h2>
+  <h2>Carteira de clientes</h2>
   <div class="filtros">
     <div><label>Obra</label>
       <select id="fObra" onchange="render()">
-        <option value="">Todas as obras</option>
+        <option value="">Todas</option>
         <option>Residencial Vista do Vale</option>
         <option>Edifício Aurora</option>
-        <option>Cond. Solar das Palmeiras</option>
+        <option>Edifício Solar das Palmeiras</option>
       </select>
     </div>
-    <div><label>Tipo de parcela</label>
-      <select id="fTipo" onchange="render()">
+    <div><label>Situação</label>
+      <select id="fStatus" onchange="render()">
         <option value="">Todas</option>
-        <option value="Sinal">Sinal (10%)</option>
-        <option value="Intercalada">Parcelas da obra (60%)</option>
-        <option value="Chaves">Chaves (30%)</option>
+        <option value="red">Em atraso</option>
+        <option value="amber">Perto do vencimento</option>
+        <option value="green">Em dia</option>
       </select>
     </div>
-    <div><label>Mês de referência</label>
-      <select><option>Junho/2026</option><option>Maio/2026</option><option>Abril/2026</option></select>
-    </div>
-    <div><label>Atraso mínimo (dias)</label>
-      <input type="number" id="fAtraso" value="1" min="1" style="min-width:110px" onchange="render()">
-    </div>
-    <button class="btn btn-navy" onclick="consultar()">Buscar no sistema</button>
+    <button class="btn btn-green" id="btnZap" onclick="enviarSel()" disabled>Enviar WhatsApp para os selecionados</button>
+    <button class="btn btn-line" onclick="exportCSV()">Exportar CSV</button>
+    <span class="sel" id="selInfo" style="font-size:12.5px;color:var(--muted)">Nenhum selecionado</span>
   </div>
 
-  <h2>Números de hoje</h2>
-  <div class="kpis">
-    <div class="kpi alert"><small>Inadimplentes</small><b id="kClientes">10</b></div>
-    <div class="kpi alert"><small>Total vencido</small><b id="kTotal">R$ 235.040</b></div>
-    <div class="kpi"><small>Cobranças enviadas</small><b id="kEnv">0</b></div>
-    <div class="kpi"><small>Links abertos</small><b id="kAb">0</b></div>
-    <div class="kpi"><small>Boletos pagos</small><b id="kPg">0</b></div>
-    <div class="kpi"><small>Aguardando envio</small><b id="kAg">10</b></div>
-  </div>
-
-  <h2>Quem está com parcela vencida <span class="tag">dados fictícios</span></h2>
-  <div class="tbl-card">
-    <div class="tbl-head">
-      <div>
-        <button class="btn btn-green" id="btnZap" onclick="enviarSel()" disabled>Enviar WhatsApp para os selecionados</button>
-        <button class="btn btn-line" onclick="exportCSV()">Exportar CSV</button>
-      </div>
-      <span class="sel" id="selInfo">Nenhum selecionado</span>
-    </div>
+  <div class="tbl-card" style="margin-top:14px">
     <div style="overflow-x:auto">
     <table>
       <thead><tr>
         <th><input type="checkbox" id="chkAll" onclick="toggleAll(this)"></th>
-        <th>Cliente / Unidade</th><th>Obra</th><th>Parcelas vencidas</th><th>Vencimento mais antigo</th>
-        <th>Atraso</th><th>Total</th><th>Envio</th><th>Abriu o link</th><th>Ações</th>
+        <th>Situação</th><th>Cliente / Unidade</th><th>Obra</th><th>Parcela</th>
+        <th>Vencimento</th><th>Valor</th><th>Telefone</th><th>Ações</th>
       </tr></thead>
       <tbody id="tbody"></tbody>
     </table>
     </div>
   </div>
 
-  <div class="monitor">
-    <div class="mh"><b>Consulta ao sistema da construtora</b><button class="btn btn-line" onclick="consultar()">Consultar agora</button></div>
-    <div class="log" id="log"><div>[sistema] Em espera. Clique em "Consultar agora" para verificar os boletos.</div></div>
-  </div>
-
-  <footer>Painel demonstrativo da Virtus Consultoria. Todos os nomes e valores são fictícios.<br>A divisão 10/60/30 é a mais comum, mas o painel se adapta ao fluxo de pagamento de cada contrato.</footer>
+  <footer>Painel demonstrativo da Virtus Consultoria. Todos os nomes, telefones e valores são fictícios.<br>A régua segue o fluxo de cada contrato (sinal, parcelas de obra e chaves) e se adapta à política comercial da incorporadora.</footer>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
 const fmt = v => v.toLocaleString('pt-BR',{style:'currency',currency:'BRL',minimumFractionDigits:0});
+
+// status: red = vencida | amber = vence em até 7 dias | green = em dia
 let dados = [
- {n:"Carlos Eduardo Menezes", u:"Apto 1204", o:"Residencial Vista do Vale", parc:[["Sinal","2ª/3 do sinal"],["Sinal","3ª/3 do sinal"]], v:"10/04/2026", at:63, t:42000, st:"ag", ab:false},
- {n:"Fernanda Lopes Arruda", u:"Apto 703", o:"Residencial Vista do Vale", parc:[["Intercalada","Parcela 02/36"]], v:"05/05/2026", at:38, t:12600, st:"ag", ab:false},
- {n:"Roberto Akira Tanaka", u:"Apto 1801", o:"Residencial Vista do Vale", parc:[["Sinal","Sinal 1ª/1"],["Intercalada","Parcela 01/36"]], v:"20/03/2026", at:84, t:43800, st:"ag", ab:false},
- {n:"Juliana Castro Bittencourt", u:"Apto 502", o:"Edifício Aurora", parc:[["Intercalada","Parcela 09/30"]], v:"15/05/2026", at:28, t:11250, st:"ag", ab:false},
- {n:"Marcos Vinícius Sales", u:"Apto 1101", o:"Edifício Aurora", parc:[["Intercalada","Parcela 08/30"],["Intercalada","Parcela 09/30"]], v:"15/04/2026", at:58, t:22500, st:"ag", ab:false},
- {n:"Patrícia Nogueira Lima", u:"Apto 304", o:"Edifício Aurora", parc:[["Intercalada","Parcela 09/30"]], v:"10/05/2026", at:33, t:10480, st:"ag", ab:false},
- {n:"André Luiz Figueiredo", u:"Apto 902", o:"Edifício Aurora", parc:[["Intercalada","Parcela 07/30"],["Intercalada","Parcela 08/30"]], v:"15/03/2026", at:89, t:20500, st:"ag", ab:false},
- {n:"Beatriz Fonseca Ramalho", u:"Casa 07", o:"Cond. Solar das Palmeiras", parc:[["Intercalada","Parcela 33/34"],["Intercalada","Parcela 34/34"]], v:"05/04/2026", at:68, t:24300, st:"ag", ab:false},
- {n:"Gustavo Henrique Prado", u:"Casa 15", o:"Cond. Solar das Palmeiras", parc:[["Intercalada","Parcela 34/34"],["Chaves","Entrada das chaves (acordo)"]], v:"20/04/2026", at:53, t:35610, st:"ag", ab:false},
- {n:"Luciana Martins Vasconcelos", u:"Casa 22", o:"Cond. Solar das Palmeiras", parc:[["Intercalada","Parcela 32/34"]], v:"05/03/2026", at:99, t:12000, st:"ag", ab:false},
+ {n:"Roberto Akira Tanaka", u:"Apto 1801", o:"Residencial Vista do Vale", p:"Sinal 3ª/3 + Parcela 01/36", v:"20/03/2026", dias:-84, t:43800, tel:"(11) 98765-4321", st:"red"},
+ {n:"Carlos Eduardo Menezes", u:"Apto 1204", o:"Residencial Vista do Vale", p:"Sinal 2ª/3", v:"10/04/2026", dias:-63, t:42000, tel:"(11) 99812-3344", st:"red"},
+ {n:"Luciana Martins Vasconcelos", u:"Apto 2202", o:"Edifício Solar das Palmeiras", p:"Parcela 32/34", v:"05/03/2026", dias:-99, t:12000, tel:"(11) 98123-7788", st:"red"},
+ {n:"Beatriz Fonseca Ramalho", u:"Apto 702", o:"Edifício Solar das Palmeiras", p:"Parcelas 33 e 34/34", v:"05/04/2026", dias:-68, t:24300, tel:"(11) 99655-2210", st:"red"},
+ {n:"André Luiz Figueiredo", u:"Apto 902", o:"Edifício Aurora", p:"Parcelas 07 e 08/30", v:"15/03/2026", dias:-89, t:20500, tel:"(11) 98444-9090", st:"red"},
+ {n:"Marcos Vinícius Sales", u:"Apto 1101", o:"Edifício Aurora", p:"Parcelas 08 e 09/30", v:"15/04/2026", dias:-58, t:22500, tel:"(11) 97777-1212", st:"red"},
+ {n:"Gustavo Henrique Prado", u:"Apto 1501", o:"Edifício Solar das Palmeiras", p:"Parcela 34/34 + acordo chaves", v:"20/04/2026", dias:-53, t:35610, tel:"(11) 96321-4455", st:"red"},
+ {n:"Fernanda Lopes Arruda", u:"Apto 703", o:"Residencial Vista do Vale", p:"Parcela 02/36", v:"05/05/2026", dias:-38, t:12600, tel:"(11) 98220-6677", st:"red"},
+ {n:"Patrícia Nogueira Lima", u:"Apto 304", o:"Edifício Aurora", p:"Parcela 09/30", v:"10/05/2026", dias:-33, t:10480, tel:"(11) 99100-3030", st:"red"},
+ {n:"Juliana Castro Bittencourt", u:"Apto 502", o:"Edifício Aurora", p:"Parcela 09/30", v:"15/05/2026", dias:-28, t:11250, tel:"(11) 98555-8181", st:"red"},
+ {n:"Ricardo Alves Pontes", u:"Apto 1502", o:"Residencial Vista do Vale", p:"Parcela 03/36", v:"15/06/2026", dias:3, t:12600, tel:"(11) 99444-7700", st:"amber"},
+ {n:"Camila Duarte Rezende", u:"Apto 601", o:"Edifício Aurora", p:"Parcela 10/30", v:"15/06/2026", dias:3, t:11250, tel:"(11) 98989-5544", st:"amber"},
+ {n:"Eduardo Sampaio Neto", u:"Apto 1102", o:"Edifício Solar das Palmeiras", p:"Parcela 34/34", v:"18/06/2026", dias:6, t:12150, tel:"(11) 97333-2299", st:"amber"},
+ {n:"Helena Barros Quintela", u:"Apto 801", o:"Residencial Vista do Vale", p:"Parcela 02/36 (paga)", v:"05/06/2026", dias:99, t:12600, tel:"(11) 98111-6633", st:"green"},
+ {n:"Otávio Ferraz Camargo", u:"Apto 401", o:"Edifício Aurora", p:"Parcela 09/30 (paga)", v:"15/05/2026", dias:99, t:11250, tel:"(11) 99777-8855", st:"green"},
+ {n:"Renata Sousa Albuquerque", u:"Apto 2001", o:"Edifício Solar das Palmeiras", p:"Parcela 34/34 (paga)", v:"05/06/2026", dias:99, t:12150, tel:"(11) 96555-1100", st:"green"},
 ];
 
-const pcls = {Sinal:"p-sinal", Intercalada:"p-inter", Chaves:"p-chave"};
-const stMap = {ag:["st-ag","Aguardando"], env:["st-env","Enviado"], ab:["st-ab","Visualizado"], pg:["st-pg","Pago"]};
+const stInfo = {
+  red:   {cls:"st-red",   lbl:d=>`Atrasado ${-d.dias} dias`, ord:0},
+  amber: {cls:"st-amber", lbl:d=>`Vence em ${d.dias} dias`,  ord:1},
+  green: {cls:"st-green", lbl:()=>"Em dia",                  ord:2},
+};
+
+let filtroSem = "";
 
 function visiveis(){
   const o = document.getElementById('fObra').value;
-  const tp = document.getElementById('fTipo').value;
-  const at = +document.getElementById('fAtraso').value || 1;
-  return dados.filter(d => (!o||d.o===o) && (!tp||d.parc.some(p=>p[0]===tp)) && d.at>=at);
+  const s = document.getElementById('fStatus').value || filtroSem;
+  return dados
+    .filter(d => (!o||d.o===o) && (!s||d.st===s))
+    .sort((a,b)=> stInfo[a.st].ord - stInfo[b.st].ord || a.dias - b.dias);
 }
 
 function render(){
   const vs = visiveis();
   document.getElementById('tbody').innerHTML = vs.map(d=>{
     const idx = dados.indexOf(d);
-    const [cls,lbl] = stMap[d.st];
-    return `<tr>
-      <td><input type="checkbox" class="chk" data-i="${idx}" onclick="sel()"></td>
+    const inf = stInfo[d.st];
+    const podeCobrar = d.st!=='green';
+    return `<tr class="${d.st}">
+      <td>${podeCobrar?`<input type="checkbox" class="chk" data-i="${idx}" onclick="sel()">`:''}</td>
+      <td><span class="st ${inf.cls}">${inf.lbl(d)}</span></td>
       <td class="cli"><b>${d.n}</b><span>${d.u}</span></td>
-      <td style="font-size:12px">${d.o.replace('Residencial ','Res. ').replace('Edifício ','Ed. ')}</td>
-      <td>${d.parc.map(p=>`<span class="pill ${pcls[p[0]]}">${p[1]}</span>`).join('<br>')}</td>
+      <td class="obracell">${d.o.replace('Residencial ','Res. ').replace('Edifício ','Ed. ')}</td>
+      <td style="font-size:12.5px">${d.p}</td>
       <td>${d.v}</td>
-      <td class="atraso ${d.at<45?'leve':''}">${d.at} dias</td>
       <td class="total">${fmt(d.t)}</td>
-      <td><span class="st ${cls}">${lbl}</span></td>
-      <td>${d.ab?'<span class="st st-ab">Sim</span>':'<span style="color:var(--muted);font-size:12px">Ainda não</span>'}</td>
-      <td><a class="acao" onclick="zap(${idx})">Enviar WhatsApp</a><a class="acao" onclick="toast('Link do boleto copiado (simulação)')">Copiar link do boleto</a></td>
+      <td class="fone">${d.tel}</td>
+      <td>${podeCobrar?`<a class="acao" href="tel:${d.tel.replace(/\D/g,'')}">Ligar</a><a class="acao" onclick="zap(${idx})">Enviar WhatsApp</a>`:'<span style="color:var(--muted);font-size:12px">Sem pendência</span>'}</td>
     </tr>`;
-  }).join('') || '<tr><td colspan="10" style="text-align:center;color:var(--muted);padding:24px">Nenhum cliente com esses filtros.</td></tr>';
-  kpis(vs); sel();
+  }).join('') || '<tr><td colspan="9" style="text-align:center;color:var(--muted);padding:24px">Nenhum cliente com esses filtros.</td></tr>';
+  kpis(); sel();
   document.getElementById('chkAll').checked = false;
 }
 
-function kpis(vs){
-  document.getElementById('kClientes').textContent = vs.length;
-  document.getElementById('kTotal').textContent = fmt(vs.reduce((s,d)=>s+d.t,0));
-  document.getElementById('kEnv').textContent = dados.filter(d=>d.st!=='ag').length;
-  document.getElementById('kAb').textContent = dados.filter(d=>d.ab).length;
-  document.getElementById('kPg').textContent = dados.filter(d=>d.st==='pg').length;
-  document.getElementById('kAg').textContent = vs.filter(d=>d.st==='ag').length;
+function kpis(){
+  document.getElementById('cRed').textContent = dados.filter(d=>d.st==='red').length;
+  document.getElementById('cAmber').textContent = dados.filter(d=>d.st==='amber').length;
+  document.getElementById('cGreen').textContent = dados.filter(d=>d.st==='green').length;
+  document.getElementById('cTotal').textContent = fmt(dados.filter(d=>d.st==='red').reduce((s,d)=>s+d.t,0));
+}
+
+function filtraStatus(s, el){
+  filtroSem = (filtroSem===s) ? "" : s;
+  document.querySelectorAll('.sem').forEach(x=>x.classList.remove('on'));
+  if(filtroSem) el.classList.add('on');
+  document.getElementById('fStatus').value = filtroSem;
+  render();
 }
 
 function sel(){
@@ -327,47 +313,23 @@ function sel(){
 function toggleAll(el){ document.querySelectorAll('.chk').forEach(c=>c.checked=el.checked); sel(); }
 
 function zap(i){
-  dados[i].st='env';
-  log(`[whatsapp] Cobrança enviada para ${dados[i].n}. Boleto de ${fmt(dados[i].t)}, ${dados[i].o}.`);
-  setTimeout(()=>{ dados[i].ab=true; if(dados[i].st==='env') dados[i].st='ab'; log(`[rastreio] ${dados[i].n} abriu o link do boleto.`); render(); }, 2500+Math.random()*3000);
-  toast('Cobrança enviada por WhatsApp (simulação)'); render();
+  toast('Cobrança enviada por WhatsApp para '+dados[i].n+' (simulação)');
 }
 function enviarSel(){
-  const sels=[...document.querySelectorAll('.chk:checked')].map(c=>+c.dataset.i);
-  sels.forEach((i,k)=>setTimeout(()=>zap(i), k*600));
-  toast(sels.length+' cobranças na fila de envio (simulação)');
-}
-
-function consultar(){
-  log('[sistema] Conectando ao sistema da construtora...');
-  setTimeout(()=>log('[sistema] Login feito. Consultando a carteira de recebíveis...'),800);
-  setTimeout(()=>{
-    const pendentes = dados.filter(d=>d.st!=='pg');
-    if(pendentes.length && Math.random()>.3){
-      const d = pendentes[Math.floor(Math.random()*pendentes.length)];
-      d.st='pg';
-      log(`[sistema] Baixa identificada: ${d.n} pagou ${fmt(d.t)}. Cliente sai da régua de cobrança.`);
-      toast('Pagamento identificado: '+d.n);
-    } else log('[sistema] Nenhuma baixa nova desta vez.');
-    log(`[sistema] Consulta concluída. ${dados.filter(d=>d.st!=='pg').length} boletos seguem em aberto.`); render();
-  },1900);
+  const n = document.querySelectorAll('.chk:checked').length;
+  toast(n+' cobranças na fila de envio (simulação)');
 }
 
 function exportCSV(){
-  const linhas=[['Cliente','Unidade','Obra','Parcelas','Vencimento mais antigo','Dias de atraso','Total','Status']];
-  visiveis().forEach(d=>linhas.push([d.n,d.u,d.o,d.parc.map(p=>p[1]).join(' | '),d.v,d.at,d.t.toFixed(2).replace('.',','),stMap[d.st][1]]));
+  const linhas=[['Situação','Cliente','Unidade','Obra','Parcela','Vencimento','Valor','Telefone']];
+  visiveis().forEach(d=>linhas.push([stInfo[d.st].lbl(d),d.n,d.u,d.o,d.p,d.v,d.t.toFixed(2).replace('.',','),d.tel]));
   const csv = linhas.map(l=>l.map(c=>`"${c}"`).join(';')).join('\n');
   const a = document.createElement('a');
   a.href = URL.createObjectURL(new Blob(["﻿"+csv],{type:'text/csv;charset=utf-8'}));
-  a.download = 'inadimplentes_construtora.csv'; a.click();
+  a.download = 'carteira_cobranca.csv'; a.click();
   toast('CSV exportado');
 }
 
-function log(m){
-  const el=document.getElementById('log');
-  el.insertAdjacentHTML('beforeend',`<div>${new Date().toLocaleTimeString('pt-BR')} ${m}</div>`);
-  el.scrollTop = el.scrollHeight;
-}
 let tt;
 function toast(m){
   const t=document.getElementById('toast'); t.textContent=m; t.classList.add('on');
