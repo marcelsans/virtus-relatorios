@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Painel de Cobrança — Construtora [DRAFT]</title>
+<title>Painel de Cobrança da Construtora (rascunho)</title>
 <style>
   :root{
     --navy:#0f2a43; --navy2:#16395c; --blue:#1f6fb2; --gold:#c9a227;
@@ -14,19 +14,21 @@
   *{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',system-ui,-apple-system,sans-serif}
   body{background:var(--bg);color:var(--txt);padding-bottom:60px}
   .draft{background:#fff3cd;color:#7a5b00;text-align:center;font-size:13px;padding:6px;border-bottom:1px solid #ecdfa8}
-  header{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;padding:26px 32px}
-  header .brand{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:600}
-  header h1{font-size:26px;font-weight:700;margin-top:4px}
-  header p{color:#bcd0e2;font-size:14px;margin-top:4px}
+  header{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;padding:26px 32px;display:flex;align-items:center;gap:28px;flex-wrap:wrap}
+  header .logo svg{display:block;width:210px;height:auto}
+  header .sep{width:1px;align-self:stretch;background:rgba(255,255,255,.18)}
+  header h1{font-size:25px;font-weight:700}
+  header p{color:#bcd0e2;font-size:14px;margin-top:6px;max-width:680px;line-height:1.5}
+  @media(max-width:760px){header{gap:16px}header .sep{display:none}}
   .wrap{max-width:1240px;margin:0 auto;padding:24px 24px 0}
   h2{font-size:16px;color:var(--navy);margin:28px 0 14px;display:flex;align-items:center;gap:8px}
   h2 .tag{font-size:11px;background:var(--amber-bg);color:var(--amber);padding:2px 8px;border-radius:10px;font-weight:600}
 
   /* fluxo */
   .flow{display:flex;gap:6px;flex-wrap:wrap;align-items:stretch}
-  .step{flex:1;min-width:130px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center;position:relative}
-  .step .ic{font-size:20px}
-  .step b{display:block;font-size:13px;margin-top:6px;color:var(--navy)}
+  .step{flex:1;min-width:130px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 10px;text-align:center}
+  .step .num{width:28px;height:28px;line-height:28px;border-radius:50%;background:var(--navy);color:#fff;font-weight:700;font-size:13px;margin:0 auto}
+  .step b{display:block;font-size:13px;margin-top:8px;color:var(--navy)}
   .step span{font-size:11.5px;color:var(--muted)}
   .arrow{align-self:center;color:#9fb0c2;font-size:16px}
 
@@ -51,7 +53,6 @@
   .legenda{display:flex;gap:14px;font-size:11px;color:var(--muted);margin-top:10px}
   .dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px}
   .inad{margin-top:12px;padding:9px 12px;border-radius:8px;background:var(--red-bg);color:var(--red);font-size:12.5px;font-weight:600;display:flex;justify-content:space-between}
-  .inad.ok{background:var(--green-bg);color:var(--green)}
 
   /* filtros */
   .filtros{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;display:flex;gap:14px;flex-wrap:wrap;align-items:flex-end}
@@ -94,97 +95,107 @@
   .monitor .log div{padding:2px 0}
   .toast{position:fixed;bottom:20px;right:20px;background:var(--navy);color:#fff;padding:13px 20px;border-radius:10px;font-size:13.5px;box-shadow:0 6px 20px rgba(0,0,0,.25);opacity:0;transform:translateY(10px);transition:.25s;pointer-events:none}
   .toast.on{opacity:1;transform:none}
-  footer{text-align:center;font-size:11.5px;color:var(--muted);margin-top:34px}
+  footer{text-align:center;font-size:11.5px;color:var(--muted);margin-top:34px;line-height:1.6}
   @media(max-width:760px){.arrow{display:none}.step{min-width:44%}}
 </style>
 </head>
 <body>
 
-<div class="draft">⚠ RASCUNHO / MOCK — dados fictícios para alinhamento com o cliente</div>
+<div class="draft">Rascunho com dados fictícios. Serve só para alinharmos o formato do painel.</div>
 
 <header>
-  <div class="brand">Virtus Consultoria · BPO Financeiro</div>
-  <h1>📋 Painel de Cobrança — Construtora</h1>
-  <p>Receita por obra (fluxo 10% sinal · 60% intercaladas · 30% chaves) · Integração ERP → Envio via WhatsApp / E-mail</p>
+  <div class="logo">
+    <svg viewBox="0 0 540 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Virtus Consultoria e Treinamento">
+      <path d="M 96 150 A 78 78 0 0 1 18 72" fill="none" stroke="#ffffff" stroke-width="13"/>
+      <path d="M 444 16 A 78 78 0 0 1 522 94" fill="none" stroke="#ffffff" stroke-width="13"/>
+      <text x="270" y="98" text-anchor="middle" fill="#ffffff" font-family="'Segoe UI',system-ui,sans-serif" font-size="78" font-weight="600" letter-spacing="6">VIRTUS</text>
+      <text x="296" y="138" text-anchor="middle" fill="#ffffff" font-family="'Segoe UI',system-ui,sans-serif" font-size="16.5" font-weight="500" letter-spacing="4.5">CONSULTORIA &amp; TREINAMENTO</text>
+    </svg>
+  </div>
+  <div class="sep"></div>
+  <div>
+    <h1>Painel de Cobrança da Construtora</h1>
+    <p>Visão consolidada da carteira de recebíveis por obra, da venda à entrega das chaves. Identificação de inadimplência e régua de cobrança integrada ao WhatsApp e e-mail.</p>
+  </div>
 </header>
 
 <div class="wrap">
 
-  <h2>Fluxo de cobrança automatizado</h2>
+  <h2>Como a cobrança funciona</h2>
   <div class="flow">
-    <div class="step"><div class="ic">🔑</div><b>1. Login</b><span>ERP / Sistema</span></div><div class="arrow">→</div>
-    <div class="step"><div class="ic">📋</div><b>2. Buscar</b><span>Inadimplentes</span></div><div class="arrow">→</div>
-    <div class="step"><div class="ic">🔗</div><b>3. Capturar</b><span>Links boleto/Pix</span></div><div class="arrow">→</div>
-    <div class="step"><div class="ic">👁</div><b>4. Revisar</b><span>Lista</span></div><div class="arrow">→</div>
-    <div class="step"><div class="ic">📲</div><b>5. Enviar</b><span>WhatsApp</span></div><div class="arrow">→</div>
-    <div class="step"><div class="ic">✅</div><b>6. Confirmar</b><span>Envio / Baixa</span></div>
+    <div class="step"><div class="num">1</div><b>Login</b><span>no sistema da construtora</span></div><div class="arrow">&rsaquo;</div>
+    <div class="step"><div class="num">2</div><b>Busca</b><span>dos inadimplentes</span></div><div class="arrow">&rsaquo;</div>
+    <div class="step"><div class="num">3</div><b>Captura</b><span>dos links de boleto e Pix</span></div><div class="arrow">&rsaquo;</div>
+    <div class="step"><div class="num">4</div><b>Revisão</b><span>da lista antes do envio</span></div><div class="arrow">&rsaquo;</div>
+    <div class="step"><div class="num">5</div><b>Envio</b><span>por WhatsApp</span></div><div class="arrow">&rsaquo;</div>
+    <div class="step"><div class="num">6</div><b>Baixa</b><span>quando o boleto é pago</span></div>
   </div>
 
-  <h2>Visão das obras <span class="tag">3 em andamento</span></h2>
+  <h2>As três obras <span class="tag">dados fictícios</span></h2>
   <div class="obras">
 
     <div class="obra">
       <div class="top"><h3>Residencial Vista do Vale</h3><span class="fase f-lanc">LANÇAMENTO</span></div>
-      <div class="meta">48 unidades · 21 vendidas (44%) · Obra executada: 5%</div>
+      <div class="meta">48 unidades, 21 vendidas (44%). Obra executada: 5%</div>
       <div class="kvs">
         <div class="kv"><small>VGV</small><b>R$ 28,8 mi</b></div>
         <div class="kv"><small>Contratado</small><b>R$ 12,6 mi</b></div>
         <div class="kv"><small>Recebido</small><b>R$ 1,41 mi</b></div>
       </div>
       <div class="curva">
-        <div class="row"><span>Sinal (10%) — R$ 1,26 mi</span><b>92% recebido</b></div>
+        <div class="row"><span>Sinal (10%): R$ 1,26 mi</span><b>92% recebido</b></div>
         <div class="bar"><i class="pago" style="width:92%"></i><i class="venc" style="width:6%"></i></div>
-        <div class="row"><span>Intercaladas (60%) — R$ 7,56 mi</span><b>3% recebido</b></div>
+        <div class="row"><span>Parcelas da obra (60%): R$ 7,56 mi</span><b>3% recebido</b></div>
         <div class="bar"><i class="pago" style="width:3%"></i><i class="venc" style="width:1%"></i></div>
-        <div class="row"><span>Chaves (30%) — R$ 3,78 mi</span><b>—</b></div>
+        <div class="row"><span>Chaves (30%): R$ 3,78 mi</span><b>ainda não iniciou</b></div>
         <div class="bar"></div>
       </div>
       <div class="legenda"><span><i class="dot" style="background:var(--green)"></i>Recebido</span><span><i class="dot" style="background:var(--red)"></i>Vencido</span><span><i class="dot" style="background:#e9edf3"></i>A vencer</span></div>
-      <div class="inad"><span>Inadimplência</span><span>R$ 98.400 · 3 clientes</span></div>
+      <div class="inad"><span>Em atraso</span><span>R$ 98.400 (3 clientes)</span></div>
     </div>
 
     <div class="obra">
       <div class="top"><h3>Edifício Aurora</h3><span class="fase f-fund">FUNDAÇÃO</span></div>
-      <div class="meta">32 unidades · 27 vendidas (84%) · Obra executada: 24%</div>
+      <div class="meta">32 unidades, 27 vendidas (84%). Obra executada: 24%</div>
       <div class="kvs">
         <div class="kv"><small>VGV</small><b>R$ 19,2 mi</b></div>
         <div class="kv"><small>Contratado</small><b>R$ 16,2 mi</b></div>
         <div class="kv"><small>Recebido</small><b>R$ 4,05 mi</b></div>
       </div>
       <div class="curva">
-        <div class="row"><span>Sinal (10%) — R$ 1,62 mi</span><b>100% recebido</b></div>
+        <div class="row"><span>Sinal (10%): R$ 1,62 mi</span><b>100% recebido</b></div>
         <div class="bar"><i class="pago" style="width:100%"></i></div>
-        <div class="row"><span>Intercaladas (60%) — R$ 9,72 mi</span><b>25% recebido</b></div>
+        <div class="row"><span>Parcelas da obra (60%): R$ 9,72 mi</span><b>25% recebido</b></div>
         <div class="bar"><i class="pago" style="width:25%"></i><i class="venc" style="width:4%"></i></div>
-        <div class="row"><span>Chaves (30%) — R$ 4,86 mi</span><b>—</b></div>
+        <div class="row"><span>Chaves (30%): R$ 4,86 mi</span><b>ainda não iniciou</b></div>
         <div class="bar"></div>
       </div>
       <div class="legenda"><span><i class="dot" style="background:var(--green)"></i>Recebido</span><span><i class="dot" style="background:var(--red)"></i>Vencido</span><span><i class="dot" style="background:#e9edf3"></i>A vencer</span></div>
-      <div class="inad"><span>Inadimplência</span><span>R$ 64.730 · 4 clientes</span></div>
+      <div class="inad"><span>Em atraso</span><span>R$ 64.730 (4 clientes)</span></div>
     </div>
 
     <div class="obra">
-      <div class="top"><h3>Cond. Solar das Palmeiras</h3><span class="fase f-fin">FINALIZAÇÃO · CHECKLIST</span></div>
-      <div class="meta">24 unidades · 24 vendidas (100%) · Obra executada: 96% · Entrega prevista: ago/2026</div>
+      <div class="top"><h3>Cond. Solar das Palmeiras</h3><span class="fase f-fin">FINALIZAÇÃO E CHECKLIST</span></div>
+      <div class="meta">24 unidades, todas vendidas. Obra executada: 96%. Entrega prevista: ago/2026</div>
       <div class="kvs">
         <div class="kv"><small>VGV</small><b>R$ 14,4 mi</b></div>
         <div class="kv"><small>Contratado</small><b>R$ 14,4 mi</b></div>
         <div class="kv"><small>Recebido</small><b>R$ 9,65 mi</b></div>
       </div>
       <div class="curva">
-        <div class="row"><span>Sinal (10%) — R$ 1,44 mi</span><b>100% recebido</b></div>
+        <div class="row"><span>Sinal (10%): R$ 1,44 mi</span><b>100% recebido</b></div>
         <div class="bar"><i class="pago" style="width:100%"></i></div>
-        <div class="row"><span>Intercaladas (60%) — R$ 8,64 mi</span><b>95% recebido</b></div>
+        <div class="row"><span>Parcelas da obra (60%): R$ 8,64 mi</span><b>95% recebido</b></div>
         <div class="bar"><i class="pago" style="width:95%"></i><i class="venc" style="width:3%"></i></div>
-        <div class="row"><span>Chaves (30%) — R$ 4,32 mi</span><b>na entrega · ago/2026</b></div>
-        <div class="bar"><i class="pago" style="width:0%"></i></div>
+        <div class="row"><span>Chaves (30%): R$ 4,32 mi</span><b>vence na entrega</b></div>
+        <div class="bar"></div>
       </div>
       <div class="legenda"><span><i class="dot" style="background:var(--green)"></i>Recebido</span><span><i class="dot" style="background:var(--red)"></i>Vencido</span><span><i class="dot" style="background:#e9edf3"></i>A vencer</span></div>
-      <div class="inad"><span>Inadimplência (risco p/ chaves)</span><span>R$ 71.910 · 3 clientes</span></div>
+      <div class="inad"><span>Em atraso (trava a entrega das chaves)</span><span>R$ 71.910 (3 clientes)</span></div>
     </div>
   </div>
 
-  <h2>Filtros de busca</h2>
+  <h2>Filtros</h2>
   <div class="filtros">
     <div><label>Obra</label>
       <select id="fObra" onchange="render()">
@@ -198,44 +209,44 @@
       <select id="fTipo" onchange="render()">
         <option value="">Todas</option>
         <option value="Sinal">Sinal (10%)</option>
-        <option value="Intercalada">Intercaladas (60%)</option>
+        <option value="Intercalada">Parcelas da obra (60%)</option>
         <option value="Chaves">Chaves (30%)</option>
       </select>
     </div>
     <div><label>Mês de referência</label>
       <select><option>Junho/2026</option><option>Maio/2026</option><option>Abril/2026</option></select>
     </div>
-    <div><label>Dias de atraso mín.</label>
+    <div><label>Atraso mínimo (dias)</label>
       <input type="number" id="fAtraso" value="1" min="1" style="min-width:110px" onchange="render()">
     </div>
-    <button class="btn btn-navy" onclick="consultar()">🔍 Buscar no Sistema</button>
+    <button class="btn btn-navy" onclick="consultar()">Buscar no sistema</button>
   </div>
 
-  <h2>Indicadores do dia</h2>
+  <h2>Números de hoje</h2>
   <div class="kpis">
     <div class="kpi alert"><small>Inadimplentes</small><b id="kClientes">10</b></div>
-    <div class="kpi alert"><small>Valor total vencido</small><b id="kTotal">R$ 235.040</b></div>
-    <div class="kpi"><small>Enviados hoje</small><b id="kEnv">0</b></div>
+    <div class="kpi alert"><small>Total vencido</small><b id="kTotal">R$ 235.040</b></div>
+    <div class="kpi"><small>Cobranças enviadas</small><b id="kEnv">0</b></div>
     <div class="kpi"><small>Links abertos</small><b id="kAb">0</b></div>
     <div class="kpi"><small>Boletos pagos</small><b id="kPg">0</b></div>
-    <div class="kpi"><small>Aguardando</small><b id="kAg">10</b></div>
+    <div class="kpi"><small>Aguardando envio</small><b id="kAg">10</b></div>
   </div>
 
-  <h2>Clientes com parcelas vencidas <span class="tag">MOCK</span></h2>
+  <h2>Quem está com parcela vencida <span class="tag">dados fictícios</span></h2>
   <div class="tbl-card">
     <div class="tbl-head">
       <div>
-        <button class="btn btn-green" id="btnZap" onclick="enviarSel()" disabled>📲 Enviar WhatsApp p/ Selecionados</button>
-        <button class="btn btn-line" onclick="exportCSV()">⬇ Exportar CSV</button>
+        <button class="btn btn-green" id="btnZap" onclick="enviarSel()" disabled>Enviar WhatsApp para os selecionados</button>
+        <button class="btn btn-line" onclick="exportCSV()">Exportar CSV</button>
       </div>
-      <span class="sel" id="selInfo">0 selecionados</span>
+      <span class="sel" id="selInfo">Nenhum selecionado</span>
     </div>
     <div style="overflow-x:auto">
     <table>
       <thead><tr>
         <th><input type="checkbox" id="chkAll" onclick="toggleAll(this)"></th>
-        <th>Cliente / Unidade</th><th>Obra</th><th>Parcelas vencidas</th><th>Venc. mais antigo</th>
-        <th>Atraso</th><th>Total</th><th>Envio</th><th>Link aberto</th><th>Ações</th>
+        <th>Cliente / Unidade</th><th>Obra</th><th>Parcelas vencidas</th><th>Vencimento mais antigo</th>
+        <th>Atraso</th><th>Total</th><th>Envio</th><th>Abriu o link</th><th>Ações</th>
       </tr></thead>
       <tbody id="tbody"></tbody>
     </table>
@@ -243,11 +254,11 @@
   </div>
 
   <div class="monitor">
-    <div class="mh"><b>Monitoramento — consulta ao ERP</b><button class="btn btn-line" onclick="consultar()">Consultar agora</button></div>
-    <div class="log" id="log"><div>[erp] Aguardando. Clique em "Consultar agora" para verificar status dos boletos no sistema.</div></div>
+    <div class="mh"><b>Consulta ao sistema da construtora</b><button class="btn btn-line" onclick="consultar()">Consultar agora</button></div>
+    <div class="log" id="log"><div>[sistema] Em espera. Clique em "Consultar agora" para verificar os boletos.</div></div>
   </div>
 
-  <footer>Virtus Consultoria · Painel demonstrativo com dados fictícios · Estrutura de pagamento ilustrativa: 10% sinal / 60% intercaladas / 30% na entrega das chaves (pode variar por contrato)</footer>
+  <footer>Painel demonstrativo da Virtus Consultoria. Todos os nomes e valores são fictícios.<br>A divisão 10/60/30 é a mais comum, mas o painel se adapta ao fluxo de pagamento de cada contrato.</footer>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -263,12 +274,12 @@ let dados = [
  {n:"Patrícia Nogueira Lima", u:"Apto 304", o:"Edifício Aurora", parc:[["Intercalada","Parcela 09/30"]], v:"10/05/2026", at:33, t:10480, st:"ag", ab:false},
  {n:"André Luiz Figueiredo", u:"Apto 902", o:"Edifício Aurora", parc:[["Intercalada","Parcela 07/30"],["Intercalada","Parcela 08/30"]], v:"15/03/2026", at:89, t:20500, st:"ag", ab:false},
  {n:"Beatriz Fonseca Ramalho", u:"Casa 07", o:"Cond. Solar das Palmeiras", parc:[["Intercalada","Parcela 33/34"],["Intercalada","Parcela 34/34"]], v:"05/04/2026", at:68, t:24300, st:"ag", ab:false},
- {n:"Gustavo Henrique Prado", u:"Casa 15", o:"Cond. Solar das Palmeiras", parc:[["Intercalada","Parcela 34/34"],["Chaves","Entrada chaves (acordo)"]], v:"20/04/2026", at:53, t:35610, st:"ag", ab:false},
+ {n:"Gustavo Henrique Prado", u:"Casa 15", o:"Cond. Solar das Palmeiras", parc:[["Intercalada","Parcela 34/34"],["Chaves","Entrada das chaves (acordo)"]], v:"20/04/2026", at:53, t:35610, st:"ag", ab:false},
  {n:"Luciana Martins Vasconcelos", u:"Casa 22", o:"Cond. Solar das Palmeiras", parc:[["Intercalada","Parcela 32/34"]], v:"05/03/2026", at:99, t:12000, st:"ag", ab:false},
 ];
 
 const pcls = {Sinal:"p-sinal", Intercalada:"p-inter", Chaves:"p-chave"};
-const stMap = {ag:["st-ag","Aguardando"], env:["st-env","Enviado ✓"], ab:["st-ab","Visualizado"], pg:["st-pg","Pago ✓"]};
+const stMap = {ag:["st-ag","Aguardando"], env:["st-env","Enviado"], ab:["st-ab","Visualizado"], pg:["st-pg","Pago"]};
 
 function visiveis(){
   const o = document.getElementById('fObra').value;
@@ -279,7 +290,7 @@ function visiveis(){
 
 function render(){
   const vs = visiveis();
-  document.getElementById('tbody').innerHTML = vs.map((d,i)=>{
+  document.getElementById('tbody').innerHTML = vs.map(d=>{
     const idx = dados.indexOf(d);
     const [cls,lbl] = stMap[d.st];
     return `<tr>
@@ -291,58 +302,59 @@ function render(){
       <td class="atraso ${d.at<45?'leve':''}">${d.at} dias</td>
       <td class="total">${fmt(d.t)}</td>
       <td><span class="st ${cls}">${lbl}</span></td>
-      <td>${d.ab?'<span class="st st-ab">👁 Sim</span>':'<span style="color:var(--muted);font-size:12px">—</span>'}</td>
-      <td><a class="acao" onclick="zap(${idx})">📲 WhatsApp</a><a class="acao" onclick="toast('Link do boleto copiado (mock)')">🔗 Copiar boleto</a></td>
+      <td>${d.ab?'<span class="st st-ab">Sim</span>':'<span style="color:var(--muted);font-size:12px">Ainda não</span>'}</td>
+      <td><a class="acao" onclick="zap(${idx})">Enviar WhatsApp</a><a class="acao" onclick="toast('Link do boleto copiado (simulação)')">Copiar link do boleto</a></td>
     </tr>`;
-  }).join('') || '<tr><td colspan="10" style="text-align:center;color:var(--muted);padding:24px">Nenhum cliente encontrado com os filtros atuais.</td></tr>';
+  }).join('') || '<tr><td colspan="10" style="text-align:center;color:var(--muted);padding:24px">Nenhum cliente com esses filtros.</td></tr>';
   kpis(vs); sel();
   document.getElementById('chkAll').checked = false;
 }
 
 function kpis(vs){
-  const ag = vs.filter(d=>d.st==='ag').length;
   document.getElementById('kClientes').textContent = vs.length;
   document.getElementById('kTotal').textContent = fmt(vs.reduce((s,d)=>s+d.t,0));
   document.getElementById('kEnv').textContent = dados.filter(d=>d.st!=='ag').length;
   document.getElementById('kAb').textContent = dados.filter(d=>d.ab).length;
   document.getElementById('kPg').textContent = dados.filter(d=>d.st==='pg').length;
-  document.getElementById('kAg').textContent = ag;
+  document.getElementById('kAg').textContent = vs.filter(d=>d.st==='ag').length;
 }
 
 function sel(){
   const n = document.querySelectorAll('.chk:checked').length;
-  document.getElementById('selInfo').textContent = n+' selecionado'+(n===1?'':'s');
+  document.getElementById('selInfo').textContent = n===0 ? 'Nenhum selecionado' : n+' selecionado'+(n===1?'':'s');
   document.getElementById('btnZap').disabled = n===0;
 }
 function toggleAll(el){ document.querySelectorAll('.chk').forEach(c=>c.checked=el.checked); sel(); }
 
 function zap(i){
-  dados[i].st='env'; log(`[whatsapp] Mensagem enviada para ${dados[i].n} — boleto ${fmt(dados[i].t)} (${dados[i].o})`);
-  setTimeout(()=>{ dados[i].ab=true; if(dados[i].st==='env') dados[i].st='ab'; log(`[tracking] ${dados[i].n} abriu o link do boleto`); render(); }, 2500+Math.random()*3000);
-  toast('Mensagem enviada via WhatsApp (mock)'); render();
+  dados[i].st='env';
+  log(`[whatsapp] Cobrança enviada para ${dados[i].n}. Boleto de ${fmt(dados[i].t)}, ${dados[i].o}.`);
+  setTimeout(()=>{ dados[i].ab=true; if(dados[i].st==='env') dados[i].st='ab'; log(`[rastreio] ${dados[i].n} abriu o link do boleto.`); render(); }, 2500+Math.random()*3000);
+  toast('Cobrança enviada por WhatsApp (simulação)'); render();
 }
 function enviarSel(){
   const sels=[...document.querySelectorAll('.chk:checked')].map(c=>+c.dataset.i);
   sels.forEach((i,k)=>setTimeout(()=>zap(i), k*600));
-  toast(sels.length+' mensagens em fila de envio (mock)');
+  toast(sels.length+' cobranças na fila de envio (simulação)');
 }
 
 function consultar(){
-  log('[erp] Conectando ao sistema da construtora...');
-  setTimeout(()=>log('[erp] Login OK · consultando carteira de receber...'),800);
+  log('[sistema] Conectando ao sistema da construtora...');
+  setTimeout(()=>log('[sistema] Login feito. Consultando a carteira de recebíveis...'),800);
   setTimeout(()=>{
     const pendentes = dados.filter(d=>d.st!=='pg');
     if(pendentes.length && Math.random()>.3){
       const d = pendentes[Math.floor(Math.random()*pendentes.length)];
-      d.st='pg'; log(`[erp] ✓ Baixa identificada: ${d.n} pagou ${fmt(d.t)} — removido da régua de cobrança`);
+      d.st='pg';
+      log(`[sistema] Baixa identificada: ${d.n} pagou ${fmt(d.t)}. Cliente sai da régua de cobrança.`);
       toast('Pagamento identificado: '+d.n);
-    } else log('[erp] Nenhuma baixa nova identificada.');
-    log(`[erp] Consulta concluída · ${dados.filter(d=>d.st!=='pg').length} boletos em aberto`); render();
+    } else log('[sistema] Nenhuma baixa nova desta vez.');
+    log(`[sistema] Consulta concluída. ${dados.filter(d=>d.st!=='pg').length} boletos seguem em aberto.`); render();
   },1900);
 }
 
 function exportCSV(){
-  const linhas=[['Cliente','Unidade','Obra','Parcelas','Venc. mais antigo','Dias atraso','Total','Status']];
+  const linhas=[['Cliente','Unidade','Obra','Parcelas','Vencimento mais antigo','Dias de atraso','Total','Status']];
   visiveis().forEach(d=>linhas.push([d.n,d.u,d.o,d.parc.map(p=>p[1]).join(' | '),d.v,d.at,d.t.toFixed(2).replace('.',','),stMap[d.st][1]]));
   const csv = linhas.map(l=>l.map(c=>`"${c}"`).join(';')).join('\n');
   const a = document.createElement('a');
