@@ -109,6 +109,25 @@
 
 <div class="wrap">
 
+  <div class="filtros" style="margin-top:4px">
+    <div><label>Obra</label>
+      <select id="fObra" onchange="render()">
+        <option value="">Todas as obras</option>
+        <option>Residencial Vista do Vale</option>
+        <option>Edifício Aurora</option>
+        <option>Edifício Solar das Palmeiras</option>
+      </select>
+    </div>
+    <div><label>Situação</label>
+      <select id="fStatus" onchange="filtroSem=this.value;marcaSem();render()">
+        <option value="">Todas</option>
+        <option value="red">Em atraso</option>
+        <option value="amber">Perto do vencimento</option>
+        <option value="green">Em dia</option>
+      </select>
+    </div>
+  </div>
+
   <h2>Para hoje, 12 de junho</h2>
   <div class="semaforo">
     <div class="sem red" onclick="filtraStatus('red',this)">
@@ -133,10 +152,10 @@
     </div>
   </div>
 
-  <h2>As três incorporações <span class="tag">dados fictícios</span></h2>
+  <h2 id="tituloObras">As três incorporações <span class="tag">dados fictícios</span></h2>
   <div class="obras">
 
-    <div class="obra">
+    <div class="obra" data-obra="Residencial Vista do Vale">
       <div class="top"><h3>Residencial Vista do Vale</h3><span class="fase f-lanc">LANÇAMENTO</span></div>
       <div class="mets">
         <div class="met">
@@ -153,7 +172,7 @@
       <div class="alerta"><span>3 clientes em atraso</span><span>R$ 98.400</span></div>
     </div>
 
-    <div class="obra">
+    <div class="obra" data-obra="Edifício Aurora">
       <div class="top"><h3>Edifício Aurora</h3><span class="fase f-fund">FUNDAÇÃO</span></div>
       <div class="mets">
         <div class="met">
@@ -170,7 +189,7 @@
       <div class="alerta"><span>4 clientes em atraso</span><span>R$ 64.730</span></div>
     </div>
 
-    <div class="obra">
+    <div class="obra" data-obra="Edifício Solar das Palmeiras">
       <div class="top"><h3>Edifício Solar das Palmeiras</h3><span class="fase f-fin">FINALIZAÇÃO</span></div>
       <div class="mets">
         <div class="met">
@@ -190,22 +209,6 @@
 
   <h2>Carteira de clientes</h2>
   <div class="filtros">
-    <div><label>Obra</label>
-      <select id="fObra" onchange="render()">
-        <option value="">Todas</option>
-        <option>Residencial Vista do Vale</option>
-        <option>Edifício Aurora</option>
-        <option>Edifício Solar das Palmeiras</option>
-      </select>
-    </div>
-    <div><label>Situação</label>
-      <select id="fStatus" onchange="render()">
-        <option value="">Todas</option>
-        <option value="red">Em atraso</option>
-        <option value="amber">Perto do vencimento</option>
-        <option value="green">Em dia</option>
-      </select>
-    </div>
     <button class="btn btn-green" id="btnZap" onclick="enviarSel()" disabled>Enviar WhatsApp para os selecionados</button>
     <button class="btn btn-line" onclick="exportCSV()">Exportar CSV</button>
     <span class="sel" id="selInfo" style="font-size:12.5px;color:var(--muted)">Nenhum selecionado</span>
@@ -260,11 +263,12 @@ const stInfo = {
 
 let filtroSem = "";
 
+function obraSel(){ return document.getElementById('fObra').value; }
+
 function visiveis(){
-  const o = document.getElementById('fObra').value;
-  const s = document.getElementById('fStatus').value || filtroSem;
+  const o = obraSel();
   return dados
-    .filter(d => (!o||d.o===o) && (!s||d.st===s))
+    .filter(d => (!o||d.o===o) && (!filtroSem||d.st===filtroSem))
     .sort((a,b)=> stInfo[a.st].ord - stInfo[b.st].ord || a.dias - b.dias);
 }
 
@@ -286,15 +290,33 @@ function render(){
       <td>${podeCobrar?`<a class="acao" href="tel:${d.tel.replace(/\D/g,'')}">Ligar</a><a class="acao" onclick="zap(${idx})">Enviar WhatsApp</a>`:'<span style="color:var(--muted);font-size:12px">Sem pendência</span>'}</td>
     </tr>`;
   }).join('') || '<tr><td colspan="9" style="text-align:center;color:var(--muted);padding:24px">Nenhum cliente com esses filtros.</td></tr>';
-  kpis(); sel();
+  kpis(); cards(); sel();
   document.getElementById('chkAll').checked = false;
 }
 
 function kpis(){
-  document.getElementById('cRed').textContent = dados.filter(d=>d.st==='red').length;
-  document.getElementById('cAmber').textContent = dados.filter(d=>d.st==='amber').length;
-  document.getElementById('cGreen').textContent = dados.filter(d=>d.st==='green').length;
-  document.getElementById('cTotal').textContent = fmt(dados.filter(d=>d.st==='red').reduce((s,d)=>s+d.t,0));
+  const o = obraSel();
+  const base = dados.filter(d => !o || d.o===o);
+  document.getElementById('cRed').textContent = base.filter(d=>d.st==='red').length;
+  document.getElementById('cAmber').textContent = base.filter(d=>d.st==='amber').length;
+  document.getElementById('cGreen').textContent = base.filter(d=>d.st==='green').length;
+  document.getElementById('cTotal').textContent = fmt(base.filter(d=>d.st==='red').reduce((s,d)=>s+d.t,0));
+}
+
+function cards(){
+  const o = obraSel();
+  document.querySelectorAll('.obra').forEach(c=>{
+    c.style.display = (!o || c.dataset.obra===o) ? '' : 'none';
+  });
+  document.getElementById('tituloObras').innerHTML = (o ? o : 'As três incorporações') + ' <span class="tag">dados fictícios</span>';
+}
+
+function marcaSem(){
+  document.querySelectorAll('.sem').forEach(x=>x.classList.remove('on'));
+  if(filtroSem){
+    const el = document.querySelector('.sem.'+filtroSem.replace('red','red').replace('amber','amber').replace('green','green'));
+    if(el) el.classList.add('on');
+  }
 }
 
 function filtraStatus(s, el){
