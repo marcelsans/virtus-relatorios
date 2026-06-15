@@ -278,22 +278,22 @@ const fmt = v => v.toLocaleString('pt-BR',{style:'currency',currency:'BRL',minim
 
 // status: red = vencida | amber = vence em até 7 dias | green = em dia
 let dados = [
- {n:"Roberto Akira Tanaka", u:"Apto 1801", o:"Residencial Vista do Vale", p:"Sinal 3ª/3 + Parcela 01/36", v:"20/03/2026", dias:-84, t:43800, tel:"(11) 98765-4321", st:"red"},
- {n:"Carlos Eduardo Menezes", u:"Apto 1204", o:"Residencial Vista do Vale", p:"Sinal 2ª/3", v:"10/04/2026", dias:-63, t:42000, tel:"(11) 99812-3344", st:"red"},
- {n:"Luciana Martins Vasconcelos", u:"Apto 2202", o:"Edifício Solar das Palmeiras", p:"Parcela 32/34", v:"05/03/2026", dias:-99, t:12000, tel:"(11) 98123-7788", st:"red"},
- {n:"Beatriz Fonseca Ramalho", u:"Apto 702", o:"Edifício Solar das Palmeiras", p:"Parcelas 33 e 34/34", v:"05/04/2026", dias:-68, t:24300, tel:"(11) 99655-2210", st:"red"},
- {n:"André Luiz Figueiredo", u:"Apto 902", o:"Edifício Aurora", p:"Parcelas 07 e 08/30", v:"15/03/2026", dias:-89, t:20500, tel:"(11) 98444-9090", st:"red"},
- {n:"Marcos Vinícius Sales", u:"Apto 1101", o:"Edifício Aurora", p:"Parcelas 08 e 09/30", v:"15/04/2026", dias:-58, t:22500, tel:"(11) 97777-1212", st:"red"},
- {n:"Gustavo Henrique Prado", u:"Apto 1501", o:"Edifício Solar das Palmeiras", p:"Parcela 34/34 + acordo chaves", v:"20/04/2026", dias:-53, t:35610, tel:"(11) 96321-4455", st:"red"},
- {n:"Fernanda Lopes Arruda", u:"Apto 703", o:"Residencial Vista do Vale", p:"Parcela 02/36", v:"05/05/2026", dias:-38, t:12600, tel:"(11) 98220-6677", st:"red"},
- {n:"Patrícia Nogueira Lima", u:"Apto 304", o:"Edifício Aurora", p:"Parcela 09/30", v:"10/05/2026", dias:-33, t:10480, tel:"(11) 99100-3030", st:"red"},
- {n:"Juliana Castro Bittencourt", u:"Apto 502", o:"Edifício Aurora", p:"Parcela 09/30", v:"15/05/2026", dias:-28, t:11250, tel:"(11) 98555-8181", st:"red"},
- {n:"Ricardo Alves Pontes", u:"Apto 1502", o:"Residencial Vista do Vale", p:"Parcela 03/36", v:"15/06/2026", dias:3, t:12600, tel:"(11) 99444-7700", st:"amber"},
- {n:"Camila Duarte Rezende", u:"Apto 601", o:"Edifício Aurora", p:"Parcela 10/30", v:"15/06/2026", dias:3, t:11250, tel:"(11) 98989-5544", st:"amber"},
- {n:"Eduardo Sampaio Neto", u:"Apto 1102", o:"Edifício Solar das Palmeiras", p:"Parcela 34/34", v:"18/06/2026", dias:6, t:12150, tel:"(11) 97333-2299", st:"amber"},
- {n:"Helena Barros Quintela", u:"Apto 801", o:"Residencial Vista do Vale", p:"Parcela 02/36 (paga)", v:"05/06/2026", dias:99, t:12600, tel:"(11) 98111-6633", st:"green"},
- {n:"Otávio Ferraz Camargo", u:"Apto 401", o:"Edifício Aurora", p:"Parcela 09/30 (paga)", v:"15/05/2026", dias:99, t:11250, tel:"(11) 99777-8855", st:"green"},
- {n:"Renata Sousa Albuquerque", u:"Apto 2001", o:"Edifício Solar das Palmeiras", p:"Parcela 34/34 (paga)", v:"05/06/2026", dias:99, t:12150, tel:"(11) 96555-1100", st:"green"},
+ {n:"Roberto Akira Tanaka", u:"Apto 1801", o:"Residencial Vista do Vale", p:"Sinal 3ª/3 + Parcela 01/36", v:"20/03/2026", dias:-84, t:43800, tel:"(83) 98765-4321", st:"red"},
+ {n:"Carlos Eduardo Menezes", u:"Apto 1204", o:"Residencial Vista do Vale", p:"Sinal 2ª/3", v:"10/04/2026", dias:-63, t:42000, tel:"(83) 99812-3344", st:"red"},
+ {n:"Luciana Martins Vasconcelos", u:"Apto 2202", o:"Edifício Solar das Palmeiras", p:"Parcela 32/34", v:"05/03/2026", dias:-99, t:12000, tel:"(83) 98123-7788", st:"red"},
+ {n:"Beatriz Fonseca Ramalho", u:"Apto 702", o:"Edifício Solar das Palmeiras", p:"Parcelas 33 e 34/34", v:"05/04/2026", dias:-68, t:24300, tel:"(83) 99655-2210", st:"red"},
+ {n:"André Luiz Figueiredo", u:"Apto 902", o:"Edifício Aurora", p:"Parcelas 07 e 08/30", v:"15/03/2026", dias:-89, t:20500, tel:"(83) 98444-9090", st:"red"},
+ {n:"Marcos Vinícius Sales", u:"Apto 1101", o:"Edifício Aurora", p:"Parcelas 08 e 09/30", v:"15/04/2026", dias:-58, t:22500, tel:"(83) 97777-1212", st:"red"},
+ {n:"Gustavo Henrique Prado", u:"Apto 1501", o:"Edifício Solar das Palmeiras", p:"Parcela 34/34 + acordo chaves", v:"20/04/2026", dias:-53, t:35610, tel:"(83) 96321-4455", st:"red"},
+ {n:"Fernanda Lopes Arruda", u:"Apto 703", o:"Residencial Vista do Vale", p:"Parcela 02/36", v:"05/05/2026", dias:-38, t:12600, tel:"(83) 98220-6677", st:"red"},
+ {n:"Patrícia Nogueira Lima", u:"Apto 304", o:"Edifício Aurora", p:"Parcela 09/30", v:"10/05/2026", dias:-33, t:10480, tel:"(83) 99100-3030", st:"red"},
+ {n:"Juliana Castro Bittencourt", u:"Apto 502", o:"Edifício Aurora", p:"Parcela 09/30", v:"15/05/2026", dias:-28, t:11250, tel:"(83) 98555-8181", st:"red"},
+ {n:"Ricardo Alves Pontes", u:"Apto 1502", o:"Residencial Vista do Vale", p:"Parcela 03/36", v:"15/06/2026", dias:3, t:12600, tel:"(83) 99444-7700", st:"amber"},
+ {n:"Camila Duarte Rezende", u:"Apto 601", o:"Edifício Aurora", p:"Parcela 10/30", v:"15/06/2026", dias:3, t:11250, tel:"(83) 98989-5544", st:"amber"},
+ {n:"Eduardo Sampaio Neto", u:"Apto 1102", o:"Edifício Solar das Palmeiras", p:"Parcela 34/34", v:"18/06/2026", dias:6, t:12150, tel:"(83) 97333-2299", st:"amber"},
+ {n:"Helena Barros Quintela", u:"Apto 801", o:"Residencial Vista do Vale", p:"Parcela 02/36 (paga)", v:"05/06/2026", dias:99, t:12600, tel:"(83) 98111-6633", st:"green"},
+ {n:"Otávio Ferraz Camargo", u:"Apto 401", o:"Edifício Aurora", p:"Parcela 09/30 (paga)", v:"15/05/2026", dias:99, t:11250, tel:"(83) 99777-8855", st:"green"},
+ {n:"Renata Sousa Albuquerque", u:"Apto 2001", o:"Edifício Solar das Palmeiras", p:"Parcela 34/34 (paga)", v:"05/06/2026", dias:99, t:12150, tel:"(83) 96555-1100", st:"green"},
 ];
 
 const stInfo = {
