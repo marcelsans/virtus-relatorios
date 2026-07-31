@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Painel de Cobrança — Clínica Odontológica (DRAFT)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F5F8F8;
+    --surface:#FFFFFF;
+    --ink:#16232B;
+    --ink-soft:#5B6B70;
+    --ink-faint:#93A2A5;
+    --line:#DEE7E6;
+    --teal:#146B64;
+    --teal-dark:#0D4F4A;
+    --teal-tint:#E3F1EF;
+    --inv:#4E6C8C;
+    --inv-tint:#E8EDF3;
+    --coral:#C4463D;
+    --coral-tint:#FBEAE8;
+    --amber:#B9812C;
+    --amber-tint:#FBF1E0;
+    --sage:#3F8F6F;
+    --sage-tint:#E6F3EC;
+    --radius:14px;
+    --shadow: 0 1px 2px rgba(22,35,43,.04), 0 6px 20px rgba(22,35,43,.06);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    font-size:14px;
+    line-height:1.45;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.num,.mono{font-family:'Space Grotesk',sans-serif;}
+  a{color:inherit;}
+  button{font-family:inherit;}
+  :focus-visible{outline:2px solid var(--teal); outline-offset:2px;}
+
+  .wrap{max-width:1180px; margin:0 auto; padding:28px 20px 64px;}
+
+  /* ---------- Header ---------- */
+  .brandbar{
+    display:flex; align-items:center; justify-content:space-between;
+    padding-bottom:18px; margin-bottom:22px; border-bottom:1px solid var(--line);
+    flex-wrap:wrap; gap:10px;
+  }
+  .brand{
+    display:flex; align-items:center; gap:10px;
+    font-size:12px; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--ink-soft); font-weight:600;
+  }
+  .brand .dot{width:8px;height:8px;border-radius:50%;background:var(--teal);}
+  .draft-tag{
+    font-size:11px; letter-spacing:.06em; text-transform:uppercase;
+    color:var(--coral); background:var(--coral-tint);
+    padding:4px 10px; border-radius:20px; font-weight:600;
+  }
+  .disclaimer{
+    font-size:12.5px; color:var(--ink-soft); background:var(--surface);
+    border:1px solid var(--line); border-radius:10px; padding:10px 14px; margin-bottom:24px;
+  }
+
+  .titlebox h1{font-size:26px; font-weight:600; margin:0 0 6px; letter-spacing:-.01em;}
+  .titlebox p{margin:0; color:var(--ink-soft); max-width:640px; font-size:14px;}
+
+  /* ---------- Filters ---------- */
+  .filters{
+    display:flex; gap:22px; flex-wrap:wrap; align-items:flex-end;
+    margin:26px 0 22px; padding:18px; background:var(--surface);
+    border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow);
+  }
+  .filter-group{display:flex; flex-direction:column; gap:8px;}
+  .filter-group label{font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--ink-faint); font-weight:600;}
+  .pillrow{display:flex; gap:6px; flex-wrap:wrap;}
+  .pill{
+    border:1px solid var(--line); background:var(--bg); color:var(--ink-soft);
+    padding:7px 13px; border-radius:20px; font-size:13px; cursor:pointer;
+    font-weight:500; transition:.15s ease;
+  }
+  .pill:hover{border-color:var(--teal);}
+  .pill.active{background:var(--teal); border-color:var(--teal); color:#fff;}
+  .pill.active.inv{background:var(--inv); border-color:var(--inv);}
+  .subpills{margin-top:2px;}
+  .subpills.hidden{display:none;}
+  .search-input{
+    border:1px solid var(--line); border-radius:10px; padding:9px 12px;
+    font-size:13px; min-width:220px; background:var(--bg); color:var(--ink);
+  }
+
+  /* ---------- Today summary ---------- */
+  .today-label{font-size:13px; color:var(--ink-soft); margin:8px 0 12px; font-weight:600;}
+  .today-grid{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:30px;
+  }
+  .today-card{
+    background:var(--surface); border:1px solid var(--line); border-radius:var(--radius);
+    padding:16px 18px; box-shadow:var(--shadow);
+  }
+  .today-card .eyebrow{font-size:11px; letter-spacing:.06em; text-transform:uppercase; font-weight:700; margin-bottom:8px;}
+  .today-card .num{font-size:28px; font-weight:700; line-height:1;}
+  .today-card .sub{font-size:12.5px; color:var(--ink-soft); margin-top:6px;}
+  .today-card.call .eyebrow{color:var(--coral);}
+  .today-card.soon .eyebrow{color:var(--amber);}
+  .today-card.ok .eyebrow{color:var(--sage);}
+  .today-card.total .eyebrow{color:var(--ink-soft);}
+
+  /* ---------- Category cards ---------- */
+  .section-title{font-size:16px; font-weight:600; margin:0 0 4px;}
+  .section-sub{font-size:13px; color:var(--ink-soft); margin:0 0 16px;}
+  .cat-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:32px;}
+  .cat-card{
+    background:var(--surface); border:1px solid var(--line); border-radius:var(--radius);
+    padding:20px; box-shadow:var(--shadow); position:relative; overflow:hidden;
+  }
+  .cat-card.featured{border-color:var(--teal); box-shadow:0 0 0 1px var(--teal), var(--shadow);}
+  .cat-tag{
+    display:inline-flex; align-items:center; gap:6px;
+    font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; font-weight:700;
+    padding:3px 9px; border-radius:20px; margin-bottom:10px;
+  }
+  .cat-tag.nitid{background:var(--teal-tint); color:var(--teal-dark);}
+  .cat-tag.inv{background:var(--inv-tint); color:var(--inv);}
+  .cat-tag.gen{background:var(--sage-tint); color:var(--sage);}
+  .cat-card h3{font-size:17px; margin:0 0 2px; font-weight:600;}
+  .cat-card .cat-meta{font-size:12px; color:var(--ink-faint); margin-bottom:14px;}
+  .cat-stats{display:flex; justify-content:space-between; margin-bottom:12px;}
+  .cat-stats .stat-label{font-size:11px; text-transform:uppercase; letter-spacing:.04em; color:var(--ink-faint); font-weight:600; margin-bottom:2px;}
+  .cat-stats .stat-val{font-size:19px; font-weight:700;}
+
+  /* signature: dental arch progress made of tooth-shaped ticks */
+  .arch{display:flex; gap:3px; margin:12px 0 8px;}
+  .tooth{
+    flex:1; height:20px; border-radius:8px 8px 3px 3px;
+    background:var(--line);
+  }
+  .tooth.filled{background:var(--teal);}
+  .tooth.filled.inv{background:var(--inv);}
+  .arch-caption{display:flex; justify-content:space-between; font-size:11.5px; color:var(--ink-soft); margin-bottom:14px;}
+  .cat-foot{
+    display:flex; justify-content:space-between; align-items:center;
+    border-top:1px dashed var(--line); padding-top:12px; font-size:12.5px;
+  }
+  .cat-foot .late{color:var(--coral); font-weight:600;}
+
+  /* ---------- Table ---------- */
+  .table-toolbar{
+    display:flex; justify-content:space-between; align-items:center; gap:12px;
+    margin-bottom:12px; flex-wrap:wrap;
+  }
+  .table-toolbar .left{font-size:13px; color:var(--ink-soft);}
+  .btn{
+    border:1px solid var(--line); background:var(--surface); color:var(--ink);
+    padding:8px 14px; border-radius:9px; font-size:13px; font-weight:600; cursor:pointer;
+  }
+  .btn.primary{background:var(--teal); border-color:var(--teal); color:#fff;}
+  .btn.primary:disabled{background:var(--ink-faint); border-color:var(--ink-faint); cursor:not-allowed;}
+  .btn:hover:not(:disabled){filter:brightness(0.97);}
+  .toolbar-actions{display:flex; gap:8px;}
+
+  .table-card{
+    background:var(--surface); border:1px solid var(--line); border-radius:var(--radius);
+    box-shadow:var(--shadow); overflow:hidden; margin-bottom:26px;
+  }
+  table{width:100%; border-collapse:collapse; font-size:13px;}
+  thead th{
+    text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:.05em;
+    color:var(--ink-faint); font-weight:700; padding:12px 14px; border-bottom:1px solid var(--line);
+    background:#FBFDFD;
+  }
+  tbody td{padding:12px 14px; border-bottom:1px solid var(--line); vertical-align:middle;}
+  tbody tr:last-child td{border-bottom:none;}
+  tbody tr:hover{background:#FAFBFB;}
+  .patient-name{font-weight:600;}
+  .patient-treat{font-size:12px; color:var(--ink-soft);}
+  .badge-cat{
+    font-size:11px; font-weight:600; padding:3px 8px; border-radius:20px; white-space:nowrap;
+  }
+  .badge-cat.consulta{background:var(--sage-tint); color:var(--sage);}
+  .badge-cat.nitid{background:var(--teal-tint); color:var(--teal-dark);}
+  .badge-cat.invis{background:var(--inv-tint); color:var(--inv);}
+  .badge-cat.outro{background:#EFEAF7; color:#6E58A8;}
+  .status{display:flex; align-items:center; gap:7px; font-weight:600; font-size:12.5px;}
+  .status .sdot{width:8px; height:8px; border-radius:50%;}
+  .status.late .sdot{background:var(--coral);} .status.late{color:var(--coral);}
+  .status.soon .sdot{background:var(--amber);} .status.soon{color:var(--amber);}
+  .status.ok .sdot{background:var(--sage);} .status.ok{color:var(--sage);}
+  .val{font-family:'Space Grotesk',sans-serif; font-weight:600; font-variant-numeric:tabular-nums;}
+  .row-actions{display:flex; gap:6px;}
+  .icon-btn{
+    border:1px solid var(--line); background:var(--bg); border-radius:7px; padding:5px 9px;
+    font-size:12px; cursor:pointer; color:var(--ink-soft);
+  }
+  .icon-btn:hover{border-color:var(--teal); color:var(--teal);}
+  .empty-row td{text-align:center; padding:30px; color:var(--ink-faint);}
+
+  /* ---------- Monitoring ---------- */
+  .monitor{
+    background:var(--surface); border:1px solid var(--line); border-radius:var(--radius);
+    padding:18px 20px; box-shadow:var(--shadow); margin-bottom:26px;
+  }
+  .monitor h3{font-size:14px; margin:0 0 10px;}
+  .monitor-row{display:flex; align-items:center; gap:12px; flex-wrap:wrap;}
+  .console{
+    flex:1; min-width:260px; background:#0F1B20; color:#8FE3C7; font-family:'Space Grotesk',monospace;
+    font-size:12.5px; padding:10px 12px; border-radius:8px;
+  }
+
+  footer{font-size:12px; color:var(--ink-faint); text-align:center; margin-top:10px;}
+
+  /* ---------- Modal ---------- */
+  .modal-backdrop{
+    position:fixed; inset:0; background:rgba(15,25,30,.45); display:none;
+    align-items:center; justify-content:center; z-index:50;
+  }
+  .modal-backdrop.show{display:flex;}
+  .modal{
+    background:var(--surface); border-radius:16px; padding:24px; width:420px; max-width:90vw;
+    box-shadow:0 20px 60px rgba(0,0,0,.25);
+  }
+  .modal h3{margin:0 0 10px; font-size:16px;}
+  .modal p{font-size:13px; color:var(--ink-soft); margin:0 0 16px;}
+  .modal textarea{
+    width:100%; min-height:100px; border:1px solid var(--line); border-radius:10px; padding:10px;
+    font-family:inherit; font-size:13px; resize:vertical; color:var(--ink);
+  }
+  .modal-actions{display:flex; justify-content:flex-end; gap:10px; margin-top:16px;}
+
+  @media (max-width:920px){
+    .today-grid{grid-template-columns:repeat(2,1fr);}
+    .cat-grid{grid-template-columns:1fr;}
+  }
+  @media (max-width:600px){
+    .today-grid{grid-template-columns:1fr;}
+    table{font-size:12px;}
+    thead th:nth-child(6), tbody td:nth-child(6){display:none;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="brandbar">
+    <div class="brand"><span class="dot"></span> VIRTUS CONSULTORIA &amp; TREINAMENTO</div>
+    <div class="draft-tag">Rascunho — dados fictícios</div>
+  </div>
+
+  <div class="disclaimer">
+    Este painel é um rascunho para alinharmos o formato junto à clínica. Nomes de pacientes, telefones e valores são fictícios. A estrutura foi adaptada do modelo usado para incorporadoras, agora organizada por <strong>consultas</strong> e <strong>tratamentos</strong> (alinhador próprio NITID e Invisalign).
+  </div>
+
+  <div class="titlebox">
+    <h1>Painel de Cobrança — Clínica OdontoVida</h1>
+    <p>Visão consolidada da carteira de recebíveis de consultas e tratamentos, do orçamento aprovado até a última parcela paga. Identificação de inadimplência e régua de cobrança integrada ao WhatsApp e e-mail.</p>
+  </div>
+
+  <div class="filters">
+    <div class="filter-group">
+      <label>Tipo de atendimento</label>
+      <div class="pillrow" id="tipoFilter">
+        <button class="pill active" data-tipo="todos">Todos</button>
+        <button class="pill" data-tipo="consulta">Consultas</button>
+        <button class="pill" data-tipo="tratamento">Tratamentos</button>
+      </div>
+      <div class="pillrow subpills hidden" id="subFilter">
+        <button class="pill" data-cat="nitid">Alinhador NITID (própria)</button>
+        <button class="pill" data-cat="invis">Invisalign</button>
+        <button class="pill" data-cat="outro">Outros tratamentos</button>
+      </div>
+    </div>
+    <div class="filter-group">
+      <label>Situação</label>
+      <div class="pillrow" id="statusFilter">
+        <button class="pill active" data-status="todos">Todas</button>
+        <button class="pill" data-status="late">Em atraso</button>
+        <button class="pill" data-status="soon">Perto do vencimento</button>
+        <button class="pill" data-status="ok">Em dia</button>
+      </div>
+    </div>
+    <div class="filter-group" style="flex:1;">
+      <label>Buscar paciente</label>
+      <input class="search-input" id="searchInput" placeholder="Nome do paciente...">
+    </div>
+  </div>
+
+  <div class="today-label">Para hoje, 30 de julho</div>
+  <div class="today-grid">
+    <div class="today-card call">
+      <div class="eyebrow">Ligar hoje</div>
+      <div class="num">7</div>
+      <div class="sub">pacientes com parcela vencida</div>
+    </div>
+    <div class="today-card soon">
+      <div class="eyebrow">Perto do vencimento</div>
+      <div class="num">5</div>
+      <div class="sub">vencem nos próximos 7 dias</div>
+    </div>
+    <div class="today-card ok">
+      <div class="eyebrow">Em dia</div>
+      <div class="num">42</div>
+      <div class="sub">pagaram ou sem parcela próxima</div>
+    </div>
+    <div class="today-card total">
+      <div class="eyebrow">Valor em atraso</div>
+      <div class="num">R$ 16.920</div>
+      <div class="sub">somando consultas e tratamentos</div>
+    </div>
+  </div>
+
+  <h2 class="section-title">Carteira por linha de atendimento</h2>
+  <p class="section-sub">Dados fictícios · consultas avulsas e as duas tecnologias de alinhamento oferecidas pela clínica</p>
+  <div class="cat-grid">
+
+    <div class="cat-card">
+      <span class="cat-tag gen">Avulso</span>
+      <h3>Consultas</h3>
+      <div class="cat-meta">34 consultas realizadas no mês</div>
+      <div class="cat-stats">
+        <div><div class="stat-label">Recebido</div><div class="stat-val">82%</div></div>
+        <div><div class="stat-label">Carteira</div><div class="stat-val">R$ 18,4 mil</div></div>
+      </div>
+      <div class="arch">
+        <div class="tooth filled"></div><div class="tooth filled"></div><div class="tooth filled"></div>
+        <div class="tooth filled"></div><div class="tooth filled"></div><div class="tooth filled"></div>
+        <div class="tooth filled"></div><div class="tooth filled"></div><div class="tooth"></div><div class="tooth"></div>
+      </div>
+      <div class="arch-caption"><span>R$ 18,4 mil recebidos</span><span>de R$ 22,4 mil</span></div>
+      <div class="cat-foot"><span>2 pacientes em atraso</span><span class="late">R$ 1.240</span></div>
+    </div>
+
+    <div class="cat-card featured">
+      <span class="cat-tag nitid">Tecnologia própria</span>
+      <h3>Alinhador NITID</h3>
+      <div class="cat-meta">27 pacientes em tratamento</div>
+      <div class="cat-stats">
+        <div><div class="stat-label">Recebido</div><div class="stat-val">46%</div></div>
+        <div><div class="stat-label">Carteira</div><div class="stat-val">R$ 96,3 mil</div></div>
+      </div>
+      <div class="arch">
+        <div class="tooth filled"></div><div class="tooth filled"></div><div class="tooth filled"></div>
+        <div class="tooth filled"></div><div class="tooth"></div><div class="tooth"></div>
+        <div class="tooth"></div><div class="tooth"></div><div class="tooth"></div><div class="tooth"></div>
+      </div>
+      <div class="arch-caption"><span>R$ 96,3 mil recebidos</span><span>de R$ 210 mil</span></div>
+      <div class="cat-foot"><span>4 pacientes em atraso</span><span class="late">R$ 12.480</span></div>
+    </div>
+
+    <div class="cat-card">
+      <span class="cat-tag inv">Parceira / licenciada</span>
+      <h3>Invisalign</h3>
+      <div class="cat-meta">9 pacientes em tratamento</div>
+      <div class="cat-stats">
+        <div><div class="stat-label">Recebido</div><div class="stat-val">61%</div></div>
+        <div><div class="stat-label">Carteira</div><div class="stat-val">R$ 54,9 mil</div></div>
+      </div>
+      <div class="arch">
+        <div class="tooth filled inv"></div><div class="tooth filled inv"></div><div class="tooth filled inv"></div>
+        <div class="tooth filled inv"></div><div class="tooth filled inv"></div><div class="tooth filled inv"></div>
+        <div class="tooth"></div><div class="tooth"></div><div class="tooth"></div><div class="tooth"></div>
+      </div>
+      <div class="arch-caption"><span>R$ 54,9 mil recebidos</span><span>de R$ 90 mil</span></div>
+      <div class="cat-foot"><span>1 paciente em atraso</span><span class="late">R$ 3.200</span></div>
+    </div>
+
+  </div>
+
+  <h2 class="section-title">Carteira de pacientes</h2>
+  <div class="table-toolbar">
+    <div class="left" id="selectedLabel">Nenhum selecionado</div>
+    <div class="toolbar-actions">
+      <button class="btn primary" id="whatsBtn" disabled>Enviar WhatsApp para os selecionados</button>
+      <button class="btn" id="csvBtn">Exportar CSV</button>
+    </div>
+  </div>
+
+  <div class="table-card">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:34px;"><input type="checkbox" id="selectAll"></th>
+          <th>Situação</th>
+          <th>Paciente / Tratamento</th>
+          <th>Categoria</th>
+          <th>Parcela</th>
+          <th>Vencimento</th>
+          <th>Valor</th>
+          <th>Telefone</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+  </div>
+
+  <div class="monitor">
+    <h3>Monitoramento: consulta ao sistema</h3>
+    <div class="monitor-row">
+      <div class="console" id="consoleBox">[sistema] Em espera. Clique em "Consultar agora" para verificar pagamentos e novas parcelas em aberto.</div>
+      <button class="btn" id="checkBtn">Consultar agora</button>
+    </div>
+  </div>
+
+  <footer>
+    Painel demonstrativo da Virtus Consultoria para a Clínica OdontoVida. Todos os nomes, telefones e valores são fictícios.<br>
+    A régua de cobrança acompanha o fluxo de cada atendimento (orçamento, parcelas do tratamento e manutenção) e se adapta à política comercial da clínica.
+  </footer>
+
+</div>
+
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal">
+    <h3>Mensagem de cobrança via WhatsApp</h3>
+    <p id="modalCount">Enviar lembrete para 0 paciente(s) selecionado(s).</p>
+    <textarea id="modalText">Olá! Passando para lembrar que há uma parcela em aberto na Clínica OdontoVida. Qualquer dúvida, estamos à disposição 🙂</textarea>
+    <div class="modal-actions">
+      <button class="btn" id="modalCancel">Cancelar</button>
+      <button class="btn primary" id="modalConfirm">Confirmar envio</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const patients = [
+  {name:"Marina Souza", treat:"Manutenção — Alinhador NITID", cat:"nitid", tipo:"tratamento", parcela:"5/14", venc:"2026-07-18", val:640, phone:"(88) 99123-4501", status:"late"},
+  {name:"João Pedro Lima", treat:"Consulta de avaliação", cat:"consulta", tipo:"consulta", parcela:"1/1", venc:"2026-07-22", val:180, phone:"(88) 99123-4502", status:"late"},
+  {name:"Carla Menezes", treat:"Invisalign — fase 3", cat:"invis", tipo:"tratamento", parcela:"3/10", venc:"2026-07-25", val:1450, phone:"(88) 99123-4503", status:"late"},
+  {name:"Rafael Torres", treat:"Clareamento dental", cat:"outro", tipo:"tratamento", parcela:"1/2", venc:"2026-07-27", val:390, phone:"(88) 99123-4504", status:"late"},
+  {name:"Beatriz Alencar", treat:"Alinhador NITID — fase 2", cat:"nitid", tipo:"tratamento", parcela:"8/16", venc:"2026-07-29", val:720, phone:"(88) 99123-4505", status:"late"},
+  {name:"Diego Farias", treat:"Canal + restauração", cat:"outro", tipo:"tratamento", parcela:"2/3", venc:"2026-07-30", val:520, phone:"(88) 99123-4506", status:"late"},
+  {name:"Luiza Vieira", treat:"Alinhador NITID — manutenção", cat:"nitid", tipo:"tratamento", parcela:"11/12", venc:"2026-07-30", val:610, phone:"(88) 99123-4507", status:"late"},
+  {name:"Otávio Ramos", treat:"Consulta de retorno", cat:"consulta", tipo:"consulta", parcela:"1/1", venc:"2026-08-02", val:150, phone:"(88) 99123-4508", status:"soon"},
+  {name:"Patrícia Nogueira", treat:"Invisalign — fase 6", cat:"invis", tipo:"tratamento", parcela:"6/10", venc:"2026-08-03", val:1450, phone:"(88) 99123-4509", status:"soon"},
+  {name:"Felipe Aragão", treat:"Alinhador NITID — fase 1", cat:"nitid", tipo:"tratamento", parcela:"2/14", venc:"2026-08-04", val:640, phone:"(88) 99123-4510", status:"soon"},
+  {name:"Sabrina Costa", treat:"Implante unitário", cat:"outro", tipo:"tratamento", parcela:"2/4", venc:"2026-08-05", val:980, phone:"(88) 99123-4511", status:"soon"},
+  {name:"Henrique Dantas", treat:"Consulta de avaliação", cat:"consulta", tipo:"consulta", parcela:"1/1", venc:"2026-08-06", val:180, phone:"(88) 99123-4512", status:"soon"},
+  {name:"Isabela Prado", treat:"Alinhador NITID — fase 9", cat:"nitid", tipo:"tratamento", parcela:"9/14", venc:"2026-07-10", val:640, phone:"(88) 99123-4513", status:"ok"},
+  {name:"Vitor Hugo Melo", treat:"Prótese sobre implante", cat:"outro", tipo:"tratamento", parcela:"4/4", venc:"2026-07-05", val:1120, phone:"(88) 99123-4514", status:"ok"},
+  {name:"Camila Duarte", treat:"Invisalign — fase 8", cat:"invis", tipo:"tratamento", parcela:"8/10", venc:"2026-07-08", val:1450, phone:"(88) 99123-4515", status:"ok"},
+  {name:"Bruno Cavalcante", treat:"Consulta de retorno", cat:"consulta", tipo:"consulta", parcela:"1/1", venc:"2026-07-12", val:150, phone:"(88) 99123-4516", status:"ok"},
+];
+
+const catLabel = {consulta:"Consulta", nitid:"NITID", invis:"Invisalign", outro:"Outro tratamento"};
+const catClass = {consulta:"consulta", nitid:"nitid", invis:"invis", outro:"outro"};
+const statusLabel = {late:"Em atraso", soon:"Perto do vencimento", ok:"Em dia"};
+
+let state = {tipo:"todos", cat:"todos", status:"todos", search:""};
+const selected = new Set();
+
+function fmtDate(iso){
+  const d = new Date(iso+"T00:00:00");
+  return d.toLocaleDateString('pt-BR', {day:'2-digit', month:'2-digit'});
+}
+function fmtVal(v){
+  return "R$ " + v.toLocaleString('pt-BR');
+}
+
+function filtered(){
+  return patients.filter(p=>{
+    if(state.tipo !== "todos" && p.tipo !== state.tipo) return false;
+    if(state.tipo === "tratamento" && state.cat !== "todos" && p.cat !== state.cat) return false;
+    if(state.status !== "todos" && p.status !== state.status) return false;
+    if(state.search && !p.name.toLowerCase().includes(state.search.toLowerCase())) return false;
+    return true;
+  });
+}
+
+function render(){
+  const rows = filtered();
+  const tbody = document.getElementById('tableBody');
+  tbody.innerHTML = "";
+  if(rows.length === 0){
+    tbody.innerHTML = '<tr class="empty-row"><td colspan="9">Nenhum paciente encontrado para os filtros selecionados.</td></tr>';
+  }
+  rows.forEach((p, i)=>{
+    const key = p.name + p.treat;
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><input type="checkbox" class="rowCheck" data-key="${key}" ${selected.has(key)?'checked':''}></td>
+      <td><span class="status ${p.status}"><span class="sdot"></span>${statusLabel[p.status]}</span></td>
+      <td><div class="patient-name">${p.name}</div><div class="patient-treat">${p.treat}</div></td>
+      <td><span class="badge-cat ${catClass[p.cat]}">${catLabel[p.cat]}</span></td>
+      <td>${p.parcela}</td>
+      <td>${fmtDate(p.venc)}</td>
+      <td class="val">${fmtVal(p.val)}</td>
+      <td>${p.phone}</td>
+      <td><div class="row-actions"><button class="icon-btn" onclick="alert('Abrindo ficha financeira de ${p.name} (demonstração)')">Ficha</button><button class="icon-btn" onclick="alert('Lembrete enviado para ${p.name} (demonstração)')">Lembrar</button></div></td>
+    `;
+    tbody.appendChild(tr);
+  });
+  tbody.querySelectorAll('.rowCheck').forEach(cb=>{
+    cb.addEventListener('change', e=>{
+      const key = e.target.dataset.key;
+      if(e.target.checked) selected.add(key); else selected.delete(key);
+      updateToolbar();
+    });
+  });
+  updateToolbar();
+}
+
+function updateToolbar(){
+  const n = selected.size;
+  document.getElementById('selectedLabel').textContent = n === 0 ? "Nenhum selecionado" : `${n} selecionado(s)`;
+  document.getElementById('whatsBtn').disabled = n === 0;
+  const allBoxes = document.querySelectorAll('.rowCheck');
+  const allChecked = allBoxes.length > 0 && Array.from(allBoxes).every(b=>b.checked);
+  document.getElementById('selectAll').checked = allChecked;
+}
+
+document.getElementById('selectAll').addEventListener('change', e=>{
+  const rows = filtered();
+  if(e.target.checked){
+    rows.forEach(p=>selected.add(p.name+p.treat));
+  } else {
+    rows.forEach(p=>selected.delete(p.name+p.treat));
+  }
+  render();
+});
+
+document.getElementById('tipoFilter').addEventListener('click', e=>{
+  const btn = e.target.closest('.pill');
+  if(!btn) return;
+  document.querySelectorAll('#tipoFilter .pill').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  state.tipo = btn.dataset.tipo;
+  state.cat = "todos";
+  document.querySelectorAll('#subFilter .pill').forEach(b=>b.classList.remove('active'));
+  document.getElementById('subFilter').classList.toggle('hidden', state.tipo !== 'tratamento');
+  render();
+});
+
+document.getElementById('subFilter').addEventListener('click', e=>{
+  const btn = e.target.closest('.pill');
+  if(!btn) return;
+  document.querySelectorAll('#subFilter .pill').forEach(b=>b.classList.remove('active','inv'));
+  btn.classList.add('active');
+  if(btn.dataset.cat === 'invis') btn.classList.add('inv');
+  state.cat = btn.dataset.cat;
+  render();
+});
+
+document.getElementById('statusFilter').addEventListener('click', e=>{
+  const btn = e.target.closest('.pill');
+  if(!btn) return;
+  document.querySelectorAll('#statusFilter .pill').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  state.status = btn.dataset.status;
+  render();
+});
+
+document.getElementById('searchInput').addEventListener('input', e=>{
+  state.search = e.target.value;
+  render();
+});
+
+document.getElementById('whatsBtn').addEventListener('click', ()=>{
+  document.getElementById('modalCount').textContent = `Enviar lembrete para ${selected.size} paciente(s) selecionado(s).`;
+  document.getElementById('modalBackdrop').classList.add('show');
+});
+document.getElementById('modalCancel').addEventListener('click', ()=>{
+  document.getElementById('modalBackdrop').classList.remove('show');
+});
+document.getElementById('modalConfirm').addEventListener('click', ()=>{
+  document.getElementById('modalBackdrop').classList.remove('show');
+  alert('Mensagens enviadas (demonstração). Em produção isto dispara pela integração com WhatsApp Business.');
+  selected.clear();
+  render();
+});
+
+document.getElementById('csvBtn').addEventListener('click', ()=>{
+  const rows = filtered();
+  const header = ["Paciente","Tratamento","Categoria","Parcela","Vencimento","Valor","Telefone","Situacao"];
+  const lines = [header.join(";")];
+  rows.forEach(p=>{
+    lines.push([p.name,p.treat,catLabel[p.cat],p.parcela,fmtDate(p.venc),p.val,p.phone,statusLabel[p.status]].join(";"));
+  });
+  const blob = new Blob([lines.join("\n")], {type:"text/csv;charset=utf-8;"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = "carteira_pacientes.csv";
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+});
+
+document.getElementById('checkBtn').addEventListener('click', ()=>{
+  const box = document.getElementById('consoleBox');
+  box.textContent = "[sistema] Consultando gateway de pagamentos e novas parcelas...";
+  setTimeout(()=>{
+    box.textContent = "[sistema] Consulta concluída às " + new Date().toLocaleTimeString('pt-BR') + ". 2 pagamentos novos identificados, 1 parcela de Invisalign renegociada.";
+  }, 1100);
+});
+
+render();
+</script>
+</body>
+</html>
